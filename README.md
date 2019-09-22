@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/rschuitema/sqat.svg?branch=master)](https://travis-ci.org/rschuitema/sqat)
+[![Build Status](https://travis-ci.org/rschuitema/sqatt.svg?branch=master)](https://travis-ci.org/rschuitema/sqatt)
 [![BCH compliance](https://bettercodehub.com/edge/badge/rschuitema/sqat?branch=master)](https://bettercodehub.com/)
 # SQAT
 Repository that contains scripts that are useful when analyzing software quality.
