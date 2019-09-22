@@ -1,0 +1,5 @@
+Quadrant, Complexity, Function size, Coverage
+Q1, < 5,< 15,> 80
+Q2, < 8,< 30,> 95
+Q3, < 16,< 50,> 70
+Q4, < 20,< 100,> 60

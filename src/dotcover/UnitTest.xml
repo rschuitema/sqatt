@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Root CoveredStatements="7198" TotalStatements="24118" CoveragePercent="30" ReportType="Xml" DotCoverVersion="2019.1.1">
+  <Assembly Name="A.B.C.a" CoveredStatements="107" TotalStatements="116" CoveragePercent="92">
+    <Namespace Name="A.B.C.b" CoveredStatements="107" TotalStatements="116" CoveragePercent="92">
+      <Type Name="b" CoveredStatements="107" TotalStatements="116" CoveragePercent="92">
+        <Type Name="St" CoveredStatements="4" TotalStatements="4" CoveragePercent="100">
+          <Constructor Name="ST()" CoveredStatements="2" TotalStatements="2" CoveragePercent="100" />
+          <AutoProperty Name="O:CD&lt;object,ff&lt;hu,object,jk&gt;&gt;" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
+            <PropertyGetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          </AutoProperty>
+          <AutoProperty Name="PP:CQ&lt;CCS&gt;" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
+            <PropertyGetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          </AutoProperty>
+        </Type>
+        <Constructor Name="b(IBD)" CoveredStatements="7" TotalStatements="7" CoveragePercent="100" />
+        <Constructor Name="b()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        <Method Name="grc(hu,out gv):bll" CoveredStatements="8" TotalStatements="8" CoveragePercent="100" />
+        <Method Name="rc(hu,gv):jk" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" />
+        <Method Name="uc(hu):jk" CoveredStatements="4" TotalStatements="7" CoveragePercent="57" />
+        <Method Name="us(hu,r):jk" CoveredStatements="13" TotalStatements="13" CoveragePercent="100" />
+      </Type>
+    </Namespace>
+  </Assembly>
+  <Assembly Name="A.B.C.b" CoveredStatements="0" TotalStatements="102" CoveragePercent="0">
+    <Namespace Name="A.B.C.c" CoveredStatements="0" TotalStatements="102" CoveragePercent="0">
+      <Type Name="BS" CoveredStatements="0" TotalStatements="102" CoveragePercent="0">
+        <Constructor Name="BS()" CoveredStatements="0" TotalStatements="4" CoveragePercent="0" />
+        <Method Name="RC(hu,hg):jk" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+        <Method Name="SD(hu,w):bll" CoveredStatements="0" TotalStatements="10" CoveragePercent="0" />
+      </Type>
+    </Namespace>
+  </Assembly>
+  <Assembly Name="A.B.D.a" CoveredStatements="11" TotalStatements="11" CoveragePercent="100">
+    <Namespace Name="A.B.D.a" CoveredStatements="11" TotalStatements="11" CoveragePercent="100">
+      <Type Name="ic" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
+        <Constructor Name="ic()" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+      </Type>
+      <Type Name="lec" CoveredStatements="5" TotalStatements="5" CoveragePercent="100">
+        <Constructor Name="lec()" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" />
+      </Type>
+      <Type Name="pc" CoveredStatements="5" TotalStatements="5" CoveragePercent="100">
+        <Constructor Name="pc()" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" />
+      </Type>
+    </Namespace>
+  </Assembly>
+  <Assembly Name="A.B.D.b" CoveredStatements="230" TotalStatements="356" CoveragePercent="65">
+    <Namespace Name="A.B.D.b" CoveredStatements="164" TotalStatements="229" CoveragePercent="72">
+      <Type Name="m3e" CoveredStatements="0" TotalStatements="0" CoveragePercent="0" />
+    </Namespace>
+    <Namespace Name="A.B.D.b.a" CoveredStatements="0" TotalStatements="6" CoveragePercent="0">
+      <Type Name="IoDeviceClassificationAttribute" CoveredStatements="0" TotalStatements="6" CoveragePercent="0">
+        <Constructor Name="IoDeviceClassificationAttribute(IoDeviceClassification)" CoveredStatements="0" TotalStatements="4" CoveragePercent="0" />
+        <AutoProperty Name="Classification:IoDeviceClassification" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+      </Type>
+    </Namespace>
+  </Assembly>
+  <Assembly Name="A.D.D.c" CoveredStatements="15" TotalStatements="22" CoveragePercent="68">
+    <Namespace Name="A.B.D.c" CoveredStatements="15" TotalStatements="22" CoveragePercent="68">
+      <Type Name="za" CoveredStatements="15" TotalStatements="22" CoveragePercent="68">
+        <Constructor Name="za(klj)" CoveredStatements="5" TotalStatements="9" CoveragePercent="56" />
+        <Constructor Name="za()" CoveredStatements="2" TotalStatements="2" CoveragePercent="100" />
+        <AutoProperty Name="mv:klj" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
+          <PropertyGetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <AutoProperty Name="mi:klj" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
+          <PropertyGetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <Method Name="opi(klj):za" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" />
+        <Method Name="opi(za):klj" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" />
+        <Method Name="ts():hu" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+      </Type>
+    </Namespace>
+  </Assembly>
+  <Assembly Name="A.B.E.a" CoveredStatements="0" TotalStatements="24" CoveragePercent="0">
+    <Namespace Name="A.B.E.a" CoveredStatements="0" TotalStatements="24" CoveragePercent="0">
+      <Type Name="eij" CoveredStatements="0" TotalStatements="24" CoveragePercent="0">
+        <Constructor Name="eij()" CoveredStatements="0" TotalStatements="4" CoveragePercent="0" />
+        <Constructor Name="eij(hu)" CoveredStatements="0" TotalStatements="4" CoveragePercent="0" />
+        <AutoProperty Name="B:B" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <Method Name="cc():vd" CoveredStatements="0" TotalStatements="4" CoveragePercent="0" />
+        <Method Name="ie(hu,et,hu,int,eitb):jk" CoveredStatements="0" TotalStatements="10" CoveragePercent="0" />
+      </Type>
+    </Namespace>
+  </Assembly>
+  <Assembly Name="A.B.F.F" CoveredStatements="11" TotalStatements="24" CoveragePercent="46">
+    <Namespace Name="A.B.F.F" CoveredStatements="4" TotalStatements="8" CoveragePercent="50">
+      <Type Name="s" CoveredStatements="4" TotalStatements="8" CoveragePercent="50">
+        <AutoProperty Name="m:n&lt;klj&gt;" CoveredStatements="1" TotalStatements="2" CoveragePercent="50">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <AutoProperty Name="v:n&lt;klj&gt;" CoveredStatements="1" TotalStatements="2" CoveragePercent="50">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <AutoProperty Name="b:hu" CoveredStatements="1" TotalStatements="2" CoveragePercent="50">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <AutoProperty Name="a:hu" CoveredStatements="1" TotalStatements="2" CoveragePercent="50">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+      </Type>
+    </Namespace>
+  </Assembly>
+  <Assembly Name="A.A.G.a" CoveredStatements="56" TotalStatements="93" CoveragePercent="60">
+    <Namespace Name="A.A.G.a" CoveredStatements="56" TotalStatements="93" CoveragePercent="60">
+      <Type Name="frtw" CoveredStatements="6" TotalStatements="15" CoveragePercent="40">
+        <Constructor Name="frtw(tw)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" />
+        <Method Name="w(hu):vd" CoveredStatements="0" TotalStatements="6" CoveragePercent="0" />
+        <Method Name="wl(hu):vd" CoveredStatements="3" TotalStatements="6" CoveragePercent="50" />
+      </Type>
+    </Namespace>
+  </Assembly>
+  <Assembly Name="A.A.H.a" CoveredStatements="0" TotalStatements="62" CoveragePercent="0">
+    <Namespace Name="A.A.H.a" CoveredStatements="0" TotalStatements="62" CoveragePercent="0">
+      <Type Name="Ha" CoveredStatements="0" TotalStatements="62" CoveragePercent="0">
+        <Method Name="lme(Lwt,ff&lt;jk&gt;,hu):jk" CoveredStatements="0" TotalStatements="15" CoveragePercent="0">
+          <InternalCompiledMethod Name="mn():vd" CoveredStatements="0" TotalStatements="15" CoveragePercent="0" />
+        </Method>
+      </Type>
+    </Namespace>
+  </Assembly>
+</Root>

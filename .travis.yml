@@ -1,0 +1,23 @@
+language: python
+python:
+  - "3.6"
+
+install:
+  - pip install pylint
+  - pip install pytest
+  - pip install pytest-cov
+  - pip install behave
+  - pip install xenon
+  - pip install xmltodict
+  - pip install lxml
+
+stages:
+  - static analysis
+  - unit test
+
+jobs:
+  include:
+    - stage: static analysis
+      script: pylint --rcfile=.pylintrc ./*/*.py
+    - script: xenon -a A -b B -m A .
+    - script: radon cc -s .
