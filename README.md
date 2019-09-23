@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/rschuitema/sqat.svg?branch=master)](https://travis-ci.org/rschuitema/sqat)
+[![Build Status](https://travis-ci.org/rschuitema/sqatt.svg?branch=master)](https://travis-ci.org/rschuitema/sqatt)
 [![BCH compliance](https://bettercodehub.com/edge/badge/rschuitema/sqat?branch=master)](https://bettercodehub.com/)
-# SQAT
+# SQATT
 Repository that contains scripts that are useful when analyzing software quality.
 
 It contains scripts to create profiles of specific quality aspects of a code base.
