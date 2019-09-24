@@ -21,3 +21,6 @@ jobs:
       script: pylint --rcfile=.pylintrc ./*/*.py
     - script: xenon -a A -b B -m A .
     - script: radon cc -s .
+
+    - stage: unit test
+      script: pytest test
