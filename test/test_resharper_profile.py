@@ -351,10 +351,10 @@ def test_save_issues_per_project(save_issues_mock):
     """Test that the issues can be saver per project."""
 
     # arrange
-    report_dir = r'C:\temp'
+    report_dir = r'/temp/'
     issues_per_project = {}
 
-    expected_file = r'C:\temp\issues_per_project.csv'
+    expected_file = r'/temp/issues_per_project.csv'
     expected_item_name = r'Project'
 
     # act
@@ -370,10 +370,10 @@ def test_save_issues_per_issue_type(save_issues_mock):
     """Test that the issues can be saver per type."""
 
     # arrange
-    report_dir = r'C:\temp'
+    report_dir = r'/temp/'
     issues_per_project = {}
 
-    expected_file = r'C:\temp\issues_per_issue_type.csv'
+    expected_file = r'/temp/issues_per_issue_type.csv'
     expected_item_name = r'Issue Type'
 
     # act
@@ -389,10 +389,10 @@ def test_save_issues_per_category(save_issues_mock):
     """Test that the issues can be saver per category."""
 
     # arrange
-    report_dir = r'C:\temp'
+    report_dir = r'/temp/'
     issues_per_project = {}
 
-    expected_file = r'C:\temp\issues_per_category.csv'
+    expected_file = r'/temp/issues_per_category.csv'
     expected_item_name = r'Category'
 
     # act
@@ -409,7 +409,7 @@ def test_save_issues(csv_mock):
 
     items = {'A': 15, 'b': 8}
     csv_mock.writer = Mock(writerow=Mock())
-    report_file = r'c:\temp\temp.csv'
+    report_file = r'/temp/temp.csv'
     calls = [call.writerow(['caption', 'Number of violations']), call.writerow(['A', 15]), call.writerow(['b', 8])]
     with patch('src.resharper.resharper_profile.open', mock_open()) as mocked_file:
         save_issues(items, report_file, 'caption')

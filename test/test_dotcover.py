@@ -186,11 +186,11 @@ def test_save_coverage_per_namespace(csv_mock):
 
     items = {'A': 15, 'b': 8}
     csv_mock.writer = Mock(writerow=Mock())
-    report_dir = r'c:\temp'
+    report_dir = r'/tmp/'
     calls = [call.writerow(['Namespace', 'Coverage']), call.writerow(['A', 15]), call.writerow(['b', 8])]
     with patch('src.dotcover.dotcover.open', mock_open()) as mocked_file:
         save_coverage_per_namespace(items, report_dir)
 
-        mocked_file.assert_called_once_with(report_dir + r'\coverage_per_namespace.csv', 'w')
+        mocked_file.assert_called_once_with(report_dir + r'coverage_per_namespace.csv', 'w')
 
         csv_mock.writer().assert_has_calls(calls)
