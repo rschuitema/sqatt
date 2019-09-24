@@ -1,6 +1,9 @@
 """Parse the coverage results of the tool dotcover."""
 
 import argparse
+import csv
+import os
+
 import xmltodict
 
 
@@ -23,6 +26,14 @@ def read_coverage(filename):
         doc = xmltodict.parse(input_file.read())
 
     return doc
+
+
+def create_report_directory(directory):
+    """Create the report directory."""
+
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    return directory
 
 
 def get_coverage_of_namespace(assembly, covered_lines, name_space, total_lines):
@@ -100,6 +111,18 @@ def determine_coverage_per_namespace(xml_doc):
     return namespace_coverage
 
 
+def save_coverage_per_namespace(coverage_per_namespace, report_dir):
+    """Save the coverage per namespace."""
+
+    report_file = os.path.join(report_dir, "coverage_per_namespace.csv")
+
+    with open(report_file, 'w') as output:
+        csv_writer = csv.writer(output, delimiter=',', lineterminator='\n', quoting=csv.QUOTE_ALL)
+        csv_writer.writerow(['Namespace', 'Coverage'])
+        for item in coverage_per_namespace:
+            csv_writer.writerow([item, coverage_per_namespace[item]])
+
+
 def main():
     """Main entry of the program."""
 
@@ -112,6 +135,9 @@ def main():
         print(coverage)
 
     coverage_per_namespace = determine_coverage_per_namespace(xml_doc)
+    report_dir = create_report_directory(args.reportdir)
+    save_coverage_per_namespace(coverage_per_namespace, report_dir)
+
     if args.verbose:
         for name in coverage_per_namespace:
             print(name, " : ", coverage_per_namespace[name])

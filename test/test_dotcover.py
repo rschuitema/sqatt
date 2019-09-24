@@ -1,9 +1,11 @@
 """Unit tests for the dotcover functions."""
+from unittest.mock import patch, Mock, call, mock_open
 
 import pytest
 import xmltodict
 
-from src.dotcover.dotcover import get_namespaces, determine_namespaces, determine_coverage_of_namespace
+from src.dotcover.dotcover import get_namespaces, determine_namespaces, determine_coverage_of_namespace, \
+    save_coverage_per_namespace
 
 
 def test_get_namespaces_empty_input_returns_empty_set():
@@ -176,3 +178,19 @@ def test_determine_coverage_for_namespace_several_assemblies_correct_coverage():
 
     # assert
     assert coverage == pytest.approx(38.0, 0.1)
+
+
+@patch('src.dotcover.dotcover.csv')
+def test_save_coverage_per_namespace(csv_mock):
+    """Test that the resulting issues can be saved."""
+
+    items = {'A': 15, 'b': 8}
+    csv_mock.writer = Mock(writerow=Mock())
+    report_dir = r'c:\temp'
+    calls = [call.writerow(['Namespace', 'Coverage']), call.writerow(['A', 15]), call.writerow(['b', 8])]
+    with patch('src.dotcover.dotcover.open', mock_open()) as mocked_file:
+        save_coverage_per_namespace(items, report_dir)
+
+        mocked_file.assert_called_once_with(report_dir + r'\coverage_per_namespace.csv', 'w')
+
+        csv_mock.writer().assert_has_calls(calls)
