@@ -14,7 +14,7 @@ class RiskMatrix:
 
     @staticmethod
     def metric_le(metric1, metric2):
-        return metric1 < metric2
+        return metric1 <= metric2
 
     @staticmethod
     def metric_gt(metric1, metric2):
