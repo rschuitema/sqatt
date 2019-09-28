@@ -86,17 +86,8 @@ def test_all_component_comply_verify_metric_returns_true():
     ComponentF, 99""")
 
     matrix = RiskMatrix()
-    threshold_file = r'../src/riskmatrix/quadrant_metric_thresholds.csv'
-
-    reader = csv.DictReader(thresholds, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL, skipinitialspace=True)
-    with patch('src.riskmatrix.risk_matrix.open', mock_open()) as mocked_file:
-        matrix.add_metric_thresholds(threshold_file, reader)
-
-    component_risk_file = r'component_risk_level.csv'
-
-    reader = csv.DictReader(risk_csv, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL, skipinitialspace=True)
-    with patch('src.riskmatrix.risk_matrix.open', mock_open()) as mocked_file:
-        matrix.add_component_risk_level(component_risk_file, reader)
+    add_metric_thresholds(matrix, thresholds)
+    add_component_risk_levels(matrix, risk_csv)
 
     # act
     component_coverage_file = r'component_coverage.csv'
@@ -136,17 +127,8 @@ def test_one_component_does_not_comply_verify_metric_returns_false():
     ComponentF, 59""")
 
     matrix = RiskMatrix()
-    threshold_file = r'../src/riskmatrix/quadrant_metric_thresholds.csv'
-
-    reader = csv.DictReader(thresholds, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL, skipinitialspace=True)
-    with patch('src.riskmatrix.risk_matrix.open', mock_open()) as mocked_file:
-        matrix.add_metric_thresholds(threshold_file, reader)
-
-    component_risk_file = r'component_risk_level.csv'
-
-    reader = csv.DictReader(risk_csv, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL, skipinitialspace=True)
-    with patch('src.riskmatrix.risk_matrix.open', mock_open()) as mocked_file:
-        matrix.add_component_risk_level(component_risk_file, reader)
+    add_metric_thresholds(matrix, thresholds)
+    add_component_risk_levels(matrix, risk_csv)
 
     # act
     component_coverage_file = r'component_coverage.csv'
@@ -157,3 +139,17 @@ def test_one_component_does_not_comply_verify_metric_returns_false():
         # assert
         mocked_file.assert_called_once_with(component_coverage_file)
         assert result is False
+
+
+def add_component_risk_levels(matrix, risk_csv):
+    component_risk_file = r'component_risk_level.csv'
+    reader = csv.DictReader(risk_csv, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL, skipinitialspace=True)
+    with patch('src.riskmatrix.risk_matrix.open', mock_open()) as mocked_file:
+        matrix.add_component_risk_level(component_risk_file, reader)
+
+
+def add_metric_thresholds(matrix, thresholds):
+    threshold_file = r'../src/riskmatrix/quadrant_metric_thresholds.csv'
+    reader = csv.DictReader(thresholds, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL, skipinitialspace=True)
+    with patch('src.riskmatrix.risk_matrix.open', mock_open()) as mocked_file:
+        matrix.add_metric_thresholds(threshold_file, reader)
