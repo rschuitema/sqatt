@@ -24,27 +24,26 @@ class RiskMatrix:
     def metric_ge(metric1, metric2):
         return metric1 >= metric2
 
-    def add_component_risk_level(self, filename):
+    def add_component_risk_level(self, filename, csv_reader=None):
         with open(filename) as csv_file:
-            reader = csv.DictReader(csv_file, skipinitialspace=True)
+            reader = csv_reader or csv.DictReader(csv_file, skipinitialspace=True)
             for row in reader:
                 self.component_risk_level[row['Component']] = row['Quadrant']
 
-    def add_metric_thresholds(self, filename):
+    def add_metric_thresholds(self, filename, csv_reader=None):
         with open(filename) as csv_file:
-            reader = csv.DictReader(csv_file, skipinitialspace=True)
+            reader = csv_reader or csv.DictReader(csv_file, skipinitialspace=True)
             for row in reader:
                 self.metric_thresholds[row['Quadrant']] = row
 
-    def verify_metric(self, filename):
+    def verify_metric(self, filename, csv_reader=None):
         result = True
         with open(filename) as csv_file:
-            reader = csv.reader(csv_file, skipinitialspace=True)
-            row = next(reader)
-            metric_label = row[1]
+            reader = csv_reader or csv.reader(csv_file, skipinitialspace=True)
+            metric_label = reader.fieldnames[1]
             for row in reader:
-                component = row[0]
-                metric_value = row[1]
+                component = row[reader.fieldnames[0]]
+                metric_value = row[reader.fieldnames[1]]
                 quadrant = self.component_risk_level[component]
                 quadrant_thresholds = self.metric_thresholds[quadrant]
                 metric_threshold = quadrant_thresholds[metric_label]
