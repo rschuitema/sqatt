@@ -1,29 +1,27 @@
 """This module tests the functionality of the RiskMatrix class."""
 import csv
 from io import StringIO
-from unittest.mock import patch, Mock, mock_open
-
+from unittest.mock import patch, mock_open
 from src.riskmatrix.risk_matrix import RiskMatrix
 
 
 def test_read_metric_thresholds():
     """Test that the metric thresholds can be read form a csv file."""
 
-    in_mem_csv = StringIO("""Quadrant, Complexity, Function size, Coverage
+    thresholds = StringIO("""Quadrant, Complexity, Function size, Coverage
     Q1, < 5,< 15,> 80
     Q2, < 8,< 30,> 95
     Q3, < 16,< 50,> 70
     Q4, < 20,< 100,> 60""")
 
-    report_file = r'../src/riskmatrix/quadrant_metric_thresholds.csv'
+    threshold_file = r'../src/riskmatrix/quadrant_metric_thresholds.csv'
     matrix = RiskMatrix()
 
-    test_reader = csv.DictReader(in_mem_csv, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL, skipinitialspace=True)
+    test_reader = csv.DictReader(thresholds, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL, skipinitialspace=True)
     with patch('src.riskmatrix.risk_matrix.open', mock_open()) as mocked_file:
-        matrix.add_metric_thresholds(report_file, test_reader)
+        matrix.add_metric_thresholds(threshold_file, test_reader)
 
-    mocked_file.assert_called_once_with(report_file)
-
+    mocked_file.assert_called_once_with(threshold_file)
     q1_thresholds = matrix.metric_thresholds['Q1']
     assert len(matrix.metric_thresholds) == 4
     assert q1_thresholds['Complexity'] == '< 5'
@@ -34,7 +32,7 @@ def test_read_metric_thresholds():
 def test_read_component_risk_level():
     """Test that the component risk level can be read from csv file."""
 
-    in_mem_csv = StringIO("""Component, Quadrant
+    risk_level = StringIO("""Component, Quadrant
     ComponentA, Q1
     ComponentB, Q3
     ComponentC, Q2
@@ -43,13 +41,13 @@ def test_read_component_risk_level():
     ComponentF, Q1""")
 
     matrix = RiskMatrix()
-    report_file = r'component_risk_level.csv'
+    risk_level_file = r'component_risk_level.csv'
 
-    test_reader = csv.DictReader(in_mem_csv, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL, skipinitialspace=True)
+    test_reader = csv.DictReader(risk_level, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL, skipinitialspace=True)
     with patch('src.riskmatrix.risk_matrix.open', mock_open()) as mocked_file:
-        matrix.add_component_risk_level(report_file, test_reader)
+        matrix.add_component_risk_level(risk_level_file, test_reader)
 
-    mocked_file.assert_called_once_with(report_file)
+    mocked_file.assert_called_once_with(risk_level_file)
     assert len(matrix.component_risk_level) == 6
     assert matrix.component_risk_level['ComponentA'] == 'Q1'
     assert matrix.component_risk_level['ComponentB'] == 'Q3'
@@ -91,7 +89,7 @@ def test_all_component_comply_verify_metric_returns_true():
 
     # act
     component_coverage_file = r'component_coverage.csv'
-    reader = csv.DictReader(coverage_csv, delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
+    reader = csv.DictReader(coverage_csv, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL, skipinitialspace=True)
     with patch('src.riskmatrix.risk_matrix.open', mock_open()) as mocked_file:
         result = matrix.verify_metric(component_coverage_file, reader)
 
@@ -101,7 +99,7 @@ def test_all_component_comply_verify_metric_returns_true():
 
 
 def test_one_component_does_not_comply_verify_metric_returns_false():
-    """Test that verify metric returns true if all component comply to the metric."""
+    """Test that verify metric returns false if one component does not comply to the metric."""
 
     # arrange
     thresholds = StringIO("""Quadrant, Complexity, Function size, Coverage
@@ -110,7 +108,7 @@ def test_one_component_does_not_comply_verify_metric_returns_false():
     Q3, < 16,< 50,>= 70
     Q4, < 20,< 100,<= 60""")
 
-    risk_csv = StringIO("""Component, Quadrant
+    risk_levels = StringIO("""Component, Quadrant
     ComponentA, Q1
     ComponentB, Q3
     ComponentC, Q2
@@ -118,7 +116,7 @@ def test_one_component_does_not_comply_verify_metric_returns_false():
     ComponentE, Q2
     ComponentF, Q1""")
 
-    coverage_csv = StringIO("""Component, Coverage
+    coverage = StringIO("""Component, Coverage
     ComponentA, 77
     ComponentB, 99
     ComponentC, 66
@@ -128,11 +126,11 @@ def test_one_component_does_not_comply_verify_metric_returns_false():
 
     matrix = RiskMatrix()
     add_metric_thresholds(matrix, thresholds)
-    add_component_risk_levels(matrix, risk_csv)
+    add_component_risk_levels(matrix, risk_levels)
 
     # act
     component_coverage_file = r'component_coverage.csv'
-    reader = csv.DictReader(coverage_csv, delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
+    reader = csv.DictReader(coverage, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL, skipinitialspace=True)
     with patch('src.riskmatrix.risk_matrix.open', mock_open()) as mocked_file:
         result = matrix.verify_metric(component_coverage_file, reader)
 
@@ -144,12 +142,12 @@ def test_one_component_does_not_comply_verify_metric_returns_false():
 def add_component_risk_levels(matrix, risk_csv):
     component_risk_file = r'component_risk_level.csv'
     reader = csv.DictReader(risk_csv, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL, skipinitialspace=True)
-    with patch('src.riskmatrix.risk_matrix.open', mock_open()) as mocked_file:
+    with patch('src.riskmatrix.risk_matrix.open', mock_open()):
         matrix.add_component_risk_level(component_risk_file, reader)
 
 
 def add_metric_thresholds(matrix, thresholds):
     threshold_file = r'../src/riskmatrix/quadrant_metric_thresholds.csv'
     reader = csv.DictReader(thresholds, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL, skipinitialspace=True)
-    with patch('src.riskmatrix.risk_matrix.open', mock_open()) as mocked_file:
+    with patch('src.riskmatrix.risk_matrix.open', mock_open()):
         matrix.add_metric_thresholds(threshold_file, reader)
