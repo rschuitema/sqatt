@@ -5,7 +5,7 @@ import pytest
 import xmltodict
 
 from src.dotcover.dotcover import get_namespaces, determine_namespaces, determine_coverage_of_namespace, \
-    save_coverage_per_namespace, create_report_directory
+    save_coverage_per_namespace, create_report_directory, determine_coverage_per_namespace
 
 
 def test_get_namespaces_empty_input_returns_empty_set():
@@ -230,3 +230,33 @@ def test_create_report_directory_directory_created(path_exists_mock, makedirs_mo
     assert directory == report_dir
     path_exists_mock.assert_called_once()
     makedirs_mock.assert_called_once()
+
+
+def test_determine_coverage_per_namespace_returns_correct_coverage_numbers_for_several_namespaces():
+    """Test that the determine coverage per namespace returns the correct coverage numbers when therer
+    are several namespaces"""
+
+    # arrange
+    xml_to_read = r'<?xml version="1.0" encoding="utf-8"?>' \
+                  r'<Root CoveredStatements="7198" TotalStatements="24118" CoveragePercent="30" ReportType="Xml" ' \
+                  r'DotCoverVersion="2019.1.1">' \
+                  r'<Assembly Name="A.B.C.C" CoveredStatements="100" TotalStatements="200" ' \
+                  r'CoveragePercent="92"></Assembly>' \
+                  r'<Assembly Name="A.B.C.E" CoveredStatements="80" TotalStatements="200" ' \
+                  r'CoveragePercent="92"></Assembly>' \
+                  r'<Assembly Name="A.B.B.A" CoveredStatements="10" TotalStatements="100" ' \
+                  r'CoveragePercent="92"></Assembly>' \
+                  r'</Root>'
+
+    doc = xmltodict.parse(xml_to_read)
+
+    # act
+    namespace_coverage = determine_coverage_per_namespace(doc)
+
+    # assert
+    assert namespace_coverage["A.B.C.C"] == pytest.approx(50, 0.1)
+    assert namespace_coverage["A.B.C.E"] == pytest.approx(40, 0.1)
+    assert namespace_coverage["A.B.B.A"] == pytest.approx(10, 0.1)
+    assert namespace_coverage["A.B.C"] == pytest.approx(45, 0.1)
+    assert namespace_coverage["A.B"] == pytest.approx(38, 0.1)
+    assert namespace_coverage["A"] == pytest.approx(38, 0.1)
