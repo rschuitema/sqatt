@@ -5,7 +5,7 @@ import pytest
 import xmltodict
 
 from src.dotcover.dotcover import get_namespaces, determine_namespaces, determine_coverage_of_namespace, \
-    save_coverage_per_namespace, create_report_directory, determine_coverage_per_namespace
+    save_coverage_per_namespace, create_report_directory, determine_coverage_per_namespace, read_coverage
 
 
 def test_get_namespaces_empty_input_returns_empty_set():
@@ -260,3 +260,28 @@ def test_determine_coverage_per_namespace_returns_correct_coverage_numbers_for_s
     assert namespace_coverage["A.B.C"] == pytest.approx(45, 0.1)
     assert namespace_coverage["A.B"] == pytest.approx(38, 0.1)
     assert namespace_coverage["A"] == pytest.approx(38, 0.1)
+
+
+def test_read_coverage_returns_xml_document():
+    """Test that read coverage returns a proper xml document."""
+
+    # arrange
+    xml_to_read = r'<?xml version="1.0" encoding="utf-8"?>' \
+                  r'<Root CoveredStatements="7198" TotalStatements="24118" CoveragePercent="30" ReportType="Xml" ' \
+                  r'DotCoverVersion="2019.1.1">' \
+                  r'<Assembly Name="A.B.C.C" CoveredStatements="100" TotalStatements="200" ' \
+                  r'CoveragePercent="92"></Assembly>' \
+                  r'<Assembly Name="A.B.C.E" CoveredStatements="80" TotalStatements="200" ' \
+                  r'CoveragePercent="92"></Assembly>' \
+                  r'<Assembly Name="A.B.B.A" CoveredStatements="10" TotalStatements="100" ' \
+                  r'CoveragePercent="92"></Assembly>' \
+                  r'</Root>'
+
+    # act
+    with patch('src.dotcover.dotcover.open', mock_open()) as mocked_file:
+        mocked_file.return_value.read.return_value = xml_to_read
+        doc = read_coverage(r'/tmp/coverage_results.xml')
+
+        # assert
+        assemblies = (doc['Root']['Assembly'])
+        assert len(assemblies) == 3
