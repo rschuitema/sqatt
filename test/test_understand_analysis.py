@@ -54,10 +54,10 @@ class AnalysisMocks:
 def analysis_mocks():
     """Fixture for creating analysis mocks."""
 
-    analysis_mocks = AnalysisMocks()
-    analysis_mocks.start()
-    yield analysis_mocks
-    analysis_mocks.stop()
+    mocks = AnalysisMocks()
+    mocks.start()
+    yield mocks
+    mocks.stop()
 
 
 class MetricsMocks:
@@ -87,10 +87,10 @@ class MetricsMocks:
 def metrics_mocks():
     """Fixture for the metric mocks."""
 
-    metrics_mocks = MetricsMocks()
-    metrics_mocks.start()
-    yield metrics_mocks
-    metrics_mocks.stop()
+    mocks = MetricsMocks()
+    mocks.start()
+    yield mocks
+    mocks.stop()
 
 
 def test_option_code_size_performs_only_code_size_analysis(analysis_mocks):
