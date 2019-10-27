@@ -6,6 +6,7 @@ import pytest
 from src.understand.understand_analysis import parse_arguments
 
 
+# pylint: disable=too-many-instance-attributes
 class AnalysisMocks:
     """Collection of mocks for all analysis functions."""
 
@@ -48,6 +49,7 @@ class AnalysisMocks:
         self.function_size_patch.stop()
         self.file_size_patch.stop()
         self.interface_patch.stop()
+# pylint: enable=too-many-instance-attributes
 
 
 @pytest.fixture
