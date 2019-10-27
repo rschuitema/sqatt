@@ -145,7 +145,7 @@ def collect_metrics(metrics):
         collect_file_metrics(metrics.database, metrics.output, metrics.module, metrics.sort)
 
     if metrics.function:
-        collect_function_metrics(metrics.database, metrics.ouput)
+        collect_function_metrics(metrics.database, metrics.output)
 
 
 def main():
