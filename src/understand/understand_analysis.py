@@ -14,6 +14,8 @@ import sys
 
 
 def add_analysis_parser(subparsers):
+    """Add argument parser for analysis."""
+
     parser = subparsers.add_parser('analysis', help='analysis commands')
     parser.add_argument('database', help='understand database to analyze')
     parser.add_argument('--output', help='directory where to place the report', default='./reports')
@@ -31,6 +33,8 @@ def add_analysis_parser(subparsers):
 
 
 def add_metrics_parser(subparsers):
+    """Add argument parser for metrics collection."""
+
     parser = subparsers.add_parser('metrics', help='available metrics commands')
     parser.add_argument('database', help='understand database to analyze')
     parser.add_argument('--output', help='directory where to place the metrics', default='./reports')
@@ -69,34 +73,42 @@ def parse_arguments(args):
 
 
 def analyze_code_size(database, output):
+    """Analyze the code size."""
     pass
 
 
 def analyze_complexity(database, output):
+    """Analyze the complexity."""
     pass
 
 
 def analyze_fan_in(database, output):
+    """Analyze the fan-in."""
     pass
 
 
 def analyze_fan_out(database, output):
+    """Analyze the fan-out."""
     pass
 
 
 def analyze_function_size(database, output):
+    """Analyze the function size."""
     pass
 
 
 def analyze_file_size(database, output):
+    """Analyze the file size."""
     pass
 
 
 def analyze_interface(database, output):
+    """Analyze the interface."""
     pass
 
 
 def perform_analysis(analysis):
+    """Perform the requested analysis."""
     print(analysis)
 
     if analysis.all:
@@ -131,14 +143,18 @@ def perform_analysis(analysis):
 
 
 def collect_file_metrics(database, output, module, sort):
+    """Collect the file metrics."""
     pass
 
 
 def collect_function_metrics(database, ouput):
+    """Collect the function metrics."""
     pass
 
 
 def collect_metrics(metrics):
+    """Collect the requested metrics."""
+
     print(metrics)
 
     if metrics.file:
@@ -149,6 +165,8 @@ def collect_metrics(metrics):
 
 
 def main():
+    """The main entry of the program."""
+
     args = parse_arguments(sys.argv[1:])
     args.func(args)
 
