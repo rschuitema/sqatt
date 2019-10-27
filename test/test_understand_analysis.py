@@ -93,6 +93,7 @@ def metrics_mocks():
     mocks.stop()
 
 
+# pylint: disable=redefined-outer-name
 def test_option_code_size_performs_only_code_size_analysis(analysis_mocks):
     """Test that only the code size analysis is performed when the --code-size option is provided."""
 
@@ -296,3 +297,5 @@ def test_option_function_collects_only_function_metrics(metrics_mocks):
     # assert
     metrics_mocks.file_mock.assert_not_called()
     metrics_mocks.function_mock.assert_called_once()
+
+# pylint: enable=redefined-outer-name
