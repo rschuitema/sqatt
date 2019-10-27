@@ -5,6 +5,8 @@ import csv
 import os
 import understand
 
+from src.understand.understand_report import create_report_directory
+
 
 class FunctionSizeProfile:
     """Profile of the function size."""
@@ -43,14 +45,6 @@ def parse_arguments():
     parser.add_argument("--reportdir", help="directory where to place the report")
     args = parser.parse_args()
     return args
-
-
-def create_report_directory(directory):
-    """Create the report directory."""
-
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    return directory
 
 
 def determine_function_size_profile(profile, understand_database):

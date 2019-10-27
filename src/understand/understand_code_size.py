@@ -6,6 +6,8 @@ import os
 import re
 import understand
 
+from src.understand.understand_report import create_report_directory
+
 
 def parse_arguments():
     """Parse the commandline arguments."""
@@ -120,14 +122,6 @@ def measure_code_size(understand_database):
                                           "CountDeclFunction",
                                           "CountDeclClass"])
     return metrics
-
-
-def create_report_directory(directory):
-    """Create the report directory."""
-
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    return directory
 
 
 def main():
