@@ -12,6 +12,8 @@ It provides metrics on function level and file level.
 import argparse
 import sys
 
+from src.understand.understand_file_metrics import collect_file_metrics
+
 
 def add_analysis_parser(subparsers):
     """Add argument parser for analysis."""
@@ -140,11 +142,6 @@ def perform_analysis(analysis):
 
     if analysis.interface:
         analyze_interface(analysis.database, analysis.output)
-
-
-def collect_file_metrics(database, output, module, sort):
-    """Collect the file metrics."""
-    pass
 
 
 def collect_function_metrics(database, ouput):

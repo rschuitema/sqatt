@@ -1,34 +1,7 @@
 """Retrieve all file metrics from an understand database and save them in a csv file."""
 
-import argparse
 import csv
 import understand
-
-
-def parse_arguments():
-    """Parse the commandline arguments."""
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("database",
-                        help="understand database to parse")
-    parser.add_argument("-m",
-                        "--module",
-                        help="module to analyze")
-    parser.add_argument("-s",
-                        "--sort",
-                        help="sort on the specified metric",
-                        choices=["MaxCyclomatic",
-                                 "CountLine",
-                                 "CountLineCode",
-                                 "CountLineBlank",
-                                 "CountLineComment",
-                                 "CountLineInactive",
-                                 "CountLinePreprocessor",
-                                 "CountDeclFile",
-                                 "CountDeclFunction",
-                                 "CountDeclClass"])
-    args = parser.parse_args()
-    return args
 
 
 def sort_metrics(module_metrics, metric):
@@ -102,24 +75,17 @@ def find_files_in_module(understand_database, module):
     return files
 
 
-def main():
-    """Main entry of the program."""
+def collect_file_metrics(database, output, module, sort):
+    """Collect the file metrics."""
 
-    args = parse_arguments()
-    understand_database = understand.open(args.database)
-    module = args.module
-
+    understand_database = understand.open(database)
     module_files = find_files_in_module(understand_database, module)
     module_metrics = get_module_metrics(module_files)
 
-    metric = args.sort
+    metric = sort
     sorted_module_metrics = sort_metrics(module_metrics, metric)
 
     for filename in sorted_module_metrics:
         print(filename + "," + str(sorted_module_metrics[filename][metric]))
 
     save_file_metrics(module, sorted_module_metrics)
-
-
-if __name__ == "__main__":
-    main()
