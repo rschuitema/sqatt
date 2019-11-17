@@ -12,7 +12,7 @@ It provides metrics on function level and file level.
 import argparse
 import sys
 
-from src.understand.understand_file_metrics import collect_file_metrics
+from understand_file_metrics import collect_file_metrics
 
 
 def add_analysis_parser(subparsers):
