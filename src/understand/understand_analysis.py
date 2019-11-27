@@ -11,8 +11,7 @@ It provides metrics on function level and file level.
 """
 import argparse
 import sys
-
-from understand_file_metrics import collect_file_metrics
+from src.understand.understand_file_metrics import collect_file_metrics
 
 
 def add_analysis_parser(subparsers):
@@ -22,7 +21,7 @@ def add_analysis_parser(subparsers):
     parser.add_argument('database', help='understand database to analyze')
     parser.add_argument('--output', help='directory where to place the report', default='./reports')
 
-    parser.add_argument('--all', help='analyze all aspects',  action='store_true')
+    parser.add_argument('--all', help='analyze all aspects', action='store_true')
     parser.add_argument('--code-size', help='analyze the code size', action='store_true')
     parser.add_argument('--complexity', help='analyze the complexity', action='store_true')
     parser.add_argument('--fan-in', help='analyze the fan-in', action='store_true')
@@ -76,37 +75,44 @@ def parse_arguments(args):
 
 def analyze_code_size(database, output):
     """Analyze the code size."""
-    pass
+    print("Analyzing code size")
+    print(database, output)
 
 
 def analyze_complexity(database, output):
     """Analyze the complexity."""
-    pass
+    print("Analyzing complexity")
+    print(database, output)
 
 
 def analyze_fan_in(database, output):
     """Analyze the fan-in."""
-    pass
+    print("Analyzing the fan-in")
+    print(database, output)
 
 
 def analyze_fan_out(database, output):
     """Analyze the fan-out."""
-    pass
+    print("Analyzing the fan-out")
+    print(database, output)
 
 
 def analyze_function_size(database, output):
     """Analyze the function size."""
-    pass
+    print("Analyzing the function size")
+    print(database, output)
 
 
 def analyze_file_size(database, output):
     """Analyze the file size."""
-    pass
+    print("Analyzing the file size")
+    print(database, output)
 
 
 def analyze_interface(database, output):
     """Analyze the interface."""
-    pass
+    print("Analyzing the interface")
+    print(database, output)
 
 
 def perform_analysis(analysis):
@@ -144,9 +150,10 @@ def perform_analysis(analysis):
         analyze_interface(analysis.database, analysis.output)
 
 
-def collect_function_metrics(database, ouput):
+def collect_function_metrics(database, output):
     """Collect the function metrics."""
-    pass
+    print("Collecting function metrics")
+    print(database, output)
 
 
 def collect_metrics(metrics):

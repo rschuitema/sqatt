@@ -77,6 +77,7 @@ def find_files_in_module(understand_database, module):
 
 def collect_file_metrics(database, output, module, sort):
     """Collect the file metrics."""
+    print(output)
 
     understand_database = understand.open(database)
     module_files = find_files_in_module(understand_database, module)

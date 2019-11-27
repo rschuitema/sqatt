@@ -63,12 +63,11 @@ class RiskMatrix:
                 metric_value = row[reader.fieldnames[1]]
                 quadrant = self.component_risk_level[component]
                 quadrant_thresholds = self.metric_thresholds[quadrant]
-                metric_threshold = quadrant_thresholds[metric_label]
-                values = metric_threshold.split(' ')
+                values = quadrant_thresholds[metric_label].split(' ')
                 comparison = values[0]
                 threshold_value = values[1]
 
-                print(component, metric_threshold, metric_value)
+                print(component, quadrant_thresholds[metric_label], metric_value)
                 result = result and self.metric_comparators[comparison](metric_value, threshold_value)
 
         return result

@@ -72,14 +72,14 @@ def determine_namespaces(xml_doc):
     assemblies = (xml_doc['Root']['Assembly'])
 
     if not isinstance(assemblies, list):
-        n = get_namespaces(assemblies['@Name'], '.')
-        namespaces.update(n)
+        name = get_namespaces(assemblies['@Name'], '.')
+        namespaces.update(name)
         return namespaces
 
     for assembly in assemblies:
         assembly_name = assembly['@Name']
-        n = get_namespaces(assembly_name, '.')
-        namespaces.update(n)
+        name = get_namespaces(assembly_name, '.')
+        namespaces.update(name)
 
     return namespaces
 

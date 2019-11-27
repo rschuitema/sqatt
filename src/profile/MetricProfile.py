@@ -27,6 +27,10 @@ class MetricProfile:
 
         return self._total_loc
 
+    def name(self):
+        """Return the name of the profile."""
+        return self._name
+
     def print(self):
         """Print the profile to console."""
 
