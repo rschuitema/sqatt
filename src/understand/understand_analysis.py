@@ -19,18 +19,18 @@ from src.understand.understand_file_metrics import collect_file_metrics
 def add_analysis_parser(subparsers):
     """Add argument parser for analysis."""
 
-    parser = subparsers.add_parser('analysis', help='analysis commands')
-    parser.add_argument('database', help='understand database to analyze')
-    parser.add_argument('--output', help='directory where to place the report', default='./reports')
+    parser = subparsers.add_parser("analysis", help="analysis commands")
+    parser.add_argument("database", help="understand database to analyze")
+    parser.add_argument("--output", help="directory where to place the report", default="./reports")
 
-    parser.add_argument('--all', help='analyze all aspects', action='store_true')
-    parser.add_argument('--code-size', help='analyze the code size', action='store_true')
-    parser.add_argument('--complexity', help='analyze the complexity', action='store_true')
-    parser.add_argument('--fan-in', help='analyze the fan-in', action='store_true')
-    parser.add_argument('--fan-out', help='analyze the fan-out', action='store_true')
-    parser.add_argument('--interface', help='analyze the interface size', action='store_true')
-    parser.add_argument('--function-size', help='analyze the function size', action='store_true')
-    parser.add_argument('--file-size', help='analyze the file size', action='store_true')
+    parser.add_argument("--all", help="analyze all aspects", action="store_true")
+    parser.add_argument("--code-size", help="analyze the code size", action="store_true")
+    parser.add_argument("--complexity", help="analyze the complexity", action="store_true")
+    parser.add_argument("--fan-in", help="analyze the fan-in", action="store_true")
+    parser.add_argument("--fan-out", help="analyze the fan-out", action="store_true")
+    parser.add_argument("--interface", help="analyze the interface size", action="store_true")
+    parser.add_argument("--function-size", help="analyze the function size", action="store_true")
+    parser.add_argument("--file-size", help="analyze the file size", action="store_true")
 
     parser.set_defaults(func=perform_analysis)
 
@@ -38,26 +38,30 @@ def add_analysis_parser(subparsers):
 def add_metrics_parser(subparsers):
     """Add argument parser for metrics collection."""
 
-    parser = subparsers.add_parser('metrics', help='available metrics commands')
-    parser.add_argument('database', help='understand database to analyze')
-    parser.add_argument('--output', help='directory where to place the metrics', default='./reports')
+    parser = subparsers.add_parser("metrics", help="available metrics commands")
+    parser.add_argument("database", help="understand database to analyze")
+    parser.add_argument("--output", help="directory where to place the metrics", default="./reports")
 
-    parser.add_argument('--function', help='collect function metrics', action='store_true')
+    parser.add_argument("--function", help="collect function metrics", action="store_true")
 
-    parser.add_argument('--file', help='collect file metrics', action='store_true')
+    parser.add_argument("--file", help="collect file metrics", action="store_true")
     parser.add_argument("--module", help="module to analyze")
-    parser.add_argument("--sort",
-                        help="sort on the specified metric",
-                        choices=["MaxCyclomatic",
-                                 "CountLine",
-                                 "CountLineCode",
-                                 "CountLineBlank",
-                                 "CountLineComment",
-                                 "CountLineInactive",
-                                 "CountLinePreprocessor",
-                                 "CountDeclFile",
-                                 "CountDeclFunction",
-                                 "CountDeclClass"])
+    parser.add_argument(
+        "--sort",
+        help="sort on the specified metric",
+        choices=[
+            "MaxCyclomatic",
+            "CountLine",
+            "CountLineCode",
+            "CountLineBlank",
+            "CountLineComment",
+            "CountLineInactive",
+            "CountLinePreprocessor",
+            "CountDeclFile",
+            "CountDeclFunction",
+            "CountDeclClass",
+        ],
+    )
 
     parser.set_defaults(func=collect_metrics)
 
@@ -66,8 +70,8 @@ def parse_arguments(args):
     """Parse the commandline arguments."""
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--version', action='version', version='%(prog)s 2.0')
-    subparsers = parser.add_subparsers(help='available sub-commands')
+    parser.add_argument("--version", action="version", version="%(prog)s 2.0")
+    subparsers = parser.add_subparsers(help="available sub-commands")
 
     add_analysis_parser(subparsers)
     add_metrics_parser(subparsers)

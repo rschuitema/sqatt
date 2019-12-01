@@ -4,7 +4,7 @@ from unittest.mock import patch
 from src.understand.understand_report import create_report_directory
 
 
-@patch('os.path.exists')
+@patch("os.path.exists")
 def test_create_report_directory_directory_exists(path_exists_mock):
     """Test that the create report directory does not create the directory when it already exists."""
 
@@ -21,8 +21,8 @@ def test_create_report_directory_directory_exists(path_exists_mock):
     path_exists_mock.assert_called_once()
 
 
-@patch('os.makedirs')
-@patch('os.path.exists')
+@patch("os.makedirs")
+@patch("os.path.exists")
 def test_create_report_directory_directory_created(path_exists_mock, makedirs_mock):
     """Test that the create report directory creates the directory when it does not exist."""
 

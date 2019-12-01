@@ -38,13 +38,17 @@ def main():
 
     for func in understand_database.ents("function,method,procedure"):
         number_of_parameters = len(func.parameters().split(","))
-        function_metrics = func.metric(["CountLineBlank",
-                                        "CountLineCode",
-                                        "CountLineComment",
-                                        "CountLineInactive",
-                                        "Cyclomatic",
-                                        "CountInput",
-                                        "CountOutput"])
+        function_metrics = func.metric(
+            [
+                "CountLineBlank",
+                "CountLineCode",
+                "CountLineComment",
+                "CountLineInactive",
+                "Cyclomatic",
+                "CountInput",
+                "CountOutput",
+            ]
+        )
 
         lines_of_code = function_metrics["CountLineCode"]
 
@@ -68,13 +72,13 @@ def main():
     print("lines of code in functions :", total_lines_of_code)
 
     report_file = os.path.join(create_report_directory(args.reportdir), "small_interfaces.csv")
-    with open(report_file, 'w') as output:
-        csvwriter = csv.writer(output, delimiter=',', lineterminator='\n', quoting=csv.QUOTE_ALL)
-        csvwriter.writerow(['Number Of Parameters', 'Lines Of Code'])
-        csvwriter.writerow(['1-2', green_lines_of_code])
-        csvwriter.writerow(['3-4', yellow_lines_of_code])
-        csvwriter.writerow(['5-6', orange_lines_of_code])
-        csvwriter.writerow(['7+', red_lines_of_code])
+    with open(report_file, "w") as output:
+        csvwriter = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+        csvwriter.writerow(["Number Of Parameters", "Lines Of Code"])
+        csvwriter.writerow(["1-2", green_lines_of_code])
+        csvwriter.writerow(["3-4", yellow_lines_of_code])
+        csvwriter.writerow(["5-6", orange_lines_of_code])
+        csvwriter.writerow(["7+", red_lines_of_code])
 
 
 if __name__ == "__main__":

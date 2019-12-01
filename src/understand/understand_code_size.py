@@ -25,14 +25,18 @@ def measure_test_code_size(database):
     metrics = {}
     search_str = re.compile(r"test", re.I)
     for file in database.lookup(search_str, "File"):
-        file_metrics = file.metric(["CountLine",
-                                    "CountLineBlank",
-                                    "CountLineCode",
-                                    "CountLineComment",
-                                    "CountLineInactive",
-                                    "CountLinePreprocessor",
-                                    "CountDeclFunction",
-                                    "CountDeclClass"])
+        file_metrics = file.metric(
+            [
+                "CountLine",
+                "CountLineBlank",
+                "CountLineCode",
+                "CountLineComment",
+                "CountLineInactive",
+                "CountLinePreprocessor",
+                "CountDeclFunction",
+                "CountDeclClass",
+            ]
+        )
 
         metrics[file.longname()] = file_metrics
 
@@ -42,28 +46,38 @@ def measure_test_code_size(database):
 def save_test_code_size(metrics, report_dir):
     """Save the test code size to a csv file."""
 
-    report_file = os.path.join(report_dir, 'test_code_size.csv')
-    with open(report_file, 'w') as output:
-        csv_writer = csv.writer(output, delimiter=',', lineterminator='\n', quoting=csv.QUOTE_ALL)
-        csv_writer.writerow(['File Name',
-                             'Total Lines',
-                             'Blank Lines',
-                             'Lines Of Code',
-                             'Comment Lines',
-                             'Inactive Lines',
-                             'Preprocessor Lines',
-                             'Number Of Functions',
-                             'Number Of Classes'])
+    report_file = os.path.join(report_dir, "test_code_size.csv")
+    with open(report_file, "w") as output:
+        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+        csv_writer.writerow(
+            [
+                "File Name",
+                "Total Lines",
+                "Blank Lines",
+                "Lines Of Code",
+                "Comment Lines",
+                "Inactive Lines",
+                "Preprocessor Lines",
+                "Number Of Functions",
+                "Number Of Classes",
+            ]
+        )
+
         for filename in metrics:
             file_metrics = metrics[filename]
 
-            csv_writer.writerow([filename, file_metrics["CountLine"],
-                                 file_metrics["CountLineBlank"],
-                                 file_metrics["CountLineCode"],
-                                 file_metrics["CountLineComment"],
-                                 file_metrics["CountLinePreprocessor"],
-                                 file_metrics["CountDeclFunction"],
-                                 file_metrics["CountDeclClass"]])
+            csv_writer.writerow(
+                [
+                    filename,
+                    file_metrics["CountLine"],
+                    file_metrics["CountLineBlank"],
+                    file_metrics["CountLineCode"],
+                    file_metrics["CountLineComment"],
+                    file_metrics["CountLinePreprocessor"],
+                    file_metrics["CountDeclFunction"],
+                    file_metrics["CountDeclClass"],
+                ]
+            )
 
 
 def print_test_code_ratio(metrics, test_metrics):
@@ -86,41 +100,54 @@ def print_test_code_ratio(metrics, test_metrics):
 def save_code_size(metrics, report_dir):
     """Save the production code size to a csv file."""
 
-    report_file = os.path.join(report_dir, 'code_size.csv')
-    with open(report_file, 'w') as output:
-        csv_writer = csv.writer(output, delimiter=',', lineterminator='\n', quoting=csv.QUOTE_ALL)
-        csv_writer.writerow(['Total Lines',
-                             'Blank Lines',
-                             'Lines Of Code',
-                             'Comment Lines',
-                             'Inactive Lines',
-                             'Preprocessor Lines',
-                             'Number Of Files',
-                             'Number Of Functions',
-                             'Number Of Classes'])
+    report_file = os.path.join(report_dir, "code_size.csv")
+    with open(report_file, "w") as output:
+        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+        csv_writer.writerow(
+            [
+                "Total Lines",
+                "Blank Lines",
+                "Lines Of Code",
+                "Comment Lines",
+                "Inactive Lines",
+                "Preprocessor Lines",
+                "Number Of Files",
+                "Number Of Functions",
+                "Number Of Classes",
+            ]
+        )
 
-        csv_writer.writerow([metrics["CountLine"],
-                             metrics["CountLineBlank"],
-                             metrics["CountLineCode"],
-                             metrics["CountLineComment"],
-                             metrics["CountLinePreprocessor"],
-                             metrics["CountDeclFile"],
-                             metrics["CountDeclFunction"],
-                             metrics["CountDeclClass"]])
+        csv_writer.writerow(
+            [
+                metrics["CountLine"],
+                metrics["CountLineBlank"],
+                metrics["CountLineCode"],
+                metrics["CountLineComment"],
+                metrics["CountLinePreprocessor"],
+                metrics["CountDeclFile"],
+                metrics["CountDeclFunction"],
+                metrics["CountDeclClass"],
+            ]
+        )
 
 
 def measure_code_size(understand_database):
     """Get the number of lines of code for the production code."""
 
-    metrics = understand_database.metric(["CountLine",
-                                          "CountLineBlank",
-                                          "CountLineCode",
-                                          "CountLineComment",
-                                          "CountLineInactive",
-                                          "CountLinePreprocessor",
-                                          "CountDeclFile",
-                                          "CountDeclFunction",
-                                          "CountDeclClass"])
+    metrics = understand_database.metric(
+        [
+            "CountLine",
+            "CountLineBlank",
+            "CountLineCode",
+            "CountLineComment",
+            "CountLineInactive",
+            "CountLinePreprocessor",
+            "CountDeclFile",
+            "CountDeclFunction",
+            "CountDeclClass",
+        ]
+    )
+
     return metrics
 
 

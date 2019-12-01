@@ -53,13 +53,17 @@ def determine_function_size_profile(profile, understand_database):
     """Determine the function size profile."""
 
     for func in understand_database.ents("function,method,procedure"):
-        function_metrics = func.metric(["CountLineBlank",
-                                        "CountLineCode",
-                                        "CountLineComment",
-                                        "CountLineInactive",
-                                        "Cyclomatic",
-                                        "CountInput",
-                                        "CountOutput"])
+        function_metrics = func.metric(
+            [
+                "CountLineBlank",
+                "CountLineCode",
+                "CountLineComment",
+                "CountLineInactive",
+                "Cyclomatic",
+                "CountInput",
+                "CountOutput",
+            ]
+        )
 
         function_size = function_metrics["CountLineCode"]
 
@@ -83,15 +87,15 @@ def determine_function_size_profile(profile, understand_database):
 def save_function_size_profile(profile, report_file):
     """Save the function size profile to a csv file."""
 
-    with open(report_file, 'w') as output:
-        csvwriter = csv.writer(output, delimiter=',', lineterminator='\n', quoting=csv.QUOTE_ALL)
+    with open(report_file, "w") as output:
+        csvwriter = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
         # csvwriter.writerow(['Function size', 'Lines Of Code'])
         # csvwriter.writerow(["1-15", profile.function_size_green])
         # csvwriter.writerow(["16-30", profile.function_size_yellow])
         # csvwriter.writerow(["31-60", profile.function_size_orange])
         # csvwriter.writerow(["61+", profile.function_size_red])
         #
-        csvwriter.writerow([profile.name(), 'Lines Of Code'])
+        csvwriter.writerow([profile.name(), "Lines Of Code"])
         for region in profile.regions():
             csvwriter.writerow([region.label(), region.loc()])
 
@@ -99,10 +103,12 @@ def save_function_size_profile(profile, report_file):
 def analyze_function_size(database, output):
     """Analyze the function size."""
 
-    regions = [MetricRegion("0-15", 0, 16),
-               MetricRegion("16-30", 15, 31),
-               MetricRegion("31-60", 30, 61),
-               MetricRegion("60+", 60, 1001)]
+    regions = [
+        MetricRegion("0-15", 0, 16),
+        MetricRegion("16-30", 15, 31),
+        MetricRegion("31-60", 30, 61),
+        MetricRegion("60+", 60, 1001),
+    ]
 
     profile = MetricProfile("Function size", regions)
 

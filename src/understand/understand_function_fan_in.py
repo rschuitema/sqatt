@@ -49,17 +49,25 @@ def measure_function_fan_in(database):
                 function_size_red = function_size_red + function_size
                 number_of_functions_red = number_of_functions_red + 1
 
-    return function_size_green, function_size_yellow, function_size_orange, function_size_red, \
-        number_of_functions_green, number_of_functions_yellow, number_of_functions_orange, number_of_functions_red
+    return (
+        function_size_green,
+        function_size_yellow,
+        function_size_orange,
+        function_size_red,
+        number_of_functions_green,
+        number_of_functions_yellow,
+        number_of_functions_orange,
+        number_of_functions_red,
+    )
 
 
 def save_function_fan_in_metrics(metrics, report_dir):
     """Save the fan-in profile to a csv file."""
 
     report_file = os.path.join(create_report_directory(report_dir), "function_fan_in.csv")
-    with open(report_file, 'w') as output:
-        csv_writer = csv.writer(output, delimiter=',', lineterminator='\n', quoting=csv.QUOTE_ALL)
-        csv_writer.writerow(['Fan-in', 'Lines Of Code', 'Number Of Functions'])
+    with open(report_file, "w") as output:
+        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+        csv_writer.writerow(["Fan-in", "Lines Of Code", "Number Of Functions"])
         csv_writer.writerow(["1-10", metrics[0], metrics[4]])
         csv_writer.writerow(["11-20", metrics[1], metrics[5]])
         csv_writer.writerow(["21-50", metrics[2], metrics[6]])

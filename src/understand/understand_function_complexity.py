@@ -49,17 +49,25 @@ def measure_function_complexity(database):
                 function_size_red = function_size_red + function_size
                 number_of_functions_red = number_of_functions_red + 1
 
-    return function_size_green, function_size_yellow, function_size_orange, function_size_red, \
-        number_of_functions_green, number_of_functions_yellow, number_of_functions_orange, number_of_functions_red
+    return (
+        function_size_green,
+        function_size_yellow,
+        function_size_orange,
+        function_size_red,
+        number_of_functions_green,
+        number_of_functions_yellow,
+        number_of_functions_orange,
+        number_of_functions_red,
+    )
 
 
 def save_function_complexity_metrics(function_complexity_metrics, report_dir):
     """Save the complexity profile to a csv file."""
 
     report_file = os.path.join(create_report_directory(report_dir), "function_complexity.csv")
-    with open(report_file, 'w') as output:
-        csv_writer = csv.writer(output, delimiter=',', lineterminator='\n', quoting=csv.QUOTE_ALL)
-        csv_writer.writerow(['Cyclomatic Complexity', 'Lines Of Code', 'Number Of Functions'])
+    with open(report_file, "w") as output:
+        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+        csv_writer.writerow(["Cyclomatic Complexity", "Lines Of Code", "Number Of Functions"])
         csv_writer.writerow(["0-5", function_complexity_metrics[0], function_complexity_metrics[4]])
         csv_writer.writerow(["6-10", function_complexity_metrics[1], function_complexity_metrics[5]])
         csv_writer.writerow(["11-25", function_complexity_metrics[2], function_complexity_metrics[6]])
