@@ -29,6 +29,10 @@ jobs:
         pip install radon xenon
         radon cc src
         xenon src -b B -m B -a B
+    - name: Analyze cyclic dependencies
+      run: |
+        pip install pycycle
+        pycycle --here
     - name: Test with pytest
       run: |
         pip install pytest coverage
