@@ -1,7 +1,10 @@
 """Unit test for the commandline parser of the understand analysis."""
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
+import sys
 import pytest
+
+sys.modules["understand"] = Mock()
 
 from src.understand.understand_analysis import parse_arguments
 
