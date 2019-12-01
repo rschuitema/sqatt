@@ -5,8 +5,8 @@ import csv
 import json
 import os
 
-import lxml.etree as le
 import xmltodict
+import defusedxml.ElementTree as ElementTree
 
 
 def parse_arguments():
@@ -29,7 +29,9 @@ def read_resharper_issues(filename):
 
 
 def determine_issue_types(warnings):
-    """Get a list of issue types.
+    """
+    Get a list of issue types.
+
     :rtype: list
     """
 
@@ -40,7 +42,9 @@ def determine_issue_types(warnings):
 
 
 def determine_projects(warnings):
-    """Get the list of projects.
+    """
+    Get the list of projects.
+
     :rtype: list
     """
 
@@ -51,7 +55,9 @@ def determine_projects(warnings):
 
 
 def determine_issues(project):
-    """Get the list of issues of a project.
+    """
+    Get the list of issues of a project.
+
     :rtype: list
     """
 
@@ -91,6 +97,7 @@ def increment_issue_count_for_issue_types(issue, issues_per_issue_type):
 
 def increment_issue_count(item, item_dict):
     """Increment the issue count of an item in a dictionary."""
+
     if item in item_dict:
         item_dict[item] += 1
     else:
@@ -189,7 +196,7 @@ def filter_out(filename, tmp_filename):
     """Filter out generated code and Dezyne code."""
 
     with open(filename, 'r') as input_file:
-        doc = le.parse(input_file)
+        doc = ElementTree.parse(input_file)
         for elem in doc.xpath('//*/Project'):
             if "Proxy" in elem.attrib['Name']:
                 parent = elem.getparent()
@@ -197,12 +204,12 @@ def filter_out(filename, tmp_filename):
             if "Dezyne" in elem.attrib['Name']:
                 parent = elem.getparent()
                 parent.remove(elem)
-        print(le.tostring(doc, pretty_print=True))
-        open(tmp_filename, 'w').write(str(le.tostring(doc, pretty_print=True, encoding='unicode')))
+        print(ElementTree.tostring(doc))
+        open(tmp_filename, 'w').write(str(ElementTree.tostring(doc, encoding='unicode')))
 
 
 def main():
-    """Main entry of the program."""
+    """Start of the program."""
 
     args = parse_arguments()
 

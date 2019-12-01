@@ -1,4 +1,6 @@
-"""Perform analysis on a codebase using the tool understand.
+"""
+Perform analysis on a codebase using the tool understand.
+
 It can perform the following analysis:
 - code size
 - complexity
@@ -169,7 +171,7 @@ def collect_metrics(metrics):
 
 
 def main():
-    """The main entry of the program."""
+    """Start of the program."""
 
     args = parse_arguments(sys.argv[1:])
     args.func(args)

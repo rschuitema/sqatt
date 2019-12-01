@@ -1,14 +1,20 @@
-"""This module represent a matrix that defines quality thresholds for each risk quadrant and to which risk quadrant
-each component belongs."""
+"""
+Represent a matrix that defines quality thresholds for each risk quadrant.
+
+Furthermore it knows to which risk quadrant each component belongs.
+"""
 import csv
 
 
 class RiskMatrix:
-    """Represents a matrix that defines quality thresholds for each risk quadrant and to which risk quadrant
-       each component belongs."""
+    """
+    Represents a matrix that defines quality thresholds for each risk quadrant.
+
+    It knows the thresholds and to which risk quadrant each component belongs.
+    """
 
     def __init__(self):
-        """Constructs a risk matrix."""
+        """Construct a risk matrix."""
 
         self.metric_thresholds = {}
         self.component_risk_level = {}
@@ -17,22 +23,26 @@ class RiskMatrix:
 
     @staticmethod
     def metric_lt(metric1, metric2):
-        """Method to compare if metric1 is less than metric2."""
+        """Check if metric1 is less than metric2."""
+
         return metric1 < metric2
 
     @staticmethod
     def metric_le(metric1, metric2):
-        """Method to compare if metric1 is less than or equal to metric2."""
+        """Check if metric1 is less than or equal to metric2."""
+
         return metric1 <= metric2
 
     @staticmethod
     def metric_gt(metric1, metric2):
-        """Method to compare if metric1 is greater than metric2."""
+        """Check if metric1 is greater than metric2."""
+
         return metric1 > metric2
 
     @staticmethod
     def metric_ge(metric1, metric2):
-        """Method to compare if metric1 is greater than or equal to metric2."""
+        """Check if metric1 is greater than or equal to metric2."""
+
         return metric1 >= metric2
 
     def add_component_risk_level(self, filename, csv_reader=None):

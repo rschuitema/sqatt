@@ -67,7 +67,7 @@ def save_function_complexity_metrics(function_complexity_metrics, report_dir):
 
 
 def main():
-    """The main entry point of the program."""
+    """Start of the program."""
 
     args = parse_arguments()
     understand_database = understand.open(args.database)

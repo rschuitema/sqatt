@@ -5,6 +5,8 @@ class MetricRegion:
     """Metric region definition."""
 
     def __init__(self, label, lower_limit, upper_limit=None):
+        """Construct the class."""
+
         self._upper_limit = upper_limit
         self._lower_limit = lower_limit
         self._label = label

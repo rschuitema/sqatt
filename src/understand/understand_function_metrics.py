@@ -19,7 +19,7 @@ def parse_arguments():
 
 
 def main():
-    """The main entry point of the program."""
+    """Start of the program."""
 
     args = parse_arguments()
     understand_database = args.input

@@ -124,7 +124,7 @@ def save_coverage_per_namespace(coverage_per_namespace, report_dir):
 
 
 def main():
-    """Main entry of the program."""
+    """Start of the program."""
 
     args = parse_arguments()
 

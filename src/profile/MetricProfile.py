@@ -5,6 +5,8 @@ class MetricProfile:
     """Metric profile definition."""
 
     def __init__(self, name, regions):
+        """Construct the class."""
+
         self._name = name
         self._total_loc = 0
         if isinstance(regions, list):
