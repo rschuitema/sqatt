@@ -32,6 +32,11 @@ jobs:
       run: |
         pip install pyroma
         pyroma .
+    - name: Lint with black
+      run: |
+        pip install black
+        black --check --line-length 120 --diff src
+        black --check --line-length 120 --diff test
     - name: Lint with pydocstyle
       run: |
         pip install pydocstyle
