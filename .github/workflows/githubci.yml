@@ -28,6 +28,10 @@ jobs:
       run: |
         pip install pydocstyle
         pydocstyle -e -s src
+    - name: Analyze security flaws
+      run: |
+        pip install bandit
+        bandit -r src
     - name: Analyze complexity
       run: |
         pip install radon xenon
