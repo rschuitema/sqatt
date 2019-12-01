@@ -6,9 +6,11 @@ import pytest
 
 sys.modules["understand"] = Mock()
 
+# pylint: disable=wrong-import-position
 from src.understand.understand_analysis import parse_arguments
 
 
+# pylint: enable=wrong-import-position
 # pylint: disable=too-many-instance-attributes
 class AnalysisMocks:
     """Collection of mocks for all analysis functions."""
