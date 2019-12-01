@@ -28,6 +28,10 @@ jobs:
       run: |
         pip install pydocstyle
         pydocstyle -e -s src
+    - name: Lint with pycodestyle
+      run: |
+        pip install pycodestyle
+        pycodestyle --first --config=.pycodestyle src
     - name: Analyze security flaws
       run: |
         pip install bandit
