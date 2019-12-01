@@ -36,6 +36,10 @@ jobs:
       run: |
         pip install pycodestyle
         pycodestyle --first --config=.pycodestyle src
+    - name: Analyze cohesion
+      run: |
+        pip install cohesion
+        cohesion -a 50 -d src
     - name: Analyze security flaws
       run: |
         pip install bandit
