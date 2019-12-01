@@ -28,6 +28,10 @@ jobs:
       run: |
         pip install pylint
         pylint --rcfile=.pylintrc src
+    - name: Lint with pyroma
+      run: |
+        pip install pyroma
+        pyroma .
     - name: Lint with pydocstyle
       run: |
         pip install pydocstyle
