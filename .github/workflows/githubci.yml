@@ -45,6 +45,10 @@ jobs:
       run: |
         pip install pycodestyle
         pycodestyle --first --config=.pycodestyle src
+    - name: Analyze dead code
+      run: |
+        pip install vulture
+        vulture src test
     - name: Analyze cohesion
       run: |
         pip install cohesion
