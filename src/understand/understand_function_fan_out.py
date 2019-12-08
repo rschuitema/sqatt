@@ -1,89 +1,54 @@
 """Create a fan-out profile of the codebase."""
 
-import argparse
 import csv
 import os
 import understand
 
+from src.profile.MetricProfile import MetricProfile
+from src.profile.MetricRegion import MetricRegion
 from src.understand.understand_report import create_report_directory
 
 
-def parse_arguments():
-    """Parse the commandline arguments."""
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("database", help="understand database to parse")
-    parser.add_argument("--reportdir", help="directory where to place the report")
-    args = parser.parse_args()
-    return args
-
-
-def measure_function_fan_out(database):
-    """Create the fan-out profile."""
-
-    function_size_green = 0
-    number_of_functions_green = 0
-    function_size_yellow = 0
-    number_of_functions_yellow = 0
-    function_size_orange = 0
-    number_of_functions_orange = 0
-    function_size_red = 0
-    number_of_functions_red = 0
+def determine_fan_out_profile(profile, database):
+    """Determine the fan-in profile."""
 
     for func in database.ents("function,method,procedure"):
         function_metrics = func.metric(["CountLineCode", "CountOutput"])
         function_size = function_metrics["CountLineCode"]
         function_fan_out = function_metrics["CountOutput"]
+        if function_fan_out and function_size:
+            profile.update(function_fan_out, function_size)
 
-        if function_size:
-            if function_fan_out <= 10:
-                function_size_green = function_size_green + function_size
-                number_of_functions_green = number_of_functions_green + 1
-            elif function_fan_out <= 20:
-                function_size_yellow = function_size_yellow + function_size
-                number_of_functions_yellow = number_of_functions_yellow + 1
-            elif function_fan_out <= 50:
-                function_size_orange = function_size_orange + function_size
-                number_of_functions_orange = number_of_functions_orange + 1
-            else:
-                function_size_red = function_size_red + function_size
-                number_of_functions_red = number_of_functions_red + 1
-
-    return (
-        function_size_green,
-        function_size_yellow,
-        function_size_orange,
-        function_size_red,
-        number_of_functions_green,
-        number_of_functions_yellow,
-        number_of_functions_orange,
-        number_of_functions_red,
-    )
+    return profile
 
 
-def save_function_fan_out_metrics(metrics, report_dir):
-    """Save the fan-out profile."""
+def save_fan_out_profile(profile, report_file):
+    """Save the fan-out profile to a csv file."""
 
-    report_file = os.path.join(create_report_directory(report_dir), "function_fan_out.csv")
     with open(report_file, "w") as output:
-        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
-        csv_writer.writerow(["Fan-out", "Lines Of Code", "Number Of Functions"])
-        csv_writer.writerow(["1-10", metrics[0], metrics[4]])
-        csv_writer.writerow(["11-20", metrics[1], metrics[5]])
-        csv_writer.writerow(["21-50", metrics[2], metrics[6]])
-        csv_writer.writerow(["50+", metrics[3], metrics[7]])
+        csvwriter = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+        csvwriter.writerow([profile.name(), "Lines Of Code"])
+        for region in profile.regions():
+            csvwriter.writerow([region.label(), region.loc()])
 
 
-def main():
-    """Start of the program."""
+def analyze_fan_out(database, output):
+    """Analyze the fan-out."""
 
-    args = parse_arguments()
-    understand_database = understand.open(args.database)
+    print("Analyzing fan-out.")
 
-    function_fan_out_metrics = measure_function_fan_out(understand_database)
-    report_dir = create_report_directory(args.reportdir)
-    save_function_fan_out_metrics(function_fan_out_metrics, report_dir)
+    regions = [
+        MetricRegion("1-10", 1, 10),
+        MetricRegion("11-20", 11, 20),
+        MetricRegion("21-50", 21, 50),
+        MetricRegion("50+", 51, 1001),
+    ]
 
+    profile = MetricProfile("Fan-out", regions)
+    understand_database = understand.open(database)
+    profile = determine_fan_out_profile(profile, understand_database)
 
-if __name__ == "__main__":
-    main()
+    profile.print()
+
+    report_file = os.path.join(create_report_directory(output), "fan-out.csv")
+    save_fan_out_profile(profile, report_file)
