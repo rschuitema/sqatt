@@ -1,6 +1,5 @@
 """Retrieve all function metrics of the codebase."""
 
-import argparse
 import csv
 import os
 import understand
@@ -8,27 +7,14 @@ import understand
 from src.understand.understand_report import create_report_directory
 
 
-def parse_arguments():
-    """Parse the commandline arguments."""
+def collect_function_metrics(database, output):
+    """Collect the function metrics."""
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("input", help="understand database to parse")
-    parser.add_argument("--reportdir", help="directory where to place the report")
-    args = parser.parse_args()
-    return args
+    understand_database = understand.open(database)
 
-
-def main():
-    """Start of the program."""
-
-    args = parse_arguments()
-    understand_database = args.input
-
-    understand_database = understand.open(understand_database)
-
-    report_file = os.path.join(create_report_directory(args.reportdir), "function_metrics.csv")
-    with open(report_file, "w") as output:
-        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+    report_file = os.path.join(create_report_directory(output), "function_metrics.csv")
+    with open(report_file, "w") as output_file:
+        csv_writer = csv.writer(output_file, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
         csv_writer.writerow(
             ["FunctionName", "LinesOfCode", "CyclomaticComplexity", "Fan-in", "Fan-out", "NumberOfParameters"]
         )
@@ -56,7 +42,3 @@ def main():
                     len(func.parameters().split(",")),
                 ]
             )
-
-
-if __name__ == "__main__":
-    main()

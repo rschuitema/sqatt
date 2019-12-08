@@ -19,6 +19,7 @@ from src.understand.understand_file_metrics import collect_file_metrics
 from src.understand.understand_function_complexity import analyze_complexity
 from src.understand.understand_function_fan_in import analyze_fan_in
 from src.understand.understand_function_fan_out import analyze_fan_out
+from src.understand.understand_function_metrics import collect_function_metrics
 from src.understand.understand_function_parameters import analyze_function_parameters
 from src.understand.understand_function_size import analyze_function_size
 
@@ -125,12 +126,6 @@ def perform_analysis(analysis):
 
     if analysis.interface:
         analyze_function_parameters(analysis.database, analysis.output)
-
-
-def collect_function_metrics(database, output):
-    """Collect the function metrics."""
-    print("Collecting function metrics")
-    print(database, output)
 
 
 def collect_metrics(metrics):
