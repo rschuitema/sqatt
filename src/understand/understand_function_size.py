@@ -13,18 +13,7 @@ def determine_function_size_profile(profile, understand_database):
     """Determine the function size profile."""
 
     for func in understand_database.ents("function,method,procedure"):
-        function_metrics = func.metric(
-            [
-                "CountLineBlank",
-                "CountLineCode",
-                "CountLineComment",
-                "CountLineInactive",
-                "Cyclomatic",
-                "CountInput",
-                "CountOutput",
-            ]
-        )
-
+        function_metrics = func.metric(["CountLineCode"])
         function_size = function_metrics["CountLineCode"]
 
         if function_size:
