@@ -1,6 +1,5 @@
 """Create a profile for the code size."""
 
-import argparse
 import csv
 import os
 import re
@@ -9,18 +8,8 @@ import understand
 from src.understand.understand_report import create_report_directory
 
 
-def parse_arguments():
-    """Parse the commandline arguments."""
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("database", help="understand database to parse")
-    parser.add_argument("--reportdir", default=".", help="directory where to place the report")
-    args = parser.parse_args()
-    return args
-
-
 def measure_test_code_size(database):
-    """Get the number of lines of code used for test cdoe."""
+    """Get the number of lines of code used for test code."""
 
     metrics = {}
     search_str = re.compile(r"test", re.I)
@@ -151,22 +140,17 @@ def measure_code_size(understand_database):
     return metrics
 
 
-def main():
-    """Start of the program."""
+def analyze_code_size(database, output):
+    """Analyze the code size."""
 
-    args = parse_arguments()
-    understand_database = understand.open(args.database)
+    understand_database = understand.open(database)
 
-    reportdir = create_report_directory(args.reportdir)
+    report_dir = create_report_directory(output)
 
     metrics = measure_code_size(understand_database)
-    save_code_size(metrics, reportdir)
+    save_code_size(metrics, report_dir)
 
     test_metrics = measure_test_code_size(understand_database)
-    save_test_code_size(test_metrics, reportdir)
+    save_test_code_size(test_metrics, report_dir)
 
     print_test_code_ratio(metrics, test_metrics)
-
-
-if __name__ == "__main__":
-    main()

@@ -13,6 +13,8 @@ It provides metrics on function level and file level.
 """
 import argparse
 import sys
+
+from src.understand.understand_code_size import analyze_code_size
 from src.understand.understand_file_metrics import collect_file_metrics
 from src.understand.understand_function_complexity import analyze_complexity
 from src.understand.understand_function_fan_in import analyze_fan_in
@@ -82,12 +84,6 @@ def parse_arguments(args):
     add_metrics_parser(subparsers)
 
     return parser.parse_args(args)
-
-
-def analyze_code_size(database, output):
-    """Analyze the code size."""
-    print("Analyzing code size")
-    print(database, output)
 
 
 def analyze_file_size(database, output):
