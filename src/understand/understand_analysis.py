@@ -14,6 +14,7 @@ It provides metrics on function level and file level.
 import argparse
 import sys
 from src.understand.understand_file_metrics import collect_file_metrics
+from src.understand.understand_function_fan_in import analyze_fan_in
 from src.understand.understand_function_size import analyze_function_size
 
 
@@ -89,12 +90,6 @@ def analyze_code_size(database, output):
 def analyze_complexity(database, output):
     """Analyze the complexity."""
     print("Analyzing complexity")
-    print(database, output)
-
-
-def analyze_fan_in(database, output):
-    """Analyze the fan-in."""
-    print("Analyzing the fan-in")
     print(database, output)
 
 

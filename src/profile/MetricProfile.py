@@ -39,3 +39,10 @@ class MetricProfile:
         print(self._name, ": loc")
         for region in self._regions:
             print(region.label(), ":", region.loc())
+
+    def update(self, metric, loc):
+        """Update the loc in the correct region."""
+
+        self._total_loc += loc
+        for region in self._regions:
+            region.update(metric, loc)

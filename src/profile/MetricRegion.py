@@ -22,6 +22,16 @@ class MetricRegion:
             if self._lower_limit <= loc:
                 self._loc += loc
 
+    def update(self, metric, loc):
+        """Update the loc if between lower and upper limits."""
+
+        if self._upper_limit:
+            if self._lower_limit <= metric <= self._upper_limit:
+                self._loc += loc
+        else:
+            if self._lower_limit <= metric:
+                self._loc += loc
+
     def label(self):
         """Return region label."""
 
