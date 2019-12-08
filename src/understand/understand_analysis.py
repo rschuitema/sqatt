@@ -17,6 +17,7 @@ from src.understand.understand_file_metrics import collect_file_metrics
 from src.understand.understand_function_complexity import analyze_complexity
 from src.understand.understand_function_fan_in import analyze_fan_in
 from src.understand.understand_function_fan_out import analyze_fan_out
+from src.understand.understand_function_parameters import analyze_function_parameters
 from src.understand.understand_function_size import analyze_function_size
 
 
@@ -95,12 +96,6 @@ def analyze_file_size(database, output):
     print(database, output)
 
 
-def analyze_interface(database, output):
-    """Analyze the interface."""
-    print("Analyzing the interface")
-    print(database, output)
-
-
 def perform_analysis(analysis):
     """Perform the requested analysis."""
     print(analysis)
@@ -112,7 +107,7 @@ def perform_analysis(analysis):
         analyze_file_size(analysis.database, analysis.output)
         analyze_fan_in(analysis.database, analysis.output)
         analyze_fan_out(analysis.database, analysis.output)
-        analyze_interface(analysis.database, analysis.output)
+        analyze_function_parameters(analysis.database, analysis.output)
 
     if analysis.code_size:
         analyze_code_size(analysis.database, analysis.output)
@@ -133,7 +128,7 @@ def perform_analysis(analysis):
         analyze_fan_out(analysis.database, analysis.output)
 
     if analysis.interface:
-        analyze_interface(analysis.database, analysis.output)
+        analyze_function_parameters(analysis.database, analysis.output)
 
 
 def collect_function_metrics(database, output):

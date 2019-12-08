@@ -24,7 +24,7 @@ class AnalysisMocks:
         self.fan_out_patch = patch("src.understand.understand_analysis.analyze_fan_out")
         self.function_size_patch = patch("src.understand.understand_analysis.analyze_function_size")
         self.file_size_patch = patch("src.understand.understand_analysis.analyze_file_size")
-        self.interface_patch = patch("src.understand.understand_analysis.analyze_interface")
+        self.interface_patch = patch("src.understand.understand_analysis.analyze_function_parameters")
         self.code_size_mock = None
         self.complexity_mock = None
         self.fan_in_mock = None
