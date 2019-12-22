@@ -24,15 +24,14 @@ def save_file_metrics(module, metrics):
             [
                 "File Name",
                 "Cyclomatic Complexity",
+                "Number Of Functions",
+                "Number Of Classes",
                 "Lines",
                 "Lines Of Code",
                 "Blank Lines",
                 "Comment Lines",
                 "Inactive Lines",
                 "Preprocessor Lines",
-                "Number Of Files",
-                "Number Of Functions",
-                "Number Of Classes",
             ]
         )
 
@@ -42,15 +41,14 @@ def save_file_metrics(module, metrics):
                 [
                     filename,
                     file_metrics["MaxCyclomatic"],
+                    file_metrics["CountDeclFunc"] or 0,
+                    file_metrics["CountDeclClass"] or 0,
                     file_metrics["CountLine"],
                     file_metrics["CountLineCode"],
                     file_metrics["CountLineBlank"],
                     file_metrics["CountLineComment"],
                     file_metrics["CountLineInactive"],
                     file_metrics["CountLinePreprocessor"],
-                    file_metrics["CountDeclFile"] or 0,
-                    file_metrics["CountDeclFunc"] or 0,
-                    file_metrics["CountDeclClass"] or 0,
                 ]
             )
 
@@ -63,15 +61,14 @@ def get_module_metrics(module_files):
         file_metrics = file.metric(
             [
                 "MaxCyclomatic",
+                "CountDeclClass",
+                "CountDeclFunc",
                 "CountLine",
                 "CountLineCode",
                 "CountLineBlank",
                 "CountLineComment",
                 "CountLineInactive",
                 "CountLinePreprocessor",
-                "CountDeclFile",
-                "CountDeclFunc",
-                "CountDeclClass",
             ]
         )
 

@@ -112,6 +112,7 @@ def save_code_size(metrics, report_dir):
                 metrics["CountLineBlank"],
                 metrics["CountLineCode"],
                 metrics["CountLineComment"],
+                metrics["CountLineInactive"],
                 metrics["CountLinePreprocessor"],
                 metrics["CountDeclFile"],
                 metrics["CountDeclFunction"],
