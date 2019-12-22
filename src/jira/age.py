@@ -65,7 +65,7 @@ def get_open_defects(jira):
     return open_defects
 
 
-def show_defects(sorted_defects):
+def show_defects(sorted_defects, url):
     """Show the defects in a bar graph."""
 
     output_file("bars.html")
@@ -92,12 +92,7 @@ def show_defects(sorted_defects):
 
     count_issues_per_state(data, sorted_defects)
 
-    json_issues = sorted_defects
-
-    for buckets in json_issues.values():
-        for issues in buckets.values():
-            for issue in issues:
-                issue.age = str(issue.age)
+    json_issues = convert_age_into_string(sorted_defects)
 
     palette = ["#c9d9d3", "#718dbf", "#e84d60", "#111111", "#B200FF", "#7F92FF"]
 
@@ -111,7 +106,7 @@ def show_defects(sorted_defects):
     # div1 = Div(style={"overflow-y": "scroll", "height": "250px"})
 
     on_bar_selected = CustomJS(
-        args=dict(s1=source, s2=json_issues, div1=div1),
+        args=dict(s1=source, s2=json_issues, div1=div1, jira_url=url),
         code="""
         var ind = s1.selected.indices;
         var age_group = s1.data.x[ind][0]
@@ -124,7 +119,7 @@ def show_defects(sorted_defects):
             issue_name = issues[i].name;
             issue_summary = issues[i].summary;
             console.log(`${issue_name} : ${issue_summary}`);
-            url = `https://jira.acidspace.nl/browse/` + String(issue_name);
+            url = String(jira_url) + "/browse/" + String(issue_name);
             div1.text += `<a href=${url}>${issue_name}</a> : ${issue_summary}<br>`;
         }
 
@@ -158,6 +153,17 @@ def show_defects(sorted_defects):
     plot.xgrid.grid_line_color = None
     plot.js_on_event("tap", on_bar_selected)
     show(row(plot, div1))
+
+
+def convert_age_into_string(sorted_defects):
+    """Convert the age field of a Defect into a string."""
+
+    json_issues = sorted_defects
+    for buckets in json_issues.values():
+        for issues in buckets.values():
+            for issue in issues:
+                issue.age = str(issue.age)
+    return json_issues
 
 
 def count_issues_per_state(data, sorted_defects):
@@ -283,7 +289,7 @@ def main():
 
     print(sorted_defects)
 
-    show_defects(sorted_defects)
+    show_defects(sorted_defects, args.url)
 
 
 if __name__ == "__main__":
