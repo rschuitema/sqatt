@@ -71,14 +71,7 @@ def show_defects(sorted_defects, url):
     output_file("bars.html")
 
     ages = [">30 days", "20-30 days", "10-20 days", "5-10 days", "<5 days"]
-    states = [
-        "New",
-        "Analyzing",
-        "Solving",
-        "Verifying",
-        "Closing",
-        "Postponed",
-    ]
+    states = ["New", "Analyzing", "Solving", "Verifying", "Closing", "Postponed"]
 
     data = {
         "New": [0] * 5,
@@ -92,20 +85,14 @@ def show_defects(sorted_defects, url):
 
     count_issues_per_state(data, sorted_defects)
 
-    json_issues = convert_age_into_string(sorted_defects)
-
-    palette = ["#c9d9d3", "#718dbf", "#e84d60", "#111111", "#B200FF", "#7F92FF"]
-
     x_coordinate = [(age, state) for age in ages for state in states]
     counts = sum(
         zip(data["New"], data["Analyzing"], data["Solving"], data["Verifying"], data["Closing"], data["Postponed"],), ()
     )  # like an hstack
 
     source = ColumnDataSource(data=dict(x=x_coordinate, counts=counts))
-    div1 = Div()
-    # div1 = Div(style={"overflow-y": "scroll", "height": "250px"})
 
-    on_bar_selected = create_bar_selected_handler(div1, json_issues, source, url)
+    palette = ["#c9d9d3", "#718dbf", "#e84d60", "#111111", "#B200FF", "#7F92FF"]
 
     plot = figure(
         x_range=FactorRange(*x_coordinate),
@@ -131,7 +118,13 @@ def show_defects(sorted_defects, url):
     plot.x_range.range_padding = 0.1
     plot.xaxis.major_label_orientation = 1
     plot.xgrid.grid_line_color = None
+
+    div1 = Div()
+    # div1 = Div(style={"overflow-y": "scroll", "height": "250px"})
+    json_issues = convert_age_into_string(sorted_defects)
+    on_bar_selected = create_bar_selected_handler(div1, json_issues, source, url)
     plot.js_on_event("tap", on_bar_selected)
+
     show(row(plot, div1))
 
 
