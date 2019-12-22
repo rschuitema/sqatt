@@ -105,27 +105,7 @@ def show_defects(sorted_defects, url):
     div1 = Div()
     # div1 = Div(style={"overflow-y": "scroll", "height": "250px"})
 
-    on_bar_selected = CustomJS(
-        args=dict(s1=source, s2=json_issues, div1=div1, jira_url=url),
-        code="""
-        var ind = s1.selected.indices;
-        var age_group = s1.data.x[ind][0]
-        var state = s1.data.x[ind][1]
-
-        var issues = s2[age_group][state];
-        div1.text = '';
-        for (i = 0; i < issues.length; i++)
-        {
-            issue_name = issues[i].name;
-            issue_summary = issues[i].summary;
-            console.log(`${issue_name} : ${issue_summary}`);
-            url = String(jira_url) + "/browse/" + String(issue_name);
-            div1.text += `<a href=${url}>${issue_name}</a> : ${issue_summary}<br>`;
-        }
-
-        console.log(`${ind}:${age_group}:${state}:${issues.length}`);
-    """,
-    )
+    on_bar_selected = create_bar_selected_handler(div1, json_issues, source, url)
 
     plot = figure(
         x_range=FactorRange(*x_coordinate),
@@ -153,6 +133,33 @@ def show_defects(sorted_defects, url):
     plot.xgrid.grid_line_color = None
     plot.js_on_event("tap", on_bar_selected)
     show(row(plot, div1))
+
+
+def create_bar_selected_handler(div1, json_issues, source, url):
+    """Handle the bar selection and show the list of issues that belong to the selected bar."""
+
+    on_bar_selected = CustomJS(
+        args=dict(s1=source, s2=json_issues, div1=div1, jira_url=url),
+        code="""
+        var ind = s1.selected.indices;
+        var age_group = s1.data.x[ind][0]
+        var state = s1.data.x[ind][1]
+
+        var issues = s2[age_group][state];
+        div1.text = '';
+        for (i = 0; i < issues.length; i++)
+        {
+            issue_name = issues[i].name;
+            issue_summary = issues[i].summary;
+            console.log(`${issue_name} : ${issue_summary}`);
+            url = String(jira_url) + "/browse/" + String(issue_name);
+            div1.text += `<a href=${url}>${issue_name}</a> : ${issue_summary}<br>`;
+        }
+
+        console.log(`${ind}:${age_group}:${state}:${issues.length}`);
+    """,
+    )
+    return on_bar_selected
 
 
 def convert_age_into_string(sorted_defects):
