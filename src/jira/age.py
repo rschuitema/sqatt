@@ -82,8 +82,27 @@ def show_defects(sorted_defects, url):
 
     source = ColumnDataSource(data=dict(x=x_coordinate, counts=counts))
 
-    palette = ["#c9d9d3", "#718dbf", "#e84d60", "#111111", "#B200FF", "#7F92FF"]
+    plot = create_plot(source, states, x_coordinate)
 
+    div1 = Div()
+    # div1 = Div(style={"overflow-y": "scroll", "height": "250px"})
+    add_bar_selection_handler(div1, plot, sorted_defects, source, url)
+
+    show(row(plot, div1))
+
+
+def add_bar_selection_handler(div1, plot, sorted_defects, source, url):
+    """Add handler for selecting a bar on the plot."""
+
+    json_issues = convert_age_into_string(sorted_defects)
+    on_bar_selected = create_bar_selected_handler(div1, json_issues, source, url)
+    plot.js_on_event("tap", on_bar_selected)
+
+
+def create_plot(source, states, x_coordinate):
+    """Create the bar chart."""
+
+    palette = ["#c9d9d3", "#718dbf", "#e84d60", "#111111", "#B200FF", "#7F92FF"]
     plot = figure(
         x_range=FactorRange(*x_coordinate),
         plot_height=250,
@@ -93,7 +112,6 @@ def show_defects(sorted_defects, url):
         tools=["hover", "tap"],
         tooltips="@counts",
     )
-
     plot.vbar(x="x", top="counts", width=0.9, source=source)
     plot.vbar(
         x="x",
@@ -103,19 +121,11 @@ def show_defects(sorted_defects, url):
         line_color="white",
         fill_color=factor_cmap("x", palette=palette, factors=states, start=1, end=2),
     )
-
     plot.y_range.start = 0
     plot.x_range.range_padding = 0.1
     plot.xaxis.major_label_orientation = 1
     plot.xgrid.grid_line_color = None
-
-    div1 = Div()
-    # div1 = Div(style={"overflow-y": "scroll", "height": "250px"})
-    json_issues = convert_age_into_string(sorted_defects)
-    on_bar_selected = create_bar_selected_handler(div1, json_issues, source, url)
-    plot.js_on_event("tap", on_bar_selected)
-
-    show(row(plot, div1))
+    return plot
 
 
 def create_bar_selected_handler(div1, json_issues, source, url):
