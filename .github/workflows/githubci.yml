@@ -48,7 +48,7 @@ jobs:
     - name: Analyze dead code
       run: |
         pip install vulture
-        vulture src test
+        vulture --min-confidence 80 src test
     - name: Analyze cohesion
       run: |
         pip install cohesion
