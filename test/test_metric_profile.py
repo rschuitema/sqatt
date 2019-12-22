@@ -1,4 +1,5 @@
 """Unit test for the metric profile class."""
+
 from src.profile.MetricProfile import MetricProfile
 from src.profile.MetricRegion import MetricRegion
 
@@ -16,14 +17,48 @@ def test_profile_can_have_one_region():
     assert len(profile.regions()) == 1
 
 
+def test_profile_regions_updated_correctly():
+    """Test that a profile is updated correctly."""
+
+    # arrange
+    regions = [
+        MetricRegion("0-15", 0, 15),
+        MetricRegion("16-30", 16, 30),
+        MetricRegion("31-60", 31, 60),
+        MetricRegion("60+", 61, 1001),
+    ]
+
+    profile = MetricProfile("Fan-in", regions)
+
+    # act
+    profile.update(1, 100)
+    profile.update(15, 100)
+    profile.update(16, 100)
+    profile.update(30, 100)
+    profile.update(31, 100)
+    profile.update(60, 100)
+    profile.update(61, 100)
+    profile.update(1000, 100)
+    profile.update(1001, 100)
+
+    # assert
+    assert profile.regions()[0].loc() == 200
+    assert profile.regions()[1].loc() == 200
+    assert profile.regions()[2].loc() == 200
+    assert profile.regions()[3].loc() == 300
+    assert profile.total_loc() == 900
+
+
 def test_profile_can_have_four_regions():
     """Test that a profile can have 4 regions."""
 
     # arrange
-    regions = [MetricRegion("0-15", 0, 16),
-               MetricRegion("16-30", 15, 31),
-               MetricRegion("31-60", 30, 61),
-               MetricRegion("60+", 60, 1001)]
+    regions = [
+        MetricRegion("0-15", 0, 16),
+        MetricRegion("16-30", 15, 31),
+        MetricRegion("31-60", 30, 61),
+        MetricRegion("60+", 60, 1001),
+    ]
 
     # act
     profile = MetricProfile("Function size", regions)
@@ -32,43 +67,16 @@ def test_profile_can_have_four_regions():
     assert len(profile.regions()) == 4
 
 
-def test_profile_regions_updated_correctly():
-    """Test that a profile is updated correctly."""
-
-    # arrange
-    regions = [MetricRegion("0-15", 0, 15),
-               MetricRegion("16-30", 16, 30),
-               MetricRegion("31-60", 31, 60),
-               MetricRegion("60+", 61)]
-
-    profile = MetricProfile("Function size", regions)
-
-    # act
-    profile.update_loc(1)
-    profile.update_loc(15)
-    profile.update_loc(16)
-    profile.update_loc(17)
-    profile.update_loc(60)
-    profile.update_loc(61)
-    profile.update_loc(1000)
-    profile.update_loc(1001)
-
-    # assert
-    assert profile.regions()[0].loc() == 16
-    assert profile.regions()[1].loc() == 33
-    assert profile.regions()[2].loc() == 60
-    assert profile.regions()[3].loc() == 2062
-    assert profile.total_loc() == 2171
-
-
 def test_profile_printed_correctly(capsys):
     """Test that the profile is printed to console correctly."""
 
     # arrange
-    regions = [MetricRegion("0-15", 0, 15),
-               MetricRegion("16-30", 16, 30),
-               MetricRegion("31-60", 31, 60),
-               MetricRegion("60+", 61)]
+    regions = [
+        MetricRegion("0-15", 0, 15),
+        MetricRegion("16-30", 16, 30),
+        MetricRegion("31-60", 31, 60),
+        MetricRegion("60+", 61),
+    ]
 
     profile = MetricProfile("Function size", regions)
 
