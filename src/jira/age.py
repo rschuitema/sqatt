@@ -73,17 +73,7 @@ def show_defects(sorted_defects, url):
     ages = [">30 days", "20-30 days", "10-20 days", "5-10 days", "<5 days"]
     states = ["New", "Analyzing", "Solving", "Verifying", "Closing", "Postponed"]
 
-    data = {
-        "New": [0] * 5,
-        "Analyzing": [0] * 5,
-        "Solving": [0] * 5,
-        "Verifying": [0] * 5,
-        "Closing": [0] * 5,
-        "Postponed": [0] * 5,
-        "Age": ages,
-    }
-
-    count_issues_per_state(data, sorted_defects)
+    data = count_issues_per_state(sorted_defects, ages)
 
     x_coordinate = [(age, state) for age in ages for state in states]
     counts = sum(
@@ -166,8 +156,18 @@ def convert_age_into_string(sorted_defects):
     return json_issues
 
 
-def count_issues_per_state(data, sorted_defects):
+def count_issues_per_state(sorted_defects, ages):
     """Count the number of issues per status."""
+
+    data = {
+        "New": [0] * 5,
+        "Analyzing": [0] * 5,
+        "Solving": [0] * 5,
+        "Verifying": [0] * 5,
+        "Closing": [0] * 5,
+        "Postponed": [0] * 5,
+        "Age": ages,
+    }
 
     i = 0
     for issues in sorted_defects.values():
@@ -178,6 +178,8 @@ def count_issues_per_state(data, sorted_defects):
         data["Closing"][i] = len(issues["Closing"])
         data["Postponed"][i] = len(issues["Postponed"])
         i += 1
+
+    return data
 
 
 def get_issue_age(issue):
