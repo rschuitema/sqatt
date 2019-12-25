@@ -1,14 +1,15 @@
 """Show age report of jira tickets."""
 
 import argparse
-import sys
 from datetime import timedelta, datetime
-from jira import JIRA
+
 from bokeh.layouts import row
 from bokeh.io import show, output_file
 from bokeh.models import ColumnDataSource, FactorRange, CustomJS, Div
 from bokeh.plotting import figure
 from bokeh.transform import factor_cmap
+
+from src.jira.jira_wrapper import login, get_open_defects
 
 
 class Defect(dict):
@@ -39,30 +40,6 @@ def parse_arguments(args):
     parser.add_argument("password", help="The Jira password")
 
     return parser.parse_args(args)
-
-
-def login(url, username, password):
-    """Login to jira with username and password."""
-
-    return JIRA(server=url, basic_auth=(username, password))
-
-
-def get_open_defects(jira):
-    """Get the open defects in jira."""
-
-    block_size = 20
-    block_number = 0
-    open_defects = []
-    while True:
-        data = jira.search_issues(
-            "project = ACID AND status != Done", startAt=block_number * block_size, maxResults=block_size,
-        )
-        if len(data) == 0:
-            break
-        open_defects.extend(data)
-        block_number += 1
-
-    return open_defects
 
 
 def show_defects(sorted_defects, url):
@@ -286,12 +263,10 @@ def sort_defects_on_status_per_age(defects):
     return age_buckets
 
 
-def main():
+def analyze_issue_age(url, username, password):
     """Start of the program."""
 
-    args = parse_arguments(sys.argv[1:])
-
-    jira = login(args.url, args.username, args.password)
+    jira = login(url, username, password)
 
     open_defects = get_open_defects(jira)
     defects = convert_defects(open_defects)
@@ -299,10 +274,4 @@ def main():
     sorted_defects = sort_defects_on_age(defects)
     sorted_defects = sort_defects_on_status_per_age(sorted_defects)
 
-    print(sorted_defects)
-
-    show_defects(sorted_defects, args.url)
-
-
-if __name__ == "__main__":
-    main()
+    show_defects(sorted_defects, url)
