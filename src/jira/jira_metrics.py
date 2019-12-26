@@ -4,7 +4,7 @@ import argparse
 import sys
 
 from src.jira.age import analyze_issue_age
-from src.jira.pmi import calculate_pmi, show_pmi
+from src.jira.pmi import analyze_pmi
 
 
 def parse_arguments(args):
@@ -30,8 +30,7 @@ def main():
         analyze_issue_age(args.url, args.username, args.password)
 
     if args.pmi:
-        calculate_pmi(args.url, args.username, args.password)
-        show_pmi()
+        analyze_pmi(args.url, args.username, args.password)
 
 
 if __name__ == "__main__":
