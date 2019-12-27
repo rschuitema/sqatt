@@ -116,7 +116,7 @@ def create_bar_selected_handler(div1, json_issues, source, url):
         var state = s1.data.x[ind][1]
 
         var issues = s2[age_group][state];
-        div1.text = '';
+        div1.text = 'Issues with status <b>'+ String(state) + '</b> and age <b>' + String(age_group) + '</b><hr>';
         for (i = 0; i < issues.length; i++)
         {
             issue_name = issues[i].name;
