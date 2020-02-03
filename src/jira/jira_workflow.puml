@@ -1,0 +1,12 @@
+@startuml
+hide empty description
+
+[*] -> New
+New -> To_Activity
+To_Activity -> Activity
+Activity -> Activity_Done
+Activity_Done -> Done
+Activity_Done -> To_Activity
+Done -> [*]
+
+@enduml
