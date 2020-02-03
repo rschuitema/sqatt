@@ -1,0 +1,19 @@
+issue_types:
+  - name: Spike
+    description: Issue type for a spike
+    type: standard
+  - name: Epic
+    description: Issue type for an epic
+    type: standard
+  - name: User Story
+    description: Issue type for a user story
+    type: standard
+  - name: Task
+    description: Issue type for a task
+    type: standard
+  - name: Technical Debt
+    description: Issue type for technical debt
+    type: standard
+  - name: Bug
+    description: Issue type for a bug
+    type: standard
