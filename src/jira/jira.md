@@ -53,11 +53,11 @@ complies with the pattern <To_Activity> -> <Activity> -> <Activity_Done>
 ## Roles
 The following roles are configured in Jira:
 * Administrators
-* Developer
-* Scrum master
-* Product owner
-* Project manager
+* Developers
+* Viewers
 
+Each of these roles have different permissions in Jira.
+The role permissions are described in the permission scheme sections.
 
 ## Permission schemes
 Jira has several permission schemes
@@ -65,18 +65,36 @@ The following sections describe the configuration of each of the
 permission schemes.
 
 ### Project permissions
-This is the scheme for project permission.
+This is the scheme for project permissions.
 
 | Permission | Description | Role |
 | --- |--- |---| 
-| Administer projects     | Ability to administer a project in Jira | Administrators |
-| Browse projects         | Ability to browse projects and the issues within them | Developers, Viewers |
-| Edit sprints            | Ability to edit sprint name and goal | ??? |
-| Manage sprints          | Ability to manage sprints | Administrators |
-| Start/Complete sprints  | Ability to start and complete sprints | ??? |
-| View development tools  | Allows users in a software project to view development-related information on the issue, such as commits, reviews and build information | Developers, Viewers |
-| View read only workflow | Users with this permission may view a read-only version of a workflow | Developers, Viewers | 
+| Administer Projects     | Ability to administer a project in Jira. | Administrators |
+| Browse Projects         | Ability to browse projects and the issues within them. | Developers, Viewers |
+| Edit Sprints            | Ability to edit sprint name and goal. | ??? |
+| Manage Sprints          | Ability to manage sprints. | Administrators |
+| Start/Complete Sprints  | Ability to start and complete sprints. | ??? |
+| View Development Tools  | Allows users in a software project to view development-related information on the issue, such as commits, reviews and build information. | Developers, Viewers |
+| View Read-Only Workflow | Users with this permission may view a read-only version of a workflow. | Developers, Viewers | 
 
 ### Issue permissions
+This is the scheme for issue permissions.
+
+| Permission | Description | Role |
+| --- |--- |---| 
+| Assignable User | Users with this permission may be assigned to issues. | Developers |
+| Assign Issues   | Ability to assign issues to other people. | Developers |
+| Close Issues | Ability to close issues. Often useful where your developers resolve issues, and a QA department closes them. | Developers |
+| Create Issues | Ability to create issues. | Developers, Viewers |
+| Delete Issues | Ability to delete issues. | Administrators |
+| Edit Issues | Ability to edit issues. | Developers |
+| Link Issues | Ability to link issues together and create linked issues. Only useful if issue linking is turned on. | Developers |
+| Modify Reporter | Ability to modify the reporter when creating or editing an issue. | Administrators |
+| Move Issues | Ability to move issues between projects or between workflows of the same project (if applicable). Note the user can only move issues to a project he or she has the create permission for. | Developers |
+| Resolve Issues | Ability to resolve and reopen issues. This includes the ability to set a fix version. | Developers |
+| Schedule Issues | Ability to view or edit an issue's due date. | Developers |
+| Set Issue Security | Ability to set the level of security on an issue so that only people in that security level can see the issue. | Developers |
+| Transition Issues | Ability to transition issues to a new state. | Developers |
+
 
 
