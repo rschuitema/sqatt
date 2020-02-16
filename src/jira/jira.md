@@ -67,6 +67,16 @@ permission schemes.
 ### Project permissions
 This is the scheme for project permission.
 
+| Permission | Description | Role |
+| --- |--- |---| 
+| Administer projects     | Ability to administer a project in Jira | Administrators |
+| Browse projects         | Ability to browse projects and the issues within them | Developers, Viewers |
+| Edit sprints            | Ability to edit sprint name and goal | ??? |
+| Manage sprints          | Ability to manage sprints | Administrators |
+| Start/Complete sprints  | Ability to start and complete sprints | ??? |
+| View development tools  | Allows users in a software project to view development-related information on the issue, such as commits, reviews and build information | Developers, Viewers |
+| View read only workflow | Users with this permission may view a read-only version of a workflow | Developers, Viewers | 
+
 ### Issue permissions
 
 
