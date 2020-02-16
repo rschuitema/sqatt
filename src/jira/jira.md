@@ -48,7 +48,7 @@ In a similar way it helps the CCB to select the issues that need to be
 discussed.
 
 A project can extend the workflow with new activities as long as it
-complies with the pattern <To_Activity> -> <Activity> -> <Activity_Done>
+complies with the pattern "To_Activity" -> "Activity" -> "Activity_Done"
 
 ## Roles
 The following roles are configured in Jira:
