@@ -39,9 +39,9 @@ def create_report_directory(directory):
 def get_coverage_of_namespace(assembly, covered_lines, name_space, total_lines):
     """Get the coverage of a namespace."""
 
-    assembly_name = assembly['@Name']
-    assembly_covered_lines = assembly['@CoveredStatements']
-    assembly_total_lines = assembly['@TotalStatements']
+    assembly_name = assembly["@Name"]
+    assembly_covered_lines = assembly["@CoveredStatements"]
+    assembly_total_lines = assembly["@TotalStatements"]
     if assembly_name.startswith(name_space):
         total_lines = total_lines + int(assembly_total_lines)
         covered_lines = covered_lines + int(assembly_covered_lines)
@@ -51,7 +51,7 @@ def get_coverage_of_namespace(assembly, covered_lines, name_space, total_lines):
 def determine_coverage_of_namespace(xml_doc, name_space):
     """Determine the coverage of a namespace."""
 
-    assemblies = (xml_doc['Root']['Assembly'])
+    assemblies = xml_doc["Root"]["Assembly"]
     total_lines = 0
     covered_lines = 0
 
@@ -61,7 +61,7 @@ def determine_coverage_of_namespace(xml_doc, name_space):
         for assembly in assemblies:
             covered_lines, total_lines = get_coverage_of_namespace(assembly, covered_lines, name_space, total_lines)
 
-    coverage = 100 * (covered_lines/total_lines)
+    coverage = 100 * (covered_lines / total_lines)
     return coverage
 
 
@@ -69,17 +69,17 @@ def determine_namespaces(xml_doc):
     """Determine all the namespaces that dotcover analyzed."""
 
     namespaces = set()
-    assemblies = (xml_doc['Root']['Assembly'])
+    assemblies = xml_doc["Root"]["Assembly"]
 
     if not isinstance(assemblies, list):
-        n = get_namespaces(assemblies['@Name'], '.')
-        namespaces.update(n)
+        name = get_namespaces(assemblies["@Name"], ".")
+        namespaces.update(name)
         return namespaces
 
     for assembly in assemblies:
-        assembly_name = assembly['@Name']
-        n = get_namespaces(assembly_name, '.')
-        namespaces.update(n)
+        assembly_name = assembly["@Name"]
+        name = get_namespaces(assembly_name, ".")
+        namespaces.update(name)
 
     return namespaces
 
@@ -116,15 +116,15 @@ def save_coverage_per_namespace(coverage_per_namespace, report_dir):
 
     report_file = os.path.join(report_dir, "coverage_per_namespace.csv")
 
-    with open(report_file, 'w') as output:
-        csv_writer = csv.writer(output, delimiter=',', lineterminator='\n', quoting=csv.QUOTE_ALL)
-        csv_writer.writerow(['Namespace', 'Coverage'])
+    with open(report_file, "w") as output:
+        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+        csv_writer.writerow(["Namespace", "Coverage"])
         for item in coverage_per_namespace:
             csv_writer.writerow([item, coverage_per_namespace[item]])
 
 
 def main():
-    """Main entry of the program."""
+    """Start of the program."""
 
     args = parse_arguments()
 

@@ -9,7 +9,7 @@ install:
   - pip install behave
   - pip install xenon
   - pip install xmltodict
-  - pip install lxml
+  - pip install defusedxml
 
 stages:
   - static analysis

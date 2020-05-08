@@ -5,6 +5,8 @@ class MetricProfile:
     """Metric profile definition."""
 
     def __init__(self, name, regions):
+        """Construct the class."""
+
         self._name = name
         self._total_loc = 0
         if isinstance(regions, list):
@@ -27,9 +29,20 @@ class MetricProfile:
 
         return self._total_loc
 
+    def name(self):
+        """Return the name of the profile."""
+        return self._name
+
     def print(self):
         """Print the profile to console."""
 
         print(self._name, ": loc")
         for region in self._regions:
             print(region.label(), ":", region.loc())
+
+    def update(self, metric, loc):
+        """Update the loc in the correct region."""
+
+        self._total_loc += loc
+        for region in self._regions:
+            region.update(metric, loc)

@@ -1,0 +1,46 @@
+permission_scheme:
+  name: acidspace_permission_scheme
+  description: definition of the permissions for acidspace
+  project_permissions:
+    administer_projects:
+      - project lead
+    browse_projects:
+      - project role
+      - project lead
+    edit_sprints:
+      - project role
+    manage_sprints:
+      - project role
+    start_complete_sprints:
+      - project role
+    view_development_tools:
+      - project role
+    view_read_only_workflow:
+      - project role
+  issue_permissions:
+    assignable_user:
+      - project role
+    assign_issues:
+      - project role
+    close_issues:
+      - project role
+    create_issues:
+      - project role
+    delete_issues:
+      - project role
+    edit_issues:
+      - project role
+    link_issues:
+      - project role
+    modify_reporter:
+      - project lead
+    move_issues:
+      - project role
+    resolve_issues:
+      - project role
+    schedule_issues:
+      - project role
+    set_issue_security:
+      - project role
+    transition_issues:
+      - project role
