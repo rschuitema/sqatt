@@ -11,7 +11,8 @@ def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('--version', action='version', version='%(prog)s 1.0')
     parser.add_argument('--excludes', nargs='+')
-    parser.add_argument('dir')
+    parser.add_argument('dir', help='directory that contains the files for the include graph')
+    parser.add_argument('file', help='file to build the include graph for')
 
     args = parser.parse_args()
     return args
@@ -37,7 +38,6 @@ def map_includes(directory, excludes):
         for file in files:
             if file.endswith(('.h', '.hpp', '.c', '.cpp')):
                 data = {'includes': extract_includes(os.path.join(root, file)), 'used': False}
-
                 include_map[file] = data
 
     return include_map
@@ -53,9 +53,6 @@ def build_include_graph(node, file_name, include_map, cycles):
         if header_file in include_map:
             if not include_map[header_file]['used']:
                 build_include_graph(new_node, header_file, include_map, cycles)
-            else:
-                # cycle detected
-                cycles.append((new_node, node))
 
 
 def main():
@@ -65,15 +62,14 @@ def main():
     includes = map_includes(args.dir, args.excludes)
 
     cycles = []
-    root = Node('Waferstage.cpp')
-    build_include_graph(root, 'Waferstage.cpp', includes, cycles)
+    root = Node(args.file)
+    build_include_graph(root, args.file, includes, cycles)
 
     for pre, fill, node in RenderTree(root):
         print("%s%s" % (pre, node.name))
 
-    DotExporter(root).to_picture("root.png")
-    # includes = extract_includes(args.dir)
-    print(includes)
+    graph = os.path.splitext(args.file)[0]+'.png'
+    DotExporter(root).to_picture(graph)
 
 
 if __name__ == "__main__":
