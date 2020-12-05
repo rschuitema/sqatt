@@ -73,8 +73,10 @@ def main():
     root = Node(args.file)
     build_include_graph(root, args.file, includes, cycles)
 
+    # pylint: disable=unused-variable
     for pre, fill, node in RenderTree(root):
         print("%s%s" % (pre, node.name))
+    # pylint: enable=unused-variable
 
     graph = os.path.splitext(args.file)[0]+'.png'
     DotExporter(root).to_picture(graph)
