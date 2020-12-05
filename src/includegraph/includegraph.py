@@ -1,7 +1,8 @@
+"""Create an include graph for a specific file."""
 import argparse
 import os
 import re
-from anytree import Node, RenderTree, find
+from anytree import Node, RenderTree
 from anytree.exporter import DotExporter
 
 
@@ -19,11 +20,13 @@ def parse_arguments():
 
 
 def extract_includes(file_name):
+    """Extract the #include lines."""
+
     includes = []
-    with open(file_name, 'r') as f:
-        lines = f.readlines()
+    with open(file_name, 'r') as source_file:
+        lines = source_file.readlines()
         for line in lines:
-            match = re.match(f'#include "(.*.h)"', line)
+            match = re.match('#include "(.*.h)"', line)
             if match:
                 header_file = os.path.basename(match.group(1))
                 includes.append(header_file)
@@ -31,6 +34,8 @@ def extract_includes(file_name):
 
 
 def map_includes(directory, excludes):
+    """Create a map of includes."""
+
     include_map = {}
     for root, dirs, files in os.walk(directory, topdown=True):
         dirs[:] = [d for d in dirs if d not in excludes]
@@ -44,6 +49,7 @@ def map_includes(directory, excludes):
 
 
 def build_include_graph(node, file_name, include_map, cycles):
+    """Build an include graph."""
 
     includes = include_map[file_name]['includes']
     include_map[file_name]['used'] = True
@@ -56,6 +62,8 @@ def build_include_graph(node, file_name, include_map, cycles):
 
 
 def main():
+    """Entry point of the application."""
+
     args = parse_arguments()
     print(args)
 
