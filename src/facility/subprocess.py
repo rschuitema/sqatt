@@ -84,9 +84,9 @@ class Subprocess:
                 self.command, stdout=stdout, stderr=stderr, shell=False, timeout=self.timeout,
             )  # nosec
         except CalledProcessError as error:
-            raise ProcessError("%s returned a non-zero exit status %s" % (self.base_command, error.returncode))
+            raise ProcessError("%s returned a non-zero exit status %s" % (self.base_command, error.returncode)) \
+                from error
         except TimeoutExpired as error:
-            raise ProcessError("%s timed out after %s seconds" % (self.base_command, error.timeout))
-
+            raise ProcessError("%s timed out after %s seconds" % (self.base_command, error.timeout)) from error
 
 # pylint: enable=too-few-public-methods
