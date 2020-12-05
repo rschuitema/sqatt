@@ -1,4 +1,7 @@
+anytree
 bokeh
+defusedxml
 jira
-xmltodict==0.12.0
-defusedxml==0.6.0
+requests
+xmltodict
+PyYAML
