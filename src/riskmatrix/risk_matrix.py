@@ -82,8 +82,6 @@ class RiskMatrix:
                 threshold_value = values[1]
 
                 print(component, quadrant_thresholds[metric_label], metric_value)
-                result = result and self.metric_comparators[comparison](
-                    metric_value, threshold_value
-                )
+                result = result and self.metric_comparators[comparison](metric_value, threshold_value)
 
         return result
