@@ -58,21 +58,15 @@ def get_size_metrics(report_file):
 def calculate_comment_to_code_ratio(production_code_metrics, test_code_metrics):
     """Calculate the ratio between the comments and the lines of code."""
 
-    lines_of_code = (
-        production_code_metrics["SUM"]["code"] + test_code_metrics["SUM"]["code"]
-    )
-    comment_lines = (
-        production_code_metrics["SUM"]["comment"] + test_code_metrics["SUM"]["comment"]
-    )
+    lines_of_code = production_code_metrics["SUM"]["code"] + test_code_metrics["SUM"]["code"]
+    comment_lines = production_code_metrics["SUM"]["comment"] + test_code_metrics["SUM"]["comment"]
 
     print(lines_of_code, comment_lines)
 
     return float(comment_lines) / float(lines_of_code)
 
 
-def calculate_test_code_to_production_code_ratio(
-    production_code_metrics, test_code_metrics
-):
+def calculate_test_code_to_production_code_ratio(production_code_metrics, test_code_metrics):
     """Calculate the ratio between the test code and the production code."""
 
     lines_of_code = production_code_metrics["SUM"]["code"]
@@ -85,9 +79,7 @@ def save_code_metrics(production_code_size_file, production_code_metrics):
     """Save the code metrics to a file."""
 
     with open(production_code_size_file, "w") as output:
-        csv_writer = csv.writer(
-            output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL
-        )
+        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
 
         write_code_size_header(csv_writer)
         write_code_size_metrics(csv_writer, production_code_metrics)
@@ -113,12 +105,8 @@ def analyze_code_size(input_dir, output_dir):
     production_code_metrics = get_size_metrics(production_code_size_file)
     test_code_metrics = get_size_metrics(test_code_size_file)
 
-    comment_code_ratio = calculate_comment_to_code_ratio(
-        production_code_metrics, test_code_metrics
-    )
-    test_code_ratio = calculate_test_code_to_production_code_ratio(
-        production_code_metrics, test_code_metrics
-    )
+    comment_code_ratio = calculate_comment_to_code_ratio(production_code_metrics, test_code_metrics)
+    test_code_ratio = calculate_test_code_to_production_code_ratio(production_code_metrics, test_code_metrics)
 
     save_code_metrics(production_code_size_file, production_code_metrics)
     save_code_metrics(test_code_size_file, test_code_metrics)
