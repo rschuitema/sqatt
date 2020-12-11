@@ -12,9 +12,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("--version", action="version", version="%(prog)s 1.0")
     parser.add_argument("--excludes", nargs="+")
-    parser.add_argument(
-        "dir", help="directory that contains the files for the include graph"
-    )
+    parser.add_argument("dir", help="directory that contains the files for the include graph")
     parser.add_argument("file", help="file to build the include graph for")
 
     args = parser.parse_args()
