@@ -1,5 +1,5 @@
 ![Python application](https://github.com/rschuitema/sqatt/workflows/Python%20application/badge.svg)
-[![BCH compliance](https://bettercodehub.com/edge/badge/rschuitema/sqat?branch=master)](https://bettercodehub.com/)
+[![BCH compliance](https://bettercodehub.com/edge/badge/rschuitema/sqatt?branch=master)](https://bettercodehub.com/)
 # SQATT
 Repository that contains scripts that are useful when analyzing software quality.
 
