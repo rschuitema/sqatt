@@ -1,5 +1,4 @@
-"""Subprocess launcher.
-"""
+"""Subprocess launcher."""
 import logging
 import shutil
 from subprocess import DEVNULL  # nosec
@@ -16,14 +15,16 @@ class ProcessError(Exception):
 
 # pylint: disable=too-few-public-methods
 class Subprocess:
-    """Class to handle the execution of all command line tooling.
+    """
+    Class to handle the execution of all command line tooling.
 
     User friendly subprocess wrapper, providing useful and informative
     error messages to the user in case of failures.
     """
 
     def __init__(self, command, stdout=DEVNULL, stderr=DEVNULL, verbose=0, timeout=None):  # pylint: disable=R0913
-        """Class initializer.
+        """
+        Class initializer.
 
         Creates a command object that can be executed.
 
@@ -46,7 +47,8 @@ class Subprocess:
         command[0] = self._which()
 
     def _which(self):
-        """Check if tool is available.
+        """
+        Check if tool is available.
 
         Check if the tool that is to be executed is installed on the system.
 
@@ -64,7 +66,8 @@ class Subprocess:
         return abspath
 
     def execute(self):
-        """Execute the command.
+        """
+        Execute the command.
 
         Execute the command as defined in the object. Raising informative exceptions
         in case of an `execution error` or `command timeout`.

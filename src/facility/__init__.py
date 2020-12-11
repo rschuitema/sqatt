@@ -1,1 +1,1 @@
-"""Init of the dotcover package."""
+"""Init of the facility package."""
