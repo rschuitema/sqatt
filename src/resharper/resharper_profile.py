@@ -158,7 +158,9 @@ def save_issues(item_dict, report_file, item_name="Item"):
     """Save the issues in a csv file."""
 
     with open(report_file, "w") as output:
-        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+        csv_writer = csv.writer(
+            output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL
+        )
         csv_writer.writerow([item_name, "Number of violations"])
         for item in item_dict:
             csv_writer.writerow([item, item_dict[item]])
@@ -205,7 +207,9 @@ def filter_out(filename, tmp_filename):
                 parent = elem.getparent()
                 parent.remove(elem)
         print(ElementTree.tostring(doc))
-        open(tmp_filename, "w").write(str(ElementTree.tostring(doc, encoding="unicode")))
+        open(tmp_filename, "w").write(
+            str(ElementTree.tostring(doc, encoding="unicode"))
+        )
 
 
 def main():

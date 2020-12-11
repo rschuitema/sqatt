@@ -54,7 +54,15 @@ def show_defects(sorted_defects, url):
 
     x_coordinate = [(age, state) for age in ages for state in states]
     counts = sum(
-        zip(data["New"], data["Analyzing"], data["Solving"], data["Verifying"], data["Closing"], data["Postponed"],), ()
+        zip(
+            data["New"],
+            data["Analyzing"],
+            data["Solving"],
+            data["Verifying"],
+            data["Closing"],
+            data["Postponed"],
+        ),
+        (),
     )  # like an hstack
 
     source = ColumnDataSource(data=dict(x=x_coordinate, counts=counts))
@@ -226,7 +234,14 @@ def sort_defects_on_status(defects):
     closing_bucket = ["Closing", "Reviewing_Done", "Verifying_Done"]
     postponed_bucket = ["Postponed", "Blocked"]
 
-    buckets = [new_bucket, analyzing_bucket, solving_bucket, verifying_bucket, closing_bucket, postponed_bucket]
+    buckets = [
+        new_bucket,
+        analyzing_bucket,
+        solving_bucket,
+        verifying_bucket,
+        closing_bucket,
+        postponed_bucket,
+    ]
 
     status_buckets = {
         "New": [],

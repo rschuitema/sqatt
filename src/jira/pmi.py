@@ -100,7 +100,10 @@ def create_cell_selected_handler(div1, data_source, url):
             div1.text += `<a href=${url}>${issue_name}</a> : ${issue_summary}<br>`;
         }
     """
-    on_cell_selected = CustomJS(args=dict(s1=data_source, s2=PMI_FACTORS, div1=div1, jira_url=url), code=source_code)
+    on_cell_selected = CustomJS(
+        args=dict(s1=data_source, s2=PMI_FACTORS, div1=div1, jira_url=url),
+        code=source_code,
+    )
 
     return on_cell_selected
 
@@ -115,7 +118,9 @@ def calculate_pmi(open_defects):
 
         if issue_status in PMI_FACTORS.keys():
             PMI_FACTORS[issue_status][issue_severity]["Count"] += 1
-            PMI_FACTORS[issue_status][issue_severity]["Defects"].append((issue.key, issue.fields.summary))
+            PMI_FACTORS[issue_status][issue_severity]["Defects"].append(
+                (issue.key, issue.fields.summary)
+            )
             pmi += PMI_FACTORS[issue_status][issue_severity]["Factor"]
 
     return pmi
@@ -182,7 +187,14 @@ def show_pmi(pmi, url):
         TableColumn(field="trivial", title="Trivial"),
     ]
 
-    data_table = DataTable(source=source, columns=columns, width=400, height=280, index_position=None, sortable=False)
+    data_table = DataTable(
+        source=source,
+        columns=columns,
+        width=400,
+        height=280,
+        index_position=None,
+        sortable=False,
+    )
 
     issue_div = Div()
     callback = create_cell_selected_handler(issue_div, source, url)

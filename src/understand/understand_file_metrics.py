@@ -7,7 +7,9 @@ import understand
 def sort_metrics(module_metrics, metric):
     """Sort the metrics."""
 
-    sorted_by_value = sorted(module_metrics, key=lambda x: (module_metrics[x][metric] or 0), reverse=True)
+    sorted_by_value = sorted(
+        module_metrics, key=lambda x: (module_metrics[x][metric] or 0), reverse=True
+    )
     sorted_dict = {}
     for key in sorted_by_value:
         sorted_dict[key] = module_metrics[key]
@@ -19,7 +21,9 @@ def save_file_metrics(module, metrics):
     """Save the file metrics to a csv file."""
 
     with open(module + "_metrics.csv", "w") as output:
-        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+        csv_writer = csv.writer(
+            output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL
+        )
         csv_writer.writerow(
             [
                 "File Name",

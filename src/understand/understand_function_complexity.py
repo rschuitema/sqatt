@@ -26,7 +26,9 @@ def save_complexity_profile(profile, report_file):
     """Save the complexity profile to a csv file."""
 
     with open(report_file, "w") as output:
-        csvwriter = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+        csvwriter = csv.writer(
+            output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL
+        )
         csvwriter.writerow([profile.name(), "Lines Of Code"])
         for region in profile.regions():
             csvwriter.writerow([region.label(), region.loc()])

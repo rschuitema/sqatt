@@ -16,59 +16,36 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Lint with flake8
-      run: |
-        pip install flake8
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        pip install poetry
+        poetry install
     - name: Lint with pylint
       run: |
-        pip install pylint
-        pylint --rcfile=.pylintrc src
-    - name: Lint with pyroma
-      run: |
-        pip install pyroma
-        pyroma .
+        poetry run pylint --rcfile=.pylintrc src
     - name: Lint with black
       run: |
-        pip install black
-        black --check --line-length 120 --diff src
-        black --check --line-length 120 --diff test
+        poetry run black --check --line-length 120 --diff src
+        poetry run black --check --line-length 120 --diff test
     - name: Lint with pydocstyle
       run: |
-        pip install pydocstyle
-        pydocstyle -e -s src
+        poetry run pydocstyle -e -s src
     - name: Lint with pycodestyle
       run: |
-        pip install pycodestyle
-        pycodestyle --first --config=.pycodestyle src
+        poetry run pycodestyle --first --config=.pycodestyle src
     - name: Analyze dead code
       run: |
-        pip install vulture
-        vulture --min-confidence 80 src test
+        poetry run vulture --min-confidence 80 src test
     - name: Analyze cohesion
       run: |
-        pip install cohesion
-        cohesion -a 50 -d src
+        poetry run cohesion -a 50 -d src
     - name: Analyze security flaws
       run: |
-        pip install bandit
-        bandit -r src
+        poetry run bandit -r src
     - name: Analyze complexity
       run: |
-        pip install radon xenon
-        radon cc src
-        xenon src -b B -m B -a B
-    - name: Analyze cyclic dependencies
-      run: |
-        pip install pycycle
-        pycycle --here
+        poetry run radon cc src
+        poetry run xenon src -b B -m B -a B
     - name: Test with pytest
       run: |
-        pip install pytest coverage
-        coverage run -m pytest test
-        coverage report
+        poetry run coverage run -m pytest test
+        poetry run coverage report
 
