@@ -29,14 +29,10 @@ def add_analysis_parser(subparsers):
 
     parser = subparsers.add_parser("analysis", help="analysis commands")
     parser.add_argument("input", help="directory to analyze")
-    parser.add_argument(
-        "--output", help="directory where to place the report", default="./reports"
-    )
+    parser.add_argument("--output", help="directory where to place the report", default="./reports")
 
     parser.add_argument("--all", help="analyze all aspects", action="store_true")
-    parser.add_argument(
-        "--code-size", help="analyze the code size", action="store_true"
-    )
+    parser.add_argument("--code-size", help="analyze the code size", action="store_true")
 
     parser.set_defaults(func=perform_analysis)
 

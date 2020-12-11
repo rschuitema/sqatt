@@ -118,9 +118,7 @@ def calculate_pmi(open_defects):
 
         if issue_status in PMI_FACTORS.keys():
             PMI_FACTORS[issue_status][issue_severity]["Count"] += 1
-            PMI_FACTORS[issue_status][issue_severity]["Defects"].append(
-                (issue.key, issue.fields.summary)
-            )
+            PMI_FACTORS[issue_status][issue_severity]["Defects"].append((issue.key, issue.fields.summary))
             pmi += PMI_FACTORS[issue_status][issue_severity]["Factor"]
 
     return pmi

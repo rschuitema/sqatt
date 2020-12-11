@@ -22,9 +22,7 @@ class Subprocess:
     error messages to the user in case of failures.
     """
 
-    def __init__(
-        self, command, stdout=DEVNULL, stderr=DEVNULL, verbose=0, timeout=None
-    ):  # pylint: disable=R0913
+    def __init__(self, command, stdout=DEVNULL, stderr=DEVNULL, verbose=0, timeout=None):  # pylint: disable=R0913
         """Class initializer.
 
         Creates a command object that can be executed.
@@ -59,8 +57,7 @@ class Subprocess:
         if not abspath:
             raise ProcessError(
                 "%s is not installed on the system.\n"
-                "Please make sure it is installed and added to the `PATH`."
-                % self.base_command
+                "Please make sure it is installed and added to the `PATH`." % self.base_command
             )
 
         LOG.debug("Located `%s` in `%s`", self.base_command, abspath)
@@ -92,13 +89,10 @@ class Subprocess:
             )  # nosec
         except CalledProcessError as error:
             raise ProcessError(
-                "%s returned a non-zero exit status %s"
-                % (self.base_command, error.returncode)
+                "%s returned a non-zero exit status %s" % (self.base_command, error.returncode)
             ) from error
         except TimeoutExpired as error:
-            raise ProcessError(
-                "%s timed out after %s seconds" % (self.base_command, error.timeout)
-            ) from error
+            raise ProcessError("%s timed out after %s seconds" % (self.base_command, error.timeout)) from error
 
 
 # pylint: enable=too-few-public-methods
