@@ -1,11 +1,15 @@
 """Unit test for cloc code size analysis."""
 import csv
-
 from io import StringIO
 from unittest.mock import patch, Mock, call, mock_open
 
-from src.cloc.cloc_code_size import calculate_test_code_to_production_code_ratio, calculate_comment_to_code_ratio, \
-    write_code_size_header, write_code_size_metrics, get_size_metrics
+from src.cloc.cloc_code_size import (
+    calculate_test_code_to_production_code_ratio,
+    calculate_comment_to_code_ratio,
+    write_code_size_header,
+    write_code_size_metrics,
+    get_size_metrics,
+)
 
 
 def test_code_size_test_code_size_ratio_calculated_correctly():
@@ -14,7 +18,7 @@ def test_code_size_test_code_size_ratio_calculated_correctly():
 
     ratio = calculate_test_code_to_production_code_ratio(production_code_metrics, test_code_metrics)
 
-    assert ratio == 30/120
+    assert ratio == 30 / 120
 
 
 def test_comment_to_code_ratio_calculated_correctly():
@@ -23,7 +27,7 @@ def test_comment_to_code_ratio_calculated_correctly():
     test_code_metrics = {"SUM": {"code": 30, "comment": 10}}
     ratio = calculate_comment_to_code_ratio(production_code_metrics, test_code_metrics)
 
-    assert ratio == 40/150
+    assert ratio == 40 / 150
 
 
 @patch("src.cloc.cloc_code_size.csv")
@@ -44,14 +48,14 @@ def test_write_code_size_metrics(csv_mock):
     metrics = {
         "Java": {"files": 201, "blank": 20, "code": 1003, "comment": 230},
         "C": {"files": 100, "blank": 7, "code": 1220, "comment": 30},
-        "SUM": {"files": 301, "blank": 7, "code": 2120, "comment": 130}
+        "SUM": {"files": 301, "blank": 7, "code": 2120, "comment": 130},
     }
 
     csv_mock.writer = Mock(writerow=Mock())
     calls = [
         call.writerow(["Java", 201, 20, 1003, 230]),
         call.writerow(["C", 100, 7, 1220, 30]),
-        call.writerow(["SUM", 301, 7, 2120, 130])
+        call.writerow(["SUM", 301, 7, 2120, 130]),
     ]
     write_code_size_metrics(csv_mock.writer, metrics)
 
