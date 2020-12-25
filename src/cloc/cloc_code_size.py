@@ -36,13 +36,13 @@ def write_code_size_header(csv_writer):
     )
 
 
-def get_size_metrics(report_file):
+def get_size_metrics(report_file, reader=None):
     """Get the size metrics from file."""
 
     metrics = {}
 
     with open(report_file, "r", newline="\n") as csv_file:
-        csv_reader = csv.DictReader(csv_file, delimiter=",")
+        csv_reader = reader or csv.DictReader(csv_file, delimiter=",")
         for row in csv_reader:
             language_metric = {
                 "files": row["files"],
