@@ -1,4 +1,5 @@
 """Unit test for the metric profile class."""
+from unittest.mock import patch, mock_open, call, Mock
 
 from src.profile.MetricProfile import MetricProfile
 from src.profile.MetricRegion import MetricRegion
@@ -95,3 +96,46 @@ def test_profile_printed_correctly(capsys):
     # assert
     captured = capsys.readouterr()
     assert captured.out == "Function size : loc\n0-15 : 16\n16-30 : 33\n31-60 : 60\n60+ : 2062\n"
+
+
+@patch("src.profile.MetricProfile.csv")
+def test_profile_saved_correctly(csv_mock):
+    """Test that the profile is saved to console correctly."""
+
+    # arrange
+    regions = [
+        MetricRegion("0-15", 0, 15),
+        MetricRegion("16-30", 16, 30),
+        MetricRegion("31-60", 31, 60),
+        MetricRegion("60+", 61),
+    ]
+
+    profile = MetricProfile("Function size", regions)
+
+    profile.update_loc(2)
+    profile.update_loc(15)
+    profile.update_loc(16)
+    profile.update_loc(17)
+    profile.update_loc(60)
+    profile.update_loc(61)
+    profile.update_loc(1001)
+    profile.update_loc(1001)
+
+    csv_mock.writer = Mock(writerow=Mock())
+    calls = [
+        call.writerow(["Function size", "Lines Of Code"]),
+        call.writerow(["0-15", 17]),
+        call.writerow(["16-30", 33]),
+        call.writerow(["31-60", 60]),
+        call.writerow(["60+", 2063]),
+    ]
+
+    report_file = "report.csv"
+
+    # act
+    with patch("src.profile.MetricProfile.open", mock_open()) as mocked_file:
+        profile.save(report_file)
+
+    # assert
+    mocked_file.assert_called_once_with(report_file, "w")
+    csv_mock.writer().assert_has_calls(calls)

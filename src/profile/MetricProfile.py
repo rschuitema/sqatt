@@ -1,4 +1,5 @@
 """Generic class that represents a profile for a metric."""
+import csv
 
 
 class MetricProfile:
@@ -46,3 +47,12 @@ class MetricProfile:
         self._total_loc += loc
         for region in self._regions:
             region.update(metric, loc)
+
+    def save(self, report_file):
+        """Save the profile to a csv file."""
+
+        with open(report_file, "w") as report:
+            csv_writer = csv.writer(report, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+            csv_writer.writerow([self._name, "Lines Of Code"])
+            for region in self._regions:
+                csv_writer.writerow([region.label(), region.loc()])
