@@ -359,7 +359,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 name = "lizard"
 version = "1.17.7"
 description = "A code analyzer without caring the C/C++ header files. It works with Java, C/C++, JavaScript, Python, Ruby, Swift, Objective C. Metrics includes cyclomatic complexity number etc."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -829,7 +829,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8.3rc1"
-content-hash = "3c6c832247b6fa48b75dba6c7496e1b9d4179256c11e62094f2f37b90162d29b"
+content-hash = "5bb207c1a2bb5cc65b5013f8459d32242c3d4d4fad7ce062d1d70c2037aa1641"
 
 [metadata.files]
 anytree = [

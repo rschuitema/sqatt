@@ -12,6 +12,7 @@ requests = "^2.24"
 jira = "^2.0.0"
 bokeh = "^2.2.3"
 anytree = "^2.8.0"
+lizard = "^1.17.7"
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.6.2"
