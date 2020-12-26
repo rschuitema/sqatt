@@ -9,6 +9,7 @@ from src.cloc.cloc_code_size import (
     write_code_size_header,
     write_code_size_metrics,
     get_size_metrics,
+    save_code_metrics,
 )
 
 
@@ -78,3 +79,27 @@ def test_get_size_metrics():
 
     mocked_file.assert_called_once_with(report_file_name, "r", newline="\n")
     assert metrics["SUM"]["code"] == "400"
+
+
+@patch("src.cloc.cloc_code_size.csv")
+def test_save_metrics(csv_mock):
+    production_code_size_file = "code_size.csv"
+
+    production_code_metrics = {
+        "Java": {"files": 201, "blank": 20, "code": 1003, "comment": 230},
+        "C#": {"files": 100, "blank": 7, "code": 1220, "comment": 30},
+        "SUM": {"files": 301, "blank": 7, "code": 2120, "comment": 130},
+    }
+
+    csv_mock.writer = Mock(writerow=Mock())
+    calls = [
+        call.writerow(["Language", "Number Of Files", "Blank Lines", "Lines Of Code", "Comment Lines"]),
+        call.writerow(["Java", 201, 20, 1003, 230]),
+        call.writerow(["C#", 100, 7, 1220, 30]),
+        call.writerow(["SUM", 301, 7, 2120, 130]),
+    ]
+    with patch("src.cloc.cloc_code_size.open", mock_open()) as mocked_file:
+        save_code_metrics(production_code_size_file, production_code_metrics)
+
+        mocked_file.assert_called_once_with(production_code_size_file, "w")
+        csv_mock.writer().assert_has_calls(calls)
