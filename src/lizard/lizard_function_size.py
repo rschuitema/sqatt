@@ -14,7 +14,6 @@ def determine_function_size_profile(profile, report_file, reader=None):
     with open(report_file, "r", newline="\n") as csv_file:
         csv_reader = reader or csv.reader(csv_file, delimiter=",")
         for row in csv_reader:
-            print(row)
             profile.update_loc(int(row[0]))
 
 
