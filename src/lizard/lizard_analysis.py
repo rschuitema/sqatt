@@ -10,30 +10,93 @@ It can perform the following analysis:
 It provides metrics on file level.
 """
 import argparse
+import csv
+import os
 import sys
 
-from src.lizard.lizard_function_complexity import analyze_complexity
-from src.lizard.lizard_function_parameters import analyze_function_parameters
-from src.lizard.lizard_function_size import analyze_function_size
+from src.facility.subprocess import Subprocess
+from src.profile.sqatt_profiles import (
+    create_function_size_profile,
+    create_complexity_profile,
+    create_function_parameters_profile,
+)
+from src.reporting.reporting import create_report_directory
+
+
+def create_profiles():
+    """Create all the metric profiles."""
+
+    profiles = {
+        "function_size": create_function_size_profile(),
+        "complexity": create_complexity_profile(),
+        "parameters": create_function_parameters_profile(),
+    }
+
+    return profiles
+
+
+def determine_profiles(profiles, metrics_file, reader=None):
+    """Determine the profile for the metrics: function size, complexity and number of parameters."""
+
+    with open(metrics_file, "r", newline="\n") as csv_file:
+        csv_reader = reader or csv.reader(csv_file, delimiter=",")
+        for row in csv_reader:
+            profiles["function_size"].update(int(row[0]), int(row[0]))
+            profiles["complexity"].update(int(row[1]), int(row[0]))
+            profiles["parameters"].update(int(row[3]), int(row[0]))
+
+
+def measure_function_metrics(input_dir, output_dir):
+    """Measure the function metrics."""
+
+    report_dir = create_report_directory(output_dir)
+    function_metrics_file = os.path.join(report_dir, "function_metrics.csv")
+
+    measure_function_size_command = [
+        "lizard",
+        "--csv",
+        f"-o{function_metrics_file}",
+        input_dir,
+    ]
+
+    process = Subprocess(measure_function_size_command, verbose=3)
+    process.execute()
+
+    return function_metrics_file
 
 
 def perform_analysis(analysis):
     """Perform the requested analysis."""
-    print(analysis)
+
+    metrics_file = measure_function_metrics(analysis.input, analysis.output)
+    profiles = create_profiles()
+    determine_profiles(profiles, metrics_file)
+
+    report_dir = create_report_directory(analysis.output)
+    function_size_profile_file = os.path.join(report_dir, "function_size_profile.csv")
+    complexity_profile_file = os.path.join(report_dir, "complexity_profile.csv")
+    parameters_profile_file = os.path.join(report_dir, "parameters_profile.csv")
 
     if analysis.all:
-        analyze_complexity(analysis.input, analysis.output)
-        analyze_function_size(analysis.input, analysis.output)
-        analyze_function_parameters(analysis.input, analysis.output)
+        profiles["function_size"].print()
+        profiles["complexity"].print()
+        profiles["parameters"].print()
+
+        profiles["function_size"].save(function_size_profile_file)
+        profiles["complexity"].save(complexity_profile_file)
+        profiles["parameters"].save(parameters_profile_file)
 
     if analysis.complexity:
-        analyze_complexity(analysis.input, analysis.output)
+        profiles["complexity"].print()
+        profiles["complexity"].save(complexity_profile_file)
 
     if analysis.function_size:
-        analyze_function_size(analysis.input, analysis.output)
+        profiles["function_size"].print()
+        profiles["function_size"].save(function_size_profile_file)
 
     if analysis.interface:
-        analyze_function_parameters(analysis.input, analysis.output)
+        profiles["parameters"].print()
+        profiles["parameters"].save(parameters_profile_file)
 
 
 def add_analysis_parser(subparsers):
@@ -45,9 +108,8 @@ def add_analysis_parser(subparsers):
 
     parser.add_argument("--all", help="analyze all aspects", action="store_true")
     parser.add_argument("--complexity", help="analyze the complexity of the code", action="store_true")
-    parser.add_argument("--interface", help="analyze the interface size", action="store_true")
+    parser.add_argument("--parameters", help="analyze the interface size", action="store_true")
     parser.add_argument("--function-size", help="analyze the function size", action="store_true")
-    parser.add_argument("--code-size", help="analyze the code size", action="store_true")
 
     parser.set_defaults(func=perform_analysis)
 
