@@ -1,5 +1,6 @@
 """Unit test for lizard function size analysis."""
 import csv
+import os
 from io import StringIO
 from unittest.mock import patch, mock_open
 
@@ -63,8 +64,8 @@ def test_measure_function_metrics(subprocess_mock, report_mock):
     # arrange
     input_dir = "/code/source"
     output_dir = "/tmp/reports"
-
-    expected_command = ["lizard", "--csv", f"-o{output_dir}\\function_metrics.csv", input_dir]
+    output_file = os.path.join(output_dir, "function_metrics.csv")
+    expected_command = ["lizard", "--csv", f"-o{output_file}", input_dir]
 
     report_mock.return_value = output_dir
 
