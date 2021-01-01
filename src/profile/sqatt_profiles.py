@@ -1,3 +1,4 @@
+"""Predefined sqatt metric profiles."""
 from src.profile.MetricProfile import MetricProfile
 from src.profile.MetricRegion import MetricRegion
 
