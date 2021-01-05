@@ -8,6 +8,8 @@ import os
 import xmltodict
 import defusedxml.ElementTree as ElementTree
 
+from src.reporting.reporting import create_report_directory
+
 
 def parse_arguments():
     """Parse the commandline arguments."""
@@ -144,14 +146,6 @@ def determine_issues_per_category(warnings):
             increment_issue_count_for_category(issue, issue_types, issues_per_category)
 
     return issues_per_category
-
-
-def create_report_directory(directory):
-    """Create the report directory."""
-
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    return directory
 
 
 def save_issues(item_dict, report_file, item_name="Item"):

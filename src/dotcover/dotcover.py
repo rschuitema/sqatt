@@ -6,6 +6,8 @@ import os
 
 import xmltodict
 
+from src.reporting.reporting import create_report_directory
+
 
 def parse_arguments():
     """Parse the commandline arguments."""
@@ -29,14 +31,6 @@ def read_coverage(filename):
         doc = xmltodict.parse(input_file.read())
 
     return doc
-
-
-def create_report_directory(directory):
-    """Create the report directory."""
-
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    return directory
 
 
 def get_coverage_of_namespace(assembly, covered_lines, name_space, total_lines):
