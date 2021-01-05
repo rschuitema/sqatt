@@ -5,7 +5,7 @@ import os
 import re
 import understand
 
-from src.understand.understand_report import create_report_directory
+from src.reporting.reporting import create_report_directory
 
 
 def measure_test_code_size(database):

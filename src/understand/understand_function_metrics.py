@@ -4,7 +4,7 @@ import csv
 import os
 import understand
 
-from src.understand.understand_report import create_report_directory
+from src.reporting.reporting import create_report_directory
 
 
 def collect_function_metrics(database, output):

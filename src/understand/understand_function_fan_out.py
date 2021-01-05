@@ -1,12 +1,10 @@
 """Create a fan-out profile of the codebase."""
 
-import csv
 import os
 import understand
 
-from src.profile.MetricProfile import MetricProfile
-from src.profile.MetricRegion import MetricRegion
-from src.understand.understand_report import create_report_directory
+from src.profile.sqatt_profiles import create_fan_out_profile
+from src.reporting.reporting import create_report_directory
 
 
 def determine_fan_out_profile(profile, database):
@@ -22,33 +20,16 @@ def determine_fan_out_profile(profile, database):
     return profile
 
 
-def save_fan_out_profile(profile, report_file):
-    """Save the fan-out profile to a csv file."""
-
-    with open(report_file, "w") as output:
-        csvwriter = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
-        csvwriter.writerow([profile.name(), "Lines Of Code"])
-        for region in profile.regions():
-            csvwriter.writerow([region.label(), region.loc()])
-
-
 def analyze_fan_out(database, output):
     """Analyze the fan-out."""
 
     print("Analyzing fan-out.")
 
-    regions = [
-        MetricRegion("1-10", 1, 10),
-        MetricRegion("11-20", 11, 20),
-        MetricRegion("21-50", 21, 50),
-        MetricRegion("50+", 51, 1001),
-    ]
-
-    profile = MetricProfile("Fan-out", regions)
+    profile = create_fan_out_profile()
     understand_database = understand.open(database)
     profile = determine_fan_out_profile(profile, understand_database)
 
     profile.print()
 
     report_file = os.path.join(create_report_directory(output), "fan-out.csv")
-    save_fan_out_profile(profile, report_file)
+    profile.save(report_file)
