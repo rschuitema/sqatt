@@ -1,16 +1,28 @@
-"""Subprocess launcher."""
-import logging
-import shutil
-from subprocess import DEVNULL  # nosec
-from subprocess import CalledProcessError  # nosec
-from subprocess import TimeoutExpired  # nosec
-from subprocess import check_call  # nosec
+"""Subprocess wrapper."""
 
-LOG = logging.getLogger(__name__)
+from logging import getLogger
+from os.path import join
+from shutil import which
+from time import strftime
+from subprocess import CalledProcessError, DEVNULL, PIPE, STDOUT, Popen, TimeoutExpired, check_call, run  # nosec
+
+LOG = getLogger(__name__)
 
 
 class ProcessError(Exception):
-    """Generic process error."""
+    """
+    Process error.
+
+    Something went wrong executing the Python subprocess call
+    """
+
+
+class SubprocessRuntimeError(Exception):
+    """
+    Runtime error.
+
+    Something went wrong before or after the Python subprocess call
+    """
 
 
 # pylint: disable=too-few-public-methods
@@ -35,7 +47,7 @@ class Subprocess:
         :param timeout: Optional variable providing command timeout
         """
         if not isinstance(command, (list, tuple)):
-            raise ProcessError("Command (%s) is not of type list or tuple." % command)
+            raise SubprocessRuntimeError("Command (%s) is not of type list or tuple." % command)
 
         self.base_command = command[0]
         self.command = command
@@ -44,9 +56,9 @@ class Subprocess:
         self.timeout = timeout
         self.verbose = verbose
 
-        command[0] = self._which()
+        command[0] = self.__which()
 
-    def _which(self):
+    def __which(self):
         """
         Check if tool is available.
 
@@ -54,10 +66,10 @@ class Subprocess:
 
         :return: tool location (Full path)
         """
-        abspath = shutil.which(self.base_command)
+        abspath = which(self.base_command)
 
         if not abspath:
-            raise ProcessError(
+            raise SubprocessRuntimeError(
                 "%s is not installed on the system.\n"
                 "Please make sure it is installed and added to the `PATH`." % self.base_command
             )
@@ -96,6 +108,79 @@ class Subprocess:
             ) from error
         except TimeoutExpired as error:
             raise ProcessError("%s timed out after %s seconds" % (self.base_command, error.timeout)) from error
+
+    def execute_async(self):
+        """
+        Execute the command asynchronously.
+
+        Execute the command asynchronously as defined in the object and don't wait on or check any return value.
+        Raising informative exceptions in case of an `Operating System error` or `Value error`.
+        """
+        try:
+            LOG.debug("Starting asynchronous call: %s", self.command)
+            Popen(self.command)  # nosec
+        except ValueError as error:
+            raise ProcessError("%s has an invalid argument: %s" % (self.base_command, error.args)) from error
+        except OSError as error:
+            raise ProcessError(
+                "%s returned an OS error: %s '%s' %s" % (self.base_command, error.errno, error.strerror, error.filename)
+            ) from error
+
+    def execute_pipe(self, output_directory, filename, check_return_code=True):
+        """
+        Execute command returning stdout as string.
+
+        Execute the command as defined in the object returning process
+        information. This command will always produce a log file with the
+        output of the executed command. With the possibility to raise an
+        informative exception in case of a non-zero return code.
+
+        :param output_directory: log file output directory
+        :param filename log file filename
+        :param check_return_code: Optional raise exception with non-zero return code
+        :return: Subprocess CompletedProcess object
+        """
+        LOG.debug("Starting call: %s", self.command)
+
+        command_output = run(
+            self.command,
+            stdout=PIPE,
+            stderr=STDOUT,
+            shell=False,
+            check=False,
+            timeout=self.timeout,
+        )  # nosec
+
+        self.__write_log_file(output_directory, filename, command_output)
+
+        if self.verbose >= 3:
+            print(command_output.stdout.decode("utf-8"))
+
+        if command_output.returncode != 0 and check_return_code:
+            raise ProcessError("%s returned a non-zero exit status %s" % (self.base_command, command_output.returncode))
+
+        return command_output
+
+    @staticmethod
+    def __write_log_file(output_directory, filename, command_output):
+        """
+        Write process data to log file.
+
+        Write command output to unique (timestamped) log file based on the
+        provided `output_directory` and `filename`.
+
+        :param output_directory: log file output directory
+        :param filename log file filename
+        :param command_output: Optional raise exception with non-zero return code
+        """
+        try:
+            with open(join(output_directory, "{}_{}.log".format(filename, strftime("%Y%m%d-%H%M%S"))), "wb") as file:
+                file.write(command_output.stdout)
+        except FileNotFoundError as exception:
+            raise SubprocessRuntimeError(
+                "Unable to open ('%s') and write results.\nPlease use preconditions to enforce: "
+                "['OutputDirectoryExists', 'OutputDirectoryIsEmpty']." % exception.filename
+            ) from exception
 
 
 # pylint: enable=too-few-public-methods
