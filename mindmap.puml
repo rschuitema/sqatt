@@ -1,0 +1,94 @@
+@startmindmap
+*[#lightblue] Sqatt
+** Static Analysis
+
+*** Complexity
+****_ Profile:
+****_ Green: 0-5
+****_ Yellow: 6-10
+****_ Orange: 11-25
+****_ Red: 25+
+
+*** Function size
+****_ Profile:
+****_ Green: 1-15
+****_ Yellow: 16-30
+****_ Orange: 31-60
+****_ Red: 60+
+
+*** Function parameters
+****_ Profile:
+****_ Green: 1-2
+****_ Yellow: 3-4
+****_ Orange: 5-6
+****_ Red: 6+
+
+*** Code duplication
+****_ profile:
+****_ % duplicated
+*****_ Yellow: 3-5 %
+*****_ Orange: 5-20 %
+*****_ Red: 20+ %
+****_ % not duplicated
+*****_ Green: 0-3 %
+
+*** Fan in
+****_ Profile:
+****_ Green: 1-10
+****_ Yellow: 11-20
+****_ Orange: 21-50
+****_ Red: 50+
+
+*** Fan out
+****_ Profile:
+****_ Green: 1-10
+****_ Yellow: 11-20
+****_ Orange: 21-50
+****_ Red: 50+
+
+*** Cyclic dependencies
+****_ Profile:
+****_ List of cyclic dependencies
+
+*** Test automation
+****_ Profile
+****_ (Test loc / Production loc) * 100%
+
+*** Code volume breakdown
+****_ Profile:
+****_ Code lines
+****_ Blank lines
+****_ Comment lines
+****_ Inactive lines
+****_ Preprocessor lines
+
+*** Language breakdown
+****_ Profile:
+****_ Java
+****_ C++
+****_ ...
+
+*** Code type breakdown
+****_ Profile:
+****_ Generated code
+****_ Test code
+****_ Production code
+****_ 3rd party code
+
+*** Coding rules
+****_ Profile:
+****_ violations per rule
+****_ violations per rule category
+
+-- Behaviour Analysis
+--- Hotspots
+--- Temporal coupling
+--- Test automation
+--- Modus operandi
+--- Knowledge map
+--- Build failure rate
+--- Build recovery time
+--- PMI
+--- Defect age
+
+@endmindmap
