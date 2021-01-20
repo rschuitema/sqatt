@@ -1,3 +1,5 @@
+"""Analysis functions for the tool CPD."""
+
 import argparse
 import csv
 import os
@@ -10,7 +12,7 @@ from src.reporting.reporting import create_report_directory
 
 
 def measure_code_duplication(settings):
-    """Measure the function metrics."""
+    """Measure the amount of code duplication."""
 
     report_dir = create_report_directory(settings["report_directory"])
     report_file = os.path.join(report_dir, "code_duplication")
@@ -18,13 +20,13 @@ def measure_code_duplication(settings):
     measure_function_size_command = [
         "cpd",
         "--language",
-        settings['language'],
+        settings["language"],
         "--minimum-tokens",
-        settings['tokens'],
+        settings["tokens"],
         "--format",
         "csv",
         "--files",
-        settings['analysis_directory'],
+        settings["analysis_directory"],
     ]
 
     process = Subprocess(measure_function_size_command, verbose=1)
@@ -34,6 +36,7 @@ def measure_code_duplication(settings):
 
 
 def measure_lines_of_code(settings):
+    """Measure the lines of code using cloc."""
 
     report_dir = create_report_directory(settings["report_directory"])
     report_file = os.path.join(report_dir, "code_duplication")
@@ -44,7 +47,7 @@ def measure_lines_of_code(settings):
         "--hide-rate",
         "--quiet",
         "--exclude-dir=test,tst",
-        settings['analysis_directory'],
+        settings["analysis_directory"],
     ]
 
     process = Subprocess(command, verbose=1)
@@ -54,6 +57,8 @@ def measure_lines_of_code(settings):
 
 
 def determine_duplicate_lines_of_code(csv_input):
+    """Calculate the number of duplicated lines of code."""
+
     csv_data = csv_input.splitlines()
     data = csv.DictReader(csv_data)
     duplicate_loc = 0
@@ -64,6 +69,8 @@ def determine_duplicate_lines_of_code(csv_input):
 
 
 def determine_total_lines_of_code(csv_input):
+    """Determine the total lines of code."""
+
     csv_data = csv_input.splitlines()
     del csv_data[0]
     reader = csv.DictReader(csv_data)
@@ -76,10 +83,12 @@ def determine_total_lines_of_code(csv_input):
 
 
 def show_duplication_profile(total_loc, duplicated_loc):
-    labels = ["Duplicated code", "Non duplicated code"]
-    values = [duplicated_loc, (total_loc-duplicated_loc)]
+    """Show the duplication profile in s donut."""
 
-    percentage = (duplicated_loc/total_loc)*100
+    labels = ["Duplicated code", "Non duplicated code"]
+    values = [duplicated_loc, (total_loc - duplicated_loc)]
+
+    percentage = (duplicated_loc / total_loc) * 100
 
     colors = determine_colors(percentage)
 
@@ -102,6 +111,12 @@ def show_duplication_profile(total_loc, duplicated_loc):
 
 
 def determine_colors(percentage):
+    """
+    Determine the color of the duplicated section.
+
+    The color depends on the amount of code duplication.
+    """
+
     colors = []
 
     if 3 >= percentage > 0:
@@ -143,17 +158,13 @@ def parse_arguments(args):
     print(os.getcwd())
     parser = argparse.ArgumentParser()
     parser.add_argument("--version", action="version", version="%(prog)s 2.0")
-    parser.add_argument("--output",
-                        help="The directory where to place the report.",
-                        default=os.path.join(os.getcwd(), "reports"))
-    parser.add_argument("--language",
-                        help="The language to analyze.",
-                        default="python",
-                        required=True)
-    parser.add_argument("--tokens",
-                        help="The minimum token length which should be reported as a duplicate.",
-                        default=100,
-                        required=True)
+    parser.add_argument(
+        "--output", help="The directory where to place the report.", default=os.path.join(os.getcwd(), "reports")
+    )
+    parser.add_argument("--language", help="The language to analyze.", default="python", required=True)
+    parser.add_argument(
+        "--tokens", help="The minimum token length which should be reported as a duplicate.", default=100, required=True
+    )
     parser.add_argument("input", help="The directory to analyze.")
 
     parser.set_defaults(func=perform_analysis)
