@@ -15,6 +15,8 @@ import os
 import sys
 
 from src.facility.subprocess import Subprocess
+
+from src.profile.show import show_profile
 from src.profile.sqatt_profiles import (
     create_function_size_profile,
     create_complexity_profile,
@@ -85,18 +87,24 @@ def perform_analysis(analysis):
         profiles["function_size"].save(function_size_profile_file)
         profiles["complexity"].save(complexity_profile_file)
         profiles["parameters"].save(parameters_profile_file)
+        show_profile(profiles["function_size"])
+        show_profile(profiles["complexity"])
+        show_profile(profiles["parameters"])
 
     if analysis.complexity:
         profiles["complexity"].print()
         profiles["complexity"].save(complexity_profile_file)
+        show_profile(profiles["complexity"])
 
     if analysis.function_size:
         profiles["function_size"].print()
         profiles["function_size"].save(function_size_profile_file)
+        show_profile(profiles["function_size"])
 
-    if analysis.interface:
+    if analysis.parameters:
         profiles["parameters"].print()
         profiles["parameters"].save(parameters_profile_file)
+        show_profile(profiles["parameters"])
 
 
 def add_analysis_parser(subparsers):
