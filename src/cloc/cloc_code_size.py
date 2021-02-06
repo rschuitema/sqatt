@@ -2,10 +2,9 @@
 import csv
 import os
 
-import plotly.graph_objects as go
-
 from src.cloc.cloc_measure import measure_lines_of_code
 from src.profile.colors import profile_colors
+from src.profile.show import make_donut
 from src.reporting.reporting import create_report_directory
 
 
@@ -15,21 +14,7 @@ def show_code_profile(profile, title):
     labels = ["Blank Lines", "Lines of Code", "Comment Lines"]
     values = [profile["SUM"]["blank"], profile["SUM"]["code"], profile["SUM"]["comment"]]
 
-    fig = go.Figure(
-        data=[
-            go.Pie(
-                title=dict(text=f"{title} code <br> breakdown"),
-                labels=labels,
-                values=values,
-                hole=0.5,
-                marker_colors=profile_colors,
-                marker_line=dict(color="white", width=2),
-            )
-        ]
-    )
-
-    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="center", x=0.5))
-
+    fig = make_donut(labels, values, f"{title} code <br> breakdown", profile_colors)
     fig.show()
 
 
@@ -137,21 +122,7 @@ def show_code_type_profile(metrics):
         metrics["generated"]["SUM"]["code"],
     ]
 
-    fig = go.Figure(
-        data=[
-            go.Pie(
-                title=dict(text="Code type breakdown"),
-                labels=labels,
-                values=values,
-                hole=0.5,
-                marker_colors=profile_colors,
-                marker_line=dict(color="white", width=2),
-            )
-        ]
-    )
-
-    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="center", x=0.5))
-
+    fig = make_donut(labels, values, "Code type breakdown", profile_colors)
     fig.show()
 
 

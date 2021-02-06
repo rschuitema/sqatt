@@ -3,31 +3,10 @@
 import dash_core_components as dcc
 import dash_html_components as html
 
-import plotly.graph_objects as go
-
 from src.cloc.cloc_languages import analyze_languages
+
 from src.profile.colors import profile_colors
-
-
-def create_figure(labels, values, title):
-    """Create the donut to show the metric."""
-
-    fig = go.Figure(
-        data=[
-            go.Pie(
-                title=dict(text=title),
-                labels=labels,
-                values=values,
-                hole=0.5,
-                marker_colors=profile_colors,
-                marker_line=dict(color="white", width=2),
-            )
-        ]
-    )
-
-    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="center", x=0.5, y=-0.2))
-
-    return fig
+from src.profile.show import make_donut
 
 
 def language_breakdown():
@@ -60,4 +39,4 @@ def language_breakdown_figure(metrics):
         labels.append(language)
         values.append(metric["code"])
 
-    return create_figure(labels, values, "Language breakdown")
+    return make_donut(labels, values, "Language breakdown", profile_colors)

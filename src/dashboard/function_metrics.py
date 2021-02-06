@@ -4,7 +4,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 
 from src.lizard.lizard_analysis import measure_function_metrics, create_profiles, determine_profiles
-from src.profile.show import profile_figure
+from src.profile.show import make_profile
 
 
 def function_metrics():
@@ -24,11 +24,11 @@ def function_metrics():
     container = html.Div(
         [
             html.H3("Complexity"),
-            dcc.Graph(id="complexity", figure=profile_figure(profiles["complexity"])),
+            dcc.Graph(id="complexity", figure=make_profile(profiles["complexity"])),
             html.H3("Function size"),
-            dcc.Graph(id="function_size", figure=profile_figure(profiles["function_size"])),
+            dcc.Graph(id="function_size", figure=make_profile(profiles["function_size"])),
             html.H3("Function parameters"),
-            dcc.Graph(id="function_parameters", figure=profile_figure(profiles["parameters"])),
+            dcc.Graph(id="function_parameters", figure=make_profile(profiles["parameters"])),
         ]
     )
     return container

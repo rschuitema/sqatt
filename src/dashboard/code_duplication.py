@@ -3,9 +3,9 @@
 import dash_core_components as dcc
 import dash_html_components as html
 
-import plotly.graph_objects as go
-
 from src.cpd.cpd_analysis import analyze_duplication
+
+from src.profile.show import make_donut
 
 
 def determine_colors(percentage):
@@ -29,27 +29,6 @@ def determine_colors(percentage):
     colors.append("rgb(121, 185, 79)")
 
     return colors
-
-
-def create_figure(labels, values, colors, title):
-    """Create the donut."""
-
-    fig = go.Figure(
-        data=[
-            go.Pie(
-                title=dict(text=title),
-                labels=labels,
-                values=values,
-                hole=0.5,
-                marker_colors=colors,
-                marker_line=dict(color="white", width=2),
-            )
-        ]
-    )
-
-    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="center", x=0.5, y=-0.2))
-
-    return fig
 
 
 def code_duplication():
@@ -83,4 +62,4 @@ def code_duplication_figure(metrics):
 
     colors = determine_colors(percentage)
 
-    return create_figure(labels, values, colors, "Code duplication")
+    return make_donut(labels, values, "Code duplication", colors)

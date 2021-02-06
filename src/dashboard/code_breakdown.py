@@ -4,31 +4,10 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 
-import plotly.graph_objects as go
-
 from src.cloc.cloc_code_size import analyze_size
+
 from src.profile.colors import profile_colors
-
-
-def create_figure(labels, values, title):
-    """Create the donut."""
-
-    fig = go.Figure(
-        data=[
-            go.Pie(
-                title=dict(text=title),
-                labels=labels,
-                values=values,
-                hole=0.5,
-                marker_colors=profile_colors,
-                marker_line=dict(color="white", width=2),
-            )
-        ]
-    )
-
-    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="center", x=0.5, y=-0.2))
-
-    return fig
+from src.profile.show import make_donut
 
 
 def code_volume_breakdown(metrics):
@@ -41,7 +20,7 @@ def code_volume_breakdown(metrics):
         metrics["production"]["SUM"]["comment"],
     ]
 
-    return create_figure(labels, values, "Code breakdown")
+    return make_donut(labels, values, "Code breakdown", profile_colors)
 
 
 def code_type_breakdown(metrics):
@@ -55,7 +34,7 @@ def code_type_breakdown(metrics):
         metrics["generated"]["SUM"]["code"],
     ]
 
-    return create_figure(labels, values, "Code type <br> breakdown")
+    return make_donut(labels, values, "Code type <br> breakdown", profile_colors)
 
 
 def code_breakdown():
