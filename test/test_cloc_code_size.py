@@ -36,7 +36,7 @@ def test_write_header(csv_mock):
     """Test that the correct header is written to the csv file."""
 
     csv_mock.writer = Mock(writerow=Mock())
-    calls = [call.writerow(["Language", "Number Of Files", "Blank Lines", "Lines Of Code", "Comment Lines"])]
+    calls = [call.writerow(["Blank Lines", "Lines Of Code", "Comment Lines"])]
     write_code_size_header(csv_mock.writer)
 
     csv_mock.writer.writerow.assert_has_calls(calls)
@@ -54,9 +54,7 @@ def test_write_code_size_metrics(csv_mock):
 
     csv_mock.writer = Mock(writerow=Mock())
     calls = [
-        call.writerow(["Java", 201, 20, 1003, 230]),
-        call.writerow(["C", 100, 7, 1220, 30]),
-        call.writerow(["SUM", 301, 7, 2120, 130]),
+        call.writerow([7, 2120, 130]),
     ]
     write_code_size_metrics(csv_mock.writer, metrics)
 
@@ -93,10 +91,8 @@ def test_save_metrics(csv_mock):
 
     csv_mock.writer = Mock(writerow=Mock())
     calls = [
-        call.writerow(["Language", "Number Of Files", "Blank Lines", "Lines Of Code", "Comment Lines"]),
-        call.writerow(["Java", 201, 20, 1003, 230]),
-        call.writerow(["C#", 100, 7, 1220, 30]),
-        call.writerow(["SUM", 301, 7, 2120, 130]),
+        call.writerow(["Blank Lines", "Lines Of Code", "Comment Lines"]),
+        call.writerow([7, 2120, 130]),
     ]
     with patch("src.cloc.cloc_code_size.open", mock_open()) as mocked_file:
         save_code_metrics(production_code_size_file, production_code_metrics)
