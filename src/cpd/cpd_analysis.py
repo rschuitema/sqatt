@@ -5,9 +5,8 @@ import csv
 import os
 import sys
 
-import plotly.graph_objects as go
-
 from src.facility.subprocess import Subprocess
+from src.profile.show import make_donut
 from src.reporting.reporting import create_report_directory
 
 
@@ -92,21 +91,7 @@ def show_duplication_profile(total_loc, duplicated_loc):
 
     colors = determine_colors(percentage)
 
-    fig = go.Figure(
-        data=[
-            go.Pie(
-                title=dict(text="Code duplication"),
-                labels=labels,
-                values=values,
-                hole=0.5,
-                marker_colors=colors,
-                marker_line=dict(color="white", width=2),
-            )
-        ]
-    )
-
-    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="center", x=0.5))
-
+    fig = make_donut(labels, values, "Code duplication", colors)
     fig.show()
 
 
