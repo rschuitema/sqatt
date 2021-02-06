@@ -1,0 +1,11 @@
+@startuml
+
+Program -> CodingStandard ** : create
+Program -> CodingStandard : read_rules
+
+Program -> CodingRuleProfile ** : create
+Program -> CodingRuleParser ** : create (CodingStandard, CodingRuleProfile)
+Program -> CodingRuleParser : read_violations(violation_file, CodingRuleProffile)
+
+
+@enduml

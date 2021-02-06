@@ -1,0 +1,52 @@
+@startuml
+
+class CodingStandard {
+  read_rules()
+}
+
+class CodingRule {
+  -identification
+  -description
+  -category
+  -classification
+  -group
+}
+
+class CodingRuleViolation {
+  -file
+  -line
+  -rule
+}
+
+class CodingRuleProfile {
+  -violations
+  -timestap
+  save()
+  print()
+}
+
+class CodingRuleParser
+
+interface Reader {
+  read_violations()
+}
+
+class MisraReader
+class ResharperReader
+
+CodingStandard *-- CodingRule
+CodingRuleParser -> CodingStandard
+CodingRuleParser -down-> CodingRuleProfile : creates
+Reader <- CodingRuleParser
+
+CodingRuleViolation -> CodingRule : violates
+CodingRuleProfile "1" o-- "*" CodingRuleViolation
+
+
+
+
+
+Reader <|-- MisraReader
+Reader <|-- ResharperReader
+
+@enduml
