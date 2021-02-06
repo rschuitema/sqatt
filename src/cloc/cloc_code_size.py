@@ -2,24 +2,59 @@
 import csv
 import os
 
-from src.facility.subprocess import Subprocess
+import plotly.graph_objects as go
+
+from src.cloc.cloc_measure import measure_lines_of_code
 from src.reporting.reporting import create_report_directory
+
+profile_colors = [
+    "rgb(121, 185, 79)",
+    "rgb(255, 204, 5)",
+    "rgb(251, 135, 56)",
+    "rgb(204, 5, 5)",
+    "rgb(121,55,171)",
+    "rgb(255, 127, 237)",
+    "rgb(127, 51, 0)",
+    "rgb(0, 127, 14)",
+    "rgb(0, 38, 255)",
+]
+
+
+def show_code_profile(profile, title):
+    """Show the profile in a donut."""
+
+    labels = ["Blank Lines", "Lines of Code", "Comment Lines"]
+    values = [profile["SUM"]["blank"], profile["SUM"]["code"], profile["SUM"]["comment"]]
+
+    fig = go.Figure(
+        data=[
+            go.Pie(
+                title=dict(text=f"{title} code <br> breakdown"),
+                labels=labels,
+                values=values,
+                hole=0.5,
+                marker_colors=profile_colors,
+                marker_line=dict(color="white", width=2),
+            )
+        ]
+    )
+
+    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="center", x=0.5))
+
+    fig.show()
 
 
 def write_code_size_metrics(csv_writer, metrics):
     """Write the code size metrics to the csv file."""
 
-    for language in metrics:
-        language_metrics = metrics[language]
-        csv_writer.writerow(
-            [
-                language,
-                language_metrics["files"],
-                language_metrics["blank"],
-                language_metrics["code"],
-                language_metrics["comment"],
-            ]
-        )
+    language_metrics = metrics["SUM"]
+    csv_writer.writerow(
+        [
+            language_metrics["blank"],
+            language_metrics["code"],
+            language_metrics["comment"],
+        ]
+    )
 
 
 def write_code_size_header(csv_writer):
@@ -27,8 +62,6 @@ def write_code_size_header(csv_writer):
 
     csv_writer.writerow(
         [
-            "Language",
-            "Number Of Files",
             "Blank Lines",
             "Lines Of Code",
             "Comment Lines",
@@ -61,8 +94,6 @@ def calculate_comment_to_code_ratio(production_code_metrics, test_code_metrics):
     lines_of_code = production_code_metrics["SUM"]["code"] + test_code_metrics["SUM"]["code"]
     comment_lines = production_code_metrics["SUM"]["comment"] + test_code_metrics["SUM"]["comment"]
 
-    print(lines_of_code, comment_lines)
-
     return float(comment_lines) / float(lines_of_code)
 
 
@@ -91,58 +122,59 @@ def save_ratios(comment_code_ratio, test_code_ratio):
     print(comment_code_ratio, test_code_ratio)
 
 
-def analyze_code_size(input_dir, output_dir):
+def analyze_size(settings):
+    """Analyze the code size for all code types."""
+    metrics = {}
+    report_dir = create_report_directory(settings["report_directory"])
+
+    for code_type in settings["code_type"]:
+        report_file = os.path.join(report_dir, f"{code_type}_profile.csv")
+        analysis_filter = settings[f"{code_type}_filter"]
+        measure_lines_of_code(settings["analysis_directory"], report_file, analysis_filter)
+        metrics[code_type] = get_size_metrics(report_file)
+        save_code_metrics(report_file, metrics[code_type])
+
+    return metrics
+
+
+def show_code_type_profile(metrics):
+    """Show the profile in a donut."""
+
+    labels = ["Production", "Test", "Third Party", "Generated"]
+    values = [
+        metrics["production"]["SUM"]["code"],
+        metrics["test"]["SUM"]["code"],
+        metrics["third_party"]["SUM"]["code"],
+        metrics["generated"]["SUM"]["code"],
+    ]
+
+    fig = go.Figure(
+        data=[
+            go.Pie(
+                title=dict(text="Code type breakdown"),
+                labels=labels,
+                values=values,
+                hole=0.5,
+                marker_colors=profile_colors,
+                marker_line=dict(color="white", width=2),
+            )
+        ]
+    )
+
+    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="center", x=0.5))
+
+    fig.show()
+
+
+def analyze_code_size(settings):
     """Analyze the code size."""
 
-    report_dir = create_report_directory(output_dir)
+    metrics = analyze_size(settings)
 
-    production_code_size_file = os.path.join(report_dir, "production_code_size.csv")
-    measure_production_code_size(input_dir, production_code_size_file)
-
-    test_code_size_file = os.path.join(report_dir, "test_code_size.csv")
-    measure_test_code_size(input_dir, test_code_size_file)
-
-    production_code_metrics = get_size_metrics(production_code_size_file)
-    test_code_metrics = get_size_metrics(test_code_size_file)
-
-    comment_code_ratio = calculate_comment_to_code_ratio(production_code_metrics, test_code_metrics)
-    test_code_ratio = calculate_test_code_to_production_code_ratio(production_code_metrics, test_code_metrics)
-
-    save_code_metrics(production_code_size_file, production_code_metrics)
-    save_code_metrics(test_code_size_file, test_code_metrics)
+    comment_code_ratio = calculate_comment_to_code_ratio(metrics["production"], metrics["test"])
+    test_code_ratio = calculate_test_code_to_production_code_ratio(metrics["production"], metrics["test"])
 
     save_ratios(comment_code_ratio, test_code_ratio)
 
-
-def measure_production_code_size(input_dir, report_file):
-    """Measure the production code size."""
-
-    measure_language_size_command = [
-        "cloc",
-        "--csv",
-        "--csv-delimiter=,",
-        "--hide-rate",
-        f"--report-file={report_file}",
-        "--exclude-dir=test,tst",
-        input_dir,
-    ]
-
-    process = Subprocess(measure_language_size_command, verbose=1)
-    process.execute()
-
-
-def measure_test_code_size(input_dir, report_file):
-    """Measure the test code size."""
-
-    measure_language_size_command = [
-        "cloc",
-        "--csv",
-        "--csv-delimiter=,",
-        "--hide-rate",
-        f"--report-file={report_file}",
-        "--match-d=/(test|tst)/",
-        input_dir,
-    ]
-
-    process = Subprocess(measure_language_size_command, verbose=1)
-    process.execute()
+    show_code_profile(metrics["production"], "Production")
+    show_code_type_profile(metrics)
