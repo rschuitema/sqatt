@@ -5,9 +5,7 @@ import dash_html_components as html
 import plotly.graph_objects as go
 
 from src.lizard.lizard_analysis import measure_function_metrics, create_profiles, determine_profiles
-
-
-profile_colors = ["rgb(121, 185, 79)", "rgb(255, 204, 5)", "rgb(251, 135, 56)", "rgb(204, 5, 5)", "rgb(121,55,171)"]
+from src.profile.colors import profile_colors
 
 
 def create_figure(profile):

@@ -5,6 +5,7 @@ import os
 import plotly.graph_objects as go
 
 from src.cloc.cloc_measure import measure_lines_of_code, measure_loc
+from src.profile.colors import profile_colors
 from src.reporting.reporting import create_report_directory
 
 
@@ -67,19 +68,6 @@ def save_language_profile(production_code_size_file, production_code_metrics):
 
         write_header(csv_writer)
         write_metrics(csv_writer, production_code_metrics)
-
-
-profile_colors = [
-    "rgb(121, 185, 79)",
-    "rgb(255, 204, 5)",
-    "rgb(251, 135, 56)",
-    "rgb(204, 5, 5)",
-    "rgb(121,55,171)",
-    "rgb(255, 127, 237)",
-    "rgb(127, 51, 0)",
-    "rgb(0, 127, 14)",
-    "rgb(0, 38, 255)",
-]
 
 
 def show_language_profile(profile):
