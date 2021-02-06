@@ -2,37 +2,9 @@
 
 import dash_core_components as dcc
 import dash_html_components as html
-import plotly.graph_objects as go
 
 from src.lizard.lizard_analysis import measure_function_metrics, create_profiles, determine_profiles
-from src.profile.colors import profile_colors
-
-
-def create_figure(profile):
-    """Show the profile in a donut."""
-
-    labels = []
-    values = []
-    for region in profile.regions():
-        labels.append(region.label())
-        values.append(region.loc())
-
-    fig = go.Figure(
-        data=[
-            go.Pie(
-                title=dict(text=profile.name()),
-                labels=labels,
-                values=values,
-                hole=0.5,
-                marker_colors=profile_colors,
-                marker_line=dict(color="white", width=2),
-            )
-        ]
-    )
-
-    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="center", x=0.5, y=-0.2))
-
-    return fig
+from src.profile.show import profile_figure
 
 
 def function_metrics():
@@ -52,11 +24,11 @@ def function_metrics():
     container = html.Div(
         [
             html.H3("Complexity"),
-            dcc.Graph(id="complexity", figure=create_figure(profiles["complexity"])),
+            dcc.Graph(id="complexity", figure=profile_figure(profiles["complexity"])),
             html.H3("Function size"),
-            dcc.Graph(id="function_size", figure=create_figure(profiles["function_size"])),
+            dcc.Graph(id="function_size", figure=profile_figure(profiles["function_size"])),
             html.H3("Function parameters"),
-            dcc.Graph(id="function_parameters", figure=create_figure(profiles["parameters"])),
+            dcc.Graph(id="function_parameters", figure=profile_figure(profiles["parameters"])),
         ]
     )
     return container

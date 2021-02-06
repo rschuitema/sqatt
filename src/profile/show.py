@@ -27,7 +27,7 @@ def profile_figure(profile):
         ]
     )
 
-    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="center", x=0.5))
+    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="center", x=0.5, y=-0.2))
 
     return fig
 
