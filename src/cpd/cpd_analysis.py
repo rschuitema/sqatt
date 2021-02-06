@@ -133,6 +133,20 @@ def determine_colors(percentage):
     return colors
 
 
+def analyze_duplication(settings):
+    """Analyze code duplication."""
+
+    metrics = {}
+
+    output = measure_code_duplication(settings)
+    metrics["duplicated_loc"] = int(determine_duplicate_lines_of_code(output))
+
+    output = measure_lines_of_code(settings)
+    metrics["total_loc"] = int(determine_total_lines_of_code(output))
+
+    return metrics
+
+
 def perform_analysis(analysis):
     """Perform the requested analysis."""
 
