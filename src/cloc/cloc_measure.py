@@ -1,4 +1,5 @@
 """Measure the lines of code."""
+import csv
 import os
 
 from src.facility.subprocess import Subprocess
@@ -40,3 +41,24 @@ def measure_loc(config, code_type):
     output = process.execute_pipe(report_dir, report_file)
 
     return output
+
+
+def get_size_metrics(report_file, reader=None):
+    """Get the size metrics from file."""
+
+    metrics = {}
+
+    with open(report_file, "r", newline="\n") as csv_file:
+        csv_reader = reader or csv.DictReader(csv_file, delimiter=",")
+        for row in csv_reader:
+            language_metric = {
+                "files": row["files"],
+                "blank": row["blank"],
+                "comment": row["comment"],
+                "code": row["code"],
+            }
+            metrics[row["language"]] = language_metric
+
+    del metrics["SUM"]
+
+    return metrics

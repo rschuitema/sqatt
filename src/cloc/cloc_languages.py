@@ -2,32 +2,10 @@
 import csv
 import os
 
-import plotly.graph_objects as go
-
-from src.cloc.cloc_measure import measure_lines_of_code, measure_loc
+from src.cloc.cloc_measure import measure_lines_of_code, measure_loc, get_size_metrics
 from src.profile.colors import profile_colors
+from src.profile.show import make_donut
 from src.reporting.reporting import create_report_directory
-
-
-def get_size_metrics(report_file, reader=None):
-    """Get the size metrics from file."""
-
-    metrics = {}
-
-    with open(report_file, "r", newline="\n") as csv_file:
-        csv_reader = reader or csv.DictReader(csv_file, delimiter=",")
-        for row in csv_reader:
-            language_metric = {
-                "files": row["files"],
-                "blank": row["blank"],
-                "comment": row["comment"],
-                "code": row["code"],
-            }
-            metrics[row["language"]] = language_metric
-
-    del metrics["SUM"]
-
-    return metrics
 
 
 def write_metrics(csv_writer, metrics):
@@ -79,21 +57,7 @@ def show_language_profile(profile):
         labels.append(language)
         values.append(metrics["code"])
 
-    fig = go.Figure(
-        data=[
-            go.Pie(
-                title=dict(text="Language profile"),
-                labels=labels,
-                values=values,
-                hole=0.5,
-                marker_colors=profile_colors,
-                marker_line=dict(color="white", width=2),
-            )
-        ]
-    )
-
-    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="center", x=0.5))
-
+    fig = make_donut(labels, values, "Language profile", profile_colors)
     fig.show()
 
 

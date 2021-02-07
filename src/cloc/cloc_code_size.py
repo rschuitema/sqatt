@@ -2,7 +2,7 @@
 import csv
 import os
 
-from src.cloc.cloc_measure import measure_lines_of_code
+from src.cloc.cloc_measure import measure_lines_of_code, get_size_metrics
 from src.profile.colors import profile_colors
 from src.profile.show import make_donut
 from src.reporting.reporting import create_report_directory
@@ -41,25 +41,6 @@ def write_code_size_header(csv_writer):
             "Comment Lines",
         ]
     )
-
-
-def get_size_metrics(report_file, reader=None):
-    """Get the size metrics from file."""
-
-    metrics = {}
-
-    with open(report_file, "r", newline="\n") as csv_file:
-        csv_reader = reader or csv.DictReader(csv_file, delimiter=",")
-        for row in csv_reader:
-            language_metric = {
-                "files": row["files"],
-                "blank": row["blank"],
-                "comment": row["comment"],
-                "code": row["code"],
-            }
-            metrics[row["language"]] = language_metric
-
-    return metrics
 
 
 def calculate_comment_to_code_ratio(production_code_metrics, test_code_metrics):
