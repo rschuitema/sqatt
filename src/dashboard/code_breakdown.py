@@ -20,7 +20,7 @@ def code_volume_breakdown(metrics):
         metrics["production"]["SUM"]["comment"],
     ]
 
-    return make_donut(labels, values, "Code breakdown", profile_colors)
+    return make_donut(labels, values, "Code volume <br> breakdown", profile_colors)
 
 
 def code_type_breakdown(metrics):
@@ -37,9 +37,7 @@ def code_type_breakdown(metrics):
     return make_donut(labels, values, "Code type <br> breakdown", profile_colors)
 
 
-def code_breakdown():
-    """Show the code break down."""
-
+def code_breakdown_settings():
     settings = {
         "report_directory": "D:\\\\Projects\\github\\sqatt\\reports",
         "analysis_directory": "D:\\\\Projects\\github\\sqatt",
@@ -49,22 +47,19 @@ def code_breakdown():
         "third_party_filter": "--match-d=(external|ext|jira)",
         "generated_filter": "--match-d=(generated|gen|resharper)",
     }
+    return settings
 
-    metrics = analyze_size(settings)
+
+def code_breakdown():
+    """Show the code break down."""
+
+    metrics = analyze_size(code_breakdown_settings())
     container = html.Div(
         [
             html.H3("Code type breakdown"),
-            dbc.Row(
-                [
-                    dbc.Col(dcc.Graph(id="code_type", figure=code_type_breakdown(metrics))),
-                ]
-            ),
-            html.H3("Code breakdown"),
-            dbc.Row(
-                [
-                    dbc.Col(dcc.Graph(id="code_volume", figure=code_volume_breakdown(metrics))),
-                ]
-            ),
+            dbc.Row(dbc.Col(dcc.Graph(id="code_type", figure=code_type_breakdown(metrics)))),
+            html.H3("Code volume breakdown"),
+            dbc.Row(dbc.Col(dcc.Graph(id="code_volume", figure=code_volume_breakdown(metrics)))),
         ]
     )
     return container
