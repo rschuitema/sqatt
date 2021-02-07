@@ -38,6 +38,8 @@ def code_type_breakdown(metrics):
 
 
 def code_breakdown_settings():
+    """Provide the settings for the code breakdown analysis."""
+
     settings = {
         "report_directory": "D:\\\\Projects\\github\\sqatt\\reports",
         "analysis_directory": "D:\\\\Projects\\github\\sqatt",
