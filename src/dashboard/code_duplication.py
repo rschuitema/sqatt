@@ -3,32 +3,9 @@
 import dash_core_components as dcc
 import dash_html_components as html
 
-from src.cpd.cpd_analysis import analyze_duplication
+from src.cpd.cpd_analysis import analyze_duplication, determine_colors
 
 from src.profile.show import make_donut
-
-
-def determine_colors(percentage):
-    """
-    Determine the color of the duplicated section.
-
-    The color depends on the amount of code duplication.
-    """
-
-    colors = []
-
-    if 3 >= percentage > 0:
-        colors.append("rgb(121, 185, 79)")
-    elif 5 >= percentage > 3:
-        colors.append("rgb(255, 204, 5)")
-    elif 20 >= percentage > 5:
-        colors.append("rgb(251, 135, 56)")
-    else:
-        colors.append("rgb(204, 5, 5)")
-
-    colors.append("rgb(121, 185, 79)")
-
-    return colors
 
 
 def code_duplication():
