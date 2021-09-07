@@ -1,3 +1,5 @@
+"""Analysis functions for analyzing an include graph for C/C++ code bases."""
+
 import argparse
 import os
 import re
@@ -42,7 +44,7 @@ def build_include_graph(settings):
 def show_include_cycles(cycle_list):
     """Show the include cycles on stdout."""
 
-    if len(cycle_list):
+    if len(cycle_list) > 0:
         print("Include cycles found:")
         for cycle in cycle_list:
             print(str(cycle).translate(str.maketrans('', '', '[\']')))
@@ -63,12 +65,12 @@ def analyze_include_cycles(complete_graph, settings):
 def analyze_path(graph, settings):
     """Determine the path between the provided files."""
 
-    source = settings["show_path"][0]
-    target = settings["show_path"][1]
+    source_node = settings["show_path"][0]
+    target_node = settings["show_path"][1]
     try:
-        path = nx.shortest_path(graph, source, target)
+        path = nx.shortest_path(graph, source=source_node, target=target_node)
 
-        print(f"The path from {source} to {target} is:")
+        print(f"The path from {source_node} to {target_node} is:")
         print(str(path).translate(str.maketrans('', '', '[\']')))
     except nx.exception.NetworkXNoPath as path_exception:
         print(path_exception)
@@ -89,13 +91,13 @@ def show_include_graph(graph, include_cycles, settings):
     """Show the include graph."""
 
     report_dir = settings["report_directory"]
-    report_file = os.path.join(report_dir, f"include_graph")
+    report_file = os.path.join(report_dir, "include_graph")
 
     pydot_graph = nx.nx_pydot.to_pydot(graph)
 
     stream = highlight_cycles(str(pydot_graph), include_cycles)
-    s = Source(stream, filename=report_file, format="png")
-    s.view()
+    source = Source(stream, filename=report_file, format="png")
+    source.view()
 
 
 def save_include_cycles(include_cycles, settings):
