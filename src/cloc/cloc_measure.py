@@ -59,6 +59,4 @@ def get_size_metrics(report_file, reader=None):
             }
             metrics[row["language"]] = language_metric
 
-    del metrics["SUM"]
-
     return metrics

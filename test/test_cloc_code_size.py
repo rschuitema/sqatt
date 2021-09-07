@@ -70,13 +70,12 @@ def test_get_size_metrics():
     SUM, 100, 200, 300, 400"""
     )
 
-    report_file_name = r"code_sie_report.csv"
+    report_file_name = r"code_size_report.csv"
     test_reader = csv.DictReader(data, delimiter=",", skipinitialspace=True)
     with patch("src.cloc.cloc_measure.open", mock_open()) as mocked_file:
         metrics = get_size_metrics(report_file_name, test_reader)
 
     mocked_file.assert_called_once_with(report_file_name, "r", newline="\n")
-    assert "SUM" not in metrics.keys()
     assert metrics["C"]["code"] == "23"
 
 
