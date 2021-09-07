@@ -75,7 +75,7 @@ def test_get_size_metrics():
     with patch("src.cloc.cloc_measure.open", mock_open()) as mocked_file:
         metrics = get_size_metrics(report_file_name, test_reader)
 
-    mocked_file.assert_called_once_with(report_file_name, "r", newline="\n", encoding='utf-8')
+    mocked_file.assert_called_once_with(report_file_name, "r", newline="\n", encoding="utf-8")
     assert metrics["C"]["code"] == "23"
 
 
@@ -97,5 +97,5 @@ def test_save_metrics(csv_mock):
     with patch("src.cloc.cloc_code_size.open", mock_open()) as mocked_file:
         save_code_metrics(production_code_size_file, production_code_metrics)
 
-        mocked_file.assert_called_once_with(production_code_size_file, "w", encoding='utf-8')
+        mocked_file.assert_called_once_with(production_code_size_file, "w", encoding="utf-8")
         csv_mock.writer().assert_has_calls(calls)

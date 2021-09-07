@@ -35,7 +35,7 @@ def test_determine_function_size_profile():
         determine_profiles(profiles, report_file_name, test_reader)
 
     # assert
-    mocked_file.assert_called_once_with(report_file_name, "r", newline="\n", encoding='utf-8')
+    mocked_file.assert_called_once_with(report_file_name, "r", newline="\n", encoding="utf-8")
 
     assert profiles["function_size"].total_loc() == 37
     assert profiles["function_size"].regions()[0].loc() == 13

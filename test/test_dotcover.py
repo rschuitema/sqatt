@@ -205,7 +205,7 @@ def test_save_coverage_per_namespace(csv_mock):
     with patch("src.dotcover.dotcover.open", mock_open()) as mocked_file:
         save_coverage_per_namespace(items, report_dir)
 
-        mocked_file.assert_called_once_with(report_dir + r"coverage_per_namespace.csv", "w", encoding='utf-8')
+        mocked_file.assert_called_once_with(report_dir + r"coverage_per_namespace.csv", "w", encoding="utf-8")
 
         csv_mock.writer().assert_has_calls(calls)
 

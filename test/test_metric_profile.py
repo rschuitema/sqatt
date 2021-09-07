@@ -137,5 +137,5 @@ def test_profile_saved_correctly(csv_mock):
         profile.save(report_file)
 
     # assert
-    mocked_file.assert_called_once_with(report_file, "w", encoding='utf-8')
+    mocked_file.assert_called_once_with(report_file, "w", encoding="utf-8")
     csv_mock.writer().assert_has_calls(calls)
