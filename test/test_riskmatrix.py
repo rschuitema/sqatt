@@ -23,7 +23,7 @@ def test_read_metric_thresholds():
     with patch("src.riskmatrix.risk_matrix.open", mock_open()) as mocked_file:
         matrix.add_metric_thresholds(threshold_file, test_reader)
 
-    mocked_file.assert_called_once_with(threshold_file)
+    mocked_file.assert_called_once_with(threshold_file, encoding='utf-8')
     q1_thresholds = matrix.metric_thresholds["Q1"]
     assert len(matrix.metric_thresholds) == 4
     assert q1_thresholds["Complexity"] == "< 5"
@@ -51,7 +51,7 @@ def test_read_component_risk_level():
     with patch("src.riskmatrix.risk_matrix.open", mock_open()) as mocked_file:
         matrix.add_component_risk_level(risk_level_file, test_reader)
 
-    mocked_file.assert_called_once_with(risk_level_file)
+    mocked_file.assert_called_once_with(risk_level_file, encoding='utf-8')
     assert len(matrix.component_risk_level) == 6
     assert matrix.component_risk_level["ComponentA"] == "Q1"
     assert matrix.component_risk_level["ComponentB"] == "Q3"
@@ -86,7 +86,7 @@ def test_all_component_comply_verify_metric_returns_true():
         result = matrix.verify_metric(component_coverage_file, reader)
 
         # assert
-        mocked_file.assert_called_once_with(component_coverage_file)
+        mocked_file.assert_called_once_with(component_coverage_file, encoding='utf-8')
         assert result is True
 
 
@@ -115,7 +115,7 @@ def test_one_component_does_not_comply_verify_metric_returns_false():
         result = matrix.verify_metric(component_coverage_file, reader)
 
         # assert
-        mocked_file.assert_called_once_with(component_coverage_file)
+        mocked_file.assert_called_once_with(component_coverage_file, encoding='utf-8')
         assert result is False
 
 

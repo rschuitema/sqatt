@@ -441,6 +441,6 @@ def test_save_issues(csv_mock):
     with patch("src.resharper.resharper_profile.open", mock_open()) as mocked_file:
         save_issues(items, report_file, "caption")
 
-        mocked_file.assert_called_once_with(report_file, "w")
+        mocked_file.assert_called_once_with(report_file, "w", encoding='utf-8')
 
         csv_mock.writer().assert_has_calls(calls)
