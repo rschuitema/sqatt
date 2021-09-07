@@ -23,7 +23,7 @@ def extract_includes(file_name):
     """Extract the #include lines."""
 
     includes = []
-    with open(file_name, "r") as source_file:
+    with open(file_name, "r", encoding='utf-8') as source_file:
         lines = source_file.readlines()
         for line in lines:
             match = re.match('#include "(.*.h)"', line)

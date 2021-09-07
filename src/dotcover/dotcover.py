@@ -27,7 +27,7 @@ def parse_arguments():
 def read_coverage(filename):
     """Read the coverage into a dictionary."""
 
-    with open(filename) as input_file:
+    with open(filename, encoding='utf-8') as input_file:
         doc = xmltodict.parse(input_file.read())
 
     return doc
@@ -113,7 +113,7 @@ def save_coverage_per_namespace(coverage_per_namespace, report_dir):
 
     report_file = os.path.join(report_dir, "coverage_per_namespace.csv")
 
-    with open(report_file, "w") as output:
+    with open(report_file, "w", encoding='utf-8') as output:
         csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
         csv_writer.writerow(["Namespace", "Coverage"])
         for item in coverage_per_namespace:
@@ -136,7 +136,7 @@ def main():
     save_coverage_per_namespace(coverage_per_namespace, report_dir)
 
     if args.verbose:
-        for name in coverage_per_namespace:
+        for name in coverage_per_namespace.items():
             print(name, " : ", coverage_per_namespace[name])
 
 

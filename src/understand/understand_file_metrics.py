@@ -18,7 +18,7 @@ def sort_metrics(module_metrics, metric):
 def save_file_metrics(module, metrics):
     """Save the file metrics to a csv file."""
 
-    with open(module + "_metrics.csv", "w") as output:
+    with open(module + "_metrics.csv", "w", encoding='utf-8') as output:
         csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
         csv_writer.writerow(
             [
@@ -95,7 +95,7 @@ def collect_file_metrics(database, output, module, sort):
     metric = sort
     sorted_module_metrics = sort_metrics(module_metrics, metric)
 
-    for filename in sorted_module_metrics:
+    for filename in sorted_module_metrics.items():
         print(filename + "," + str(sorted_module_metrics[filename][metric]))
 
     save_file_metrics(module, sorted_module_metrics)

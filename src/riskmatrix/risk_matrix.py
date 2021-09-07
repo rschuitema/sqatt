@@ -52,7 +52,7 @@ class RiskMatrix:
     def add_component_risk_level(self, filename, csv_reader=None):
         """Add risk level for each component."""
 
-        with open(filename) as csv_file:
+        with open(filename, encoding='utf-8') as csv_file:
             reader = csv_reader or csv.DictReader(csv_file, skipinitialspace=True)
             for row in reader:
                 self.component_risk_level[row["Component"]] = row["Quadrant"]
@@ -60,7 +60,7 @@ class RiskMatrix:
     def add_metric_thresholds(self, filename, csv_reader=None):
         """Add metric thresholds for each quadrant."""
 
-        with open(filename) as csv_file:
+        with open(filename, encoding='utf-8') as csv_file:
             reader = csv_reader or csv.DictReader(csv_file, skipinitialspace=True)
             for row in reader:
                 self.metric_thresholds[row["Quadrant"]] = row
@@ -69,7 +69,7 @@ class RiskMatrix:
         """Verify if all the components comply to the specified metric threshold of its quadrant."""
 
         result = True
-        with open(filename) as csv_file:
+        with open(filename, encoding='utf-8') as csv_file:
             reader = csv_reader or csv.reader(csv_file, skipinitialspace=True)
             metric_label = reader.fieldnames[1]
             for row in reader:

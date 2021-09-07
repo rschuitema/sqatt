@@ -6,7 +6,8 @@ import json
 import os
 
 import xmltodict
-import defusedxml.ElementTree as ElementTree
+from defusedxml import ElementTree
+import plotly.graph_objects as go
 
 from src.reporting.reporting import create_report_directory
 
@@ -24,7 +25,7 @@ def parse_arguments():
 def read_resharper_issues(filename):
     """Read the resharper issues into a dictionary."""
 
-    with open(filename) as input_file:
+    with open(filename, encoding='utf-8') as input_file:
         doc = xmltodict.parse(input_file.read())
 
     return doc
@@ -151,7 +152,7 @@ def determine_issues_per_category(warnings):
 def save_issues(item_dict, report_file, item_name="Item"):
     """Save the issues in a csv file."""
 
-    with open(report_file, "w") as output:
+    with open(report_file, "w", encoding='utf-8') as output:
         csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
         csv_writer.writerow([item_name, "Number of violations"])
         for item in item_dict:
@@ -182,14 +183,14 @@ def save_issues_per_category(issues_per_category, report_dir):
 def save_as_json(warnings):
     """Save the resharper output in json format."""
 
-    with open("resharper_results.json", "w") as outfile:
+    with open("resharper_results.json", "w", encoding='utf-8') as outfile:
         json.dump(warnings, outfile, indent=4)
 
 
 def filter_out(filename, tmp_filename):
     """Filter out generated code and Dezyne code."""
 
-    with open(filename, "r") as input_file:
+    with open(filename, "r", encoding='utf-8') as input_file:
         doc = ElementTree.parse(input_file)
         for elem in doc.xpath("//*/Project"):
             if "Proxy" in elem.attrib["Name"]:
@@ -199,7 +200,27 @@ def filter_out(filename, tmp_filename):
                 parent = elem.getparent()
                 parent.remove(elem)
         print(ElementTree.tostring(doc))
-        open(tmp_filename, "w").write(str(ElementTree.tostring(doc, encoding="unicode")))
+        with open(tmp_filename, "w", encoding='utf-8') as tmp_file:
+            tmp_file.write(str(ElementTree.tostring(doc, encoding="unicode")))
+
+
+def show_issues_per_project(issues_per_project):
+    """Show the issues per project in a bar graph."""
+
+    x_axis = []
+    y_axis = []
+    for item in issues_per_project:
+        x_axis.append(item)
+        y_axis.append(issues_per_project[item])
+
+    fig = go.Figure([go.Bar(x=x_axis, y=y_axis)])
+    fig.update_layout(
+        title_text="Violations per project",
+        yaxis=dict(
+            title="Number of violations",
+        ),
+    )
+    fig.show()
 
 
 def main():
@@ -209,13 +230,13 @@ def main():
 
     filename = args.issuefile
 
-    pre, ext = os.path.splitext(filename)
-    ext = ext.replace("xml", "tmp")
-    tmp_filename = pre + ext
+    # pre, ext = os.path.splitext(filename)
+    # ext = ext.replace("xml", "tmp")
+    # tmp_filename = pre + ext
 
-    filter_out(filename, tmp_filename)
-    warnings = read_resharper_issues(tmp_filename)
-    os.remove(tmp_filename)
+    # filter_out(filename, tmp_filename)
+    warnings = read_resharper_issues(filename)
+    # os.remove(tmp_filename)
 
     issues_per_project = determine_issues_per_project(warnings)
     issues_per_issue_type = determine_issues_per_issuetype(warnings)
@@ -228,6 +249,8 @@ def main():
     save_issues_per_category(issues_per_category, report_dir)
 
     save_as_json(warnings)
+
+    show_issues_per_project(issues_per_project)
 
 
 if __name__ == "__main__":
