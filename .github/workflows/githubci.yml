@@ -46,6 +46,6 @@ jobs:
         poetry run xenon src -b B -m B -a B
     - name: Test with pytest
       run: |
-        poetry run coverage run --source ./src -m pytest test
+        poetry run coverage run --branch --source ./src -m pytest test
         poetry run coverage report
 
