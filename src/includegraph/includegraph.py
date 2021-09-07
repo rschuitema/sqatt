@@ -13,7 +13,7 @@ from graphviz import Source
 def extract_includes(file_name, include_graph):
     """Extract the include statements from the file and create an edge in the include graph."""
 
-    with open(file_name, "r", encoding='utf-8') as source_file:
+    with open(file_name, "r", encoding="utf-8") as source_file:
         lines = source_file.readlines()
         for line in lines:
             match = re.match(r'#include\s+["<](.*)[">]', line)
@@ -47,7 +47,7 @@ def show_include_cycles(cycle_list):
     if len(cycle_list) > 0:
         print("Include cycles found:")
         for cycle in cycle_list:
-            print(str(cycle).translate(str.maketrans('', '', '[\']')))
+            print(str(cycle).translate(str.maketrans("", "", "[']")))
     else:
         print("No include cycles found")
 
@@ -71,7 +71,7 @@ def analyze_path(graph, settings):
         path = nx.shortest_path(graph, source=source_node, target=target_node)  # pylint: disable=E1123,E1120
 
         print(f"The path from {source_node} to {target_node} is:")
-        print(str(path).translate(str.maketrans('', '', '[\']')))
+        print(str(path).translate(str.maketrans("", "", "[']")))
     except nx.exception.NetworkXNoPath as path_exception:
         print(path_exception)
 
@@ -104,12 +104,12 @@ def save_include_cycles(include_cycles, settings):
     """Save the include cycles to a text file."""
 
     report_file = os.path.join(settings["report_directory"], "include_cycles.txt")
-    with open(report_file, "w", encoding='utf-8') as report:
+    with open(report_file, "w", encoding="utf-8") as report:
         for cycle in include_cycles:
             cycle_string = str(cycle)
-            cycle_string = cycle_string.translate(str.maketrans('', '', '[\']'))
+            cycle_string = cycle_string.translate(str.maketrans("", "", "[']"))
             report.write(cycle_string)
-            report.write('\n')
+            report.write("\n")
 
 
 def analyze_include_graph_for_file(graph, file_to_analyze):
@@ -190,7 +190,7 @@ def highlight_cycles(dot_stream, cycle_list):
             regex = fr'([<"]{edge[0]}[">] -> [<"]{edge[1]}[">])'
             match = re.search(regex, dot_stream)
             if match:
-                replacement = match.group(1) + ' [color = red]'
+                replacement = match.group(1) + " [color = red]"
                 dot_stream = dot_stream.replace(match.group(1), replacement)
 
     return dot_stream

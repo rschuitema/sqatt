@@ -64,7 +64,7 @@ def calculate_test_code_to_production_code_ratio(production_code_metrics, test_c
 def save_code_metrics(production_code_size_file, production_code_metrics):
     """Save the code metrics to a file."""
 
-    with open(production_code_size_file, "w", encoding='utf-8') as output:
+    with open(production_code_size_file, "w", encoding="utf-8") as output:
         csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
 
         write_code_size_header(csv_writer)

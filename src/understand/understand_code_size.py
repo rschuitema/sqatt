@@ -36,7 +36,7 @@ def save_test_code_size(metrics, report_dir):
     """Save the test code size to a csv file."""
 
     report_file = os.path.join(report_dir, "test_code_size.csv")
-    with open(report_file, "w", encoding='utf-8') as output:
+    with open(report_file, "w", encoding="utf-8") as output:
         csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
         csv_writer.writerow(
             [
@@ -90,7 +90,7 @@ def save_code_size(metrics, report_dir):
     """Save the production code size to a csv file."""
 
     report_file = os.path.join(report_dir, "code_size.csv")
-    with open(report_file, "w", encoding='utf-8') as output:
+    with open(report_file, "w", encoding="utf-8") as output:
         csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
         csv_writer.writerow(
             [

@@ -25,7 +25,7 @@ def parse_arguments():
 def read_resharper_issues(filename):
     """Read the resharper issues into a dictionary."""
 
-    with open(filename, encoding='utf-8') as input_file:
+    with open(filename, encoding="utf-8") as input_file:
         doc = xmltodict.parse(input_file.read())
 
     return doc
@@ -152,7 +152,7 @@ def determine_issues_per_category(warnings):
 def save_issues(item_dict, report_file, item_name="Item"):
     """Save the issues in a csv file."""
 
-    with open(report_file, "w", encoding='utf-8') as output:
+    with open(report_file, "w", encoding="utf-8") as output:
         csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
         csv_writer.writerow([item_name, "Number of violations"])
         for item in item_dict:
@@ -183,14 +183,14 @@ def save_issues_per_category(issues_per_category, report_dir):
 def save_as_json(warnings):
     """Save the resharper output in json format."""
 
-    with open("resharper_results.json", "w", encoding='utf-8') as outfile:
+    with open("resharper_results.json", "w", encoding="utf-8") as outfile:
         json.dump(warnings, outfile, indent=4)
 
 
 def filter_out(filename, tmp_filename):
     """Filter out generated code and Dezyne code."""
 
-    with open(filename, "r", encoding='utf-8') as input_file:
+    with open(filename, "r", encoding="utf-8") as input_file:
         doc = ElementTree.parse(input_file)
         for elem in doc.xpath("//*/Project"):
             if "Proxy" in elem.attrib["Name"]:
@@ -200,7 +200,7 @@ def filter_out(filename, tmp_filename):
                 parent = elem.getparent()
                 parent.remove(elem)
         print(ElementTree.tostring(doc))
-        with open(tmp_filename, "w", encoding='utf-8') as tmp_file:
+        with open(tmp_filename, "w", encoding="utf-8") as tmp_file:
             tmp_file.write(str(ElementTree.tostring(doc, encoding="unicode")))
 
 

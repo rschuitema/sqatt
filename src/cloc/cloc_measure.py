@@ -48,7 +48,7 @@ def get_size_metrics(report_file, reader=None):
 
     metrics = {}
 
-    with open(report_file, "r", newline="\n", encoding='utf-8') as csv_file:
+    with open(report_file, "r", newline="\n", encoding="utf-8") as csv_file:
         csv_reader = reader or csv.DictReader(csv_file, delimiter=",")
         for row in csv_reader:
             language_metric = {

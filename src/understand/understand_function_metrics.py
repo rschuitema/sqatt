@@ -13,7 +13,7 @@ def collect_function_metrics(database, output):
     understand_database = understand.open(database)
 
     report_file = os.path.join(create_report_directory(output), "function_metrics.csv")
-    with open(report_file, "w", encoding='utf-8') as output_file:
+    with open(report_file, "w", encoding="utf-8") as output_file:
         csv_writer = csv.writer(output_file, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
         csv_writer.writerow(
             [

@@ -40,7 +40,7 @@ def create_profiles():
 def determine_profiles(profiles, metrics_file, reader=None):
     """Determine the profile for the metrics: function size, complexity and number of parameters."""
 
-    with open(metrics_file, "r", newline="\n", encoding='utf-8') as csv_file:
+    with open(metrics_file, "r", newline="\n", encoding="utf-8") as csv_file:
         csv_reader = reader or csv.reader(csv_file, delimiter=",")
         for row in csv_reader:
             profiles["function_size"].update(int(row[0]), int(row[0]))
