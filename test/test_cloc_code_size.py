@@ -1,6 +1,4 @@
 """Unit test for cloc code size analysis."""
-import csv
-from io import StringIO
 from unittest.mock import patch, Mock, call, mock_open
 
 from src.cloc.cloc_code_size import (
@@ -8,8 +6,8 @@ from src.cloc.cloc_code_size import (
     calculate_comment_to_code_ratio,
     write_code_size_header,
     write_code_size_metrics,
-    get_size_metrics,
     save_code_metrics,
+    analyze_size,
 )
 
 
@@ -61,24 +59,6 @@ def test_write_code_size_metrics(csv_mock):
     csv_mock.writer.writerow.assert_has_calls(calls)
 
 
-def test_get_size_metrics():
-
-    data = StringIO(
-        """language, files, blank, comment, code
-        Java, 10, 11, 12, 13
-    C, 20, 21, 22, 23
-    SUM, 100, 200, 300, 400"""
-    )
-
-    report_file_name = r"code_size_report.csv"
-    test_reader = csv.DictReader(data, delimiter=",", skipinitialspace=True)
-    with patch("src.cloc.cloc_measure.open", mock_open()) as mocked_file:
-        metrics = get_size_metrics(report_file_name, test_reader)
-
-    mocked_file.assert_called_once_with(report_file_name, "r", newline="\n", encoding="utf-8")
-    assert metrics["C"]["code"] == "23"
-
-
 @patch("src.cloc.cloc_code_size.csv")
 def test_save_metrics(csv_mock):
     production_code_size_file = "code_size.csv"
@@ -99,3 +79,17 @@ def test_save_metrics(csv_mock):
 
         mocked_file.assert_called_once_with(production_code_size_file, "w", encoding="utf-8")
         csv_mock.writer().assert_has_calls(calls)
+
+
+@patch("src.reporting.reporting.create_report_directory")
+def test_metrics_are_empty_when_no_code_type_specified(create_report_directory_mock):
+    # arrange
+    settings = {"report_directory": "./reports", "code_type": ""}
+
+    create_report_directory_mock.return_value = settings["report_directory"]
+
+    # act
+    metrics = analyze_size(settings)
+
+    # assert
+    assert len(metrics) == 0
