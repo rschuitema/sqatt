@@ -121,20 +121,32 @@ def test_get_setting_returns_empty_settings_when_config_file_does_not_exist(path
     assert not settings
 
 
-# @patch("src.cloc.cloc_analysis.configparser.ConfigParser.read")
-# @patch("os.path.exists")
-# def test_get_setting_has_correct_code_types(path_exists_mock, config_mock):
-#     """Test that the settings is empty when the config file does not exist."""
-#
-#     # arrange
-#     path_exists_mock.return_value = True
-#
-#     config = configparser.ConfigParser()
-#     config["code_type"] = []
-#     config_mock.return_value = config
-#
-#     # act
-#     settings = get_settings("config.bla")
-#
-#     # assert
-#     assert not settings
+@patch("os.path.exists")
+def test_get_setting_has_correct_code_types(path_exists_mock):
+    """Test that the settings is empty when the config file does not exist."""
+
+    # arrange
+    path_exists_mock.return_value = True
+
+    config = configparser.ConfigParser()
+    config.add_section("code_type")
+    config.add_section("filters")
+    config.add_section("reporting")
+    config.add_section("analysis")
+    config.set("code_type", "production", "bla")
+    config.set("code_type", "test", "bla")
+    config.set("filters", "production_filter", "bla2")
+    config.set("filters", "test_filter", "bla2")
+    config.set("reporting", "directory", "bla3")
+    config.set("analysis", "directory", "bla4")
+
+    # act
+    settings = get_settings("config.bla", config)
+
+    # assert
+    assert len(settings["code_type"]) == 2
+    assert settings["code_type"] == ["production", "test"]
+    assert settings["production_filter"] == "bla2"
+    assert settings["test_filter"] == "bla2"
+    assert settings["report_directory"] == "bla3"
+    assert settings["analysis_directory"] == "bla4"

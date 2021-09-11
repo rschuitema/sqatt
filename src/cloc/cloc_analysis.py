@@ -16,13 +16,16 @@ from src.cloc.cloc_code_size import analyze_code_size
 from src.cloc.cloc_languages import analyze_language
 
 
-def get_settings(configuration_file):
+def get_settings(configuration_file, parser=None):
     """Get the configuration from the ini file."""
     settings = {}
 
     if os.path.exists(configuration_file):
-        config = configparser.ConfigParser()
-        config.read(configuration_file)
+        if parser:
+            config = parser
+        else:
+            config = configparser.ConfigParser()
+            config.read(configuration_file)
 
         code_types = []
         for code_type in config["code_type"]:
