@@ -1,7 +1,7 @@
 """Show how many languages are used in the project."""
 
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 
 from src.cloc.cloc_languages import analyze_languages
 
@@ -23,6 +23,8 @@ def language_breakdown():
     }
 
     metrics = analyze_languages(settings)
+
+    del metrics["SUM"]
 
     content = html.Div(
         [html.H3("Language breakdown"), dcc.Graph(id="language_breakdown", figure=language_breakdown_figure(metrics))],

@@ -1,7 +1,7 @@
 """Show the code duplication metric."""
 
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 
 from src.cpd.cpd_analysis import analyze_duplication, determine_colors
 

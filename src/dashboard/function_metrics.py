@@ -1,7 +1,7 @@
 """Show the function metrics: complexity, function size and function parameters."""
 
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 
 from src.lizard.lizard_analysis import measure_function_metrics, create_profiles, determine_profiles
 from src.profile.show import make_profile
