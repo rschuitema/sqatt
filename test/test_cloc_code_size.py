@@ -1,4 +1,5 @@
 """Unit test for cloc code size analysis."""
+import os
 from unittest.mock import patch, Mock, call, mock_open
 
 from src.cloc.cloc_code_size import (
@@ -93,3 +94,30 @@ def test_metrics_are_empty_when_no_code_type_specified(create_report_directory_m
 
     # assert
     assert len(metrics) == 0
+
+
+@patch("src.cloc.cloc_code_size.save_code_metrics")
+@patch("src.cloc.cloc_code_size.get_size_metrics")
+@patch("src.cloc.cloc_code_size.measure_lines_of_code")
+@patch("src.reporting.reporting.create_report_directory")
+def test_analyze_size_correct_metrics_per_code_type_are_saved_to_report_file(create_report_directory_mock,
+                                                                             measure_loc_mock,
+                                                                             get_size_metrics_mock,
+                                                                             save_code_metrics_mock):
+    # arrange
+    settings = {"report_directory": "./reports", "code_type": ['production'], "analysis_directory": "src",
+                "production_filter": "filter1", "test_filter": "filter2"}
+
+    create_report_directory_mock.return_value = settings["report_directory"]
+    get_size_metrics_mock.return_value = 100
+
+    # act
+    metrics = analyze_size(settings)
+
+    # assert
+    report_file_name = os.path.join("./reports", "production_profile.csv")
+    measure_loc_mock.assert_called_once_with("src", report_file_name, "filter1")
+    get_size_metrics_mock.assert_called_once_with(report_file_name)
+    save_code_metrics_mock.assert_called_once_with(report_file_name, 100)
+    assert len(metrics) > 0
+    assert metrics["production"] == 100
