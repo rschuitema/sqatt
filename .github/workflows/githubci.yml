@@ -48,4 +48,5 @@ jobs:
       run: |
         poetry run coverage run --branch --source ./src -m pytest test
         poetry run coverage report
-
+    - name: Codacy Coverage Reporter
+      uses: codacy/codacy-coverage-reporter-action@v1.1.0
