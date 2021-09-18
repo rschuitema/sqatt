@@ -48,7 +48,9 @@ jobs:
       run: |
         poetry run coverage run --branch --source ./src -m pytest test
         poetry run coverage report
+        poetry run coverage xml
     - name: Codacy Coverage Reporter
       uses: codacy/codacy-coverage-reporter-action@v1.1.0
       with:
         project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        coverage-reports: coverage.xml
