@@ -2,8 +2,6 @@
 import csv
 from io import StringIO
 from unittest.mock import patch, mock_open
-
-import src.facility.subprocess
 from src.cloc.cloc_measure import get_size_metrics, measure_lines_of_code
 
 
@@ -25,7 +23,7 @@ def test_get_size_metrics():
 
 
 @patch("src.cloc.cloc_measure.Subprocess")
-def test_measure_loc_calls_cloc_with_correct_parameters(subprocess_mock):
+def test_measure_lines_of_code_calls_cloc_with_correct_parameters(subprocess_mock):
     """Test that cloc is called with the correct parameters to measure the lines of code."""
 
     # arrange
