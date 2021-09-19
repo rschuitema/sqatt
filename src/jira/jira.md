@@ -1,9 +1,13 @@
+
 # Jira
+
 This section describes the default configuration of Jira.
 The configuration assumes an agile way of working.
 
 ## Issue types
+
 The following issue types are defined:
+
 * Epic
 * User Story
 * Task
@@ -13,6 +17,7 @@ The following issue types are defined:
 * Bug
 
 ## Workflow
+
 The workflow in Jira is configured according to the following principle.
 
 ![workflow](./workflow.png)
@@ -27,6 +32,7 @@ if the issue needs another <Activity> or can transition to the state "Done".
 
 The <Activity> is where projects can extend the workflow. There are a
 few default activities defined:
+
 * Analyzing
 * Solving
 * Reviewing
@@ -35,6 +41,7 @@ few default activities defined:
 
 Furthermore an issue can transition to the following states from any
 other state:
+
 * Blocked
 * Dismissed
 
@@ -51,7 +58,9 @@ A project can extend the workflow with new activities as long as it
 complies with the pattern "To_Activity" -> "Activity" -> "Activity_Done"
 
 ## Roles
+
 The following roles are configured in Jira:
+
 * Administrators
 * Developers
 * Viewers
@@ -60,11 +69,13 @@ Each of these roles have different permissions in Jira.
 The role permissions are described in the permission scheme sections.
 
 ## Permission schemes
+
 Jira has several permission schemes
 The following sections describe the configuration of each of the
 permission schemes.
 
 ### Project permissions
+
 This is the scheme for project permissions.
 
 | Permission | Description | Role |
@@ -78,6 +89,7 @@ This is the scheme for project permissions.
 | View Read-Only Workflow | Users with this permission may view a read-only version of a workflow. | Developers, Viewers | 
 
 ### Issue permissions
+
 This is the scheme for issue permissions.
 
 | Permission | Description | Role |
