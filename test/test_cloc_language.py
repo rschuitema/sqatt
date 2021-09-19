@@ -1,7 +1,8 @@
 """Unit test for cloc language analysis."""
-from unittest.mock import patch, Mock, call, mock_open
+from unittest.mock import patch, Mock, call, mock_open, ANY
 
-from src.cloc.cloc_languages import save_language_profile
+import src.profile.show
+from src.cloc.cloc_languages import save_language_profile, show_language_profile
 
 
 @patch("src.cloc.cloc_languages.csv")
@@ -50,3 +51,32 @@ def test_metrics_are_not_written_to_file_when_profile_could_not_be_determined(cs
         csv_mock.writer().writerow.assert_called_once_with(
             ["Language", "Number Of Files", "Blank Lines", "Lines Of Code", "Comment Lines"]
         )
+
+
+@patch("src.profile.show.go.Figure")
+def test_show_language_profile_figure_created_with_correct_values(figure_mock):
+    """Test that the figure is created with the correct values."""
+
+    # arrange
+    language_profile = {
+        "Python": {"files": 201, "blank": 20, "code": 1003, "comment": 230},
+        "C#": {"files": 100, "blank": 7, "code": 1220, "comment": 30},
+    }
+
+    # act
+    with patch("src.profile.show.go.Pie") as pie_mock:
+        figure_mock.data = [pie_mock]
+        figure_mock.show = Mock()
+        show_language_profile(language_profile)
+
+    # assert
+    pie_mock.assert_called_once_with(
+        title={"text": "Language profile"},
+        labels=["Python", "C#"],
+        values=[1003, 1220],
+        hole=ANY,
+        marker_line=ANY,
+        marker_colors=ANY,
+    )
+
+    figure_mock().show.assert_called_once()
