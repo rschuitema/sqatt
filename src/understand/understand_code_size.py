@@ -81,9 +81,9 @@ def print_test_code_ratio(metrics, test_metrics):
         if lines_test_code is not None:
             lines_of_test_code = lines_of_test_code + lines_test_code
 
-    print("Lines of code: {}".format(lines_of_code))
-    print("Lines of test code: {}".format(lines_of_test_code))
-    print("Ratio: {0:.2f}".format(100 * lines_of_test_code / lines_of_code))
+    print(f"Lines of code: {lines_of_code}")
+    print(f"Lines of test code: {lines_of_test_code}")
+    print(f"Ratio: {100 * lines_of_test_code / lines_of_code:.2f}")
 
 
 def save_code_size(metrics, report_dir):

@@ -78,7 +78,7 @@ def main():
 
     # pylint: disable=unused-variable
     for pre, fill, node in RenderTree(root):
-        print("%s%s" % (pre, node.name))
+        print(f"{pre}{node.name}")
     # pylint: enable=unused-variable
 
     graph = os.path.splitext(args.file)[0] + ".png"

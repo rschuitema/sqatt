@@ -47,7 +47,7 @@ class Subprocess:
         :param timeout: Optional variable providing command timeout
         """
         if not isinstance(command, (list, tuple)):
-            raise SubprocessRuntimeError("Command (%s) is not of type list or tuple." % command)
+            raise SubprocessRuntimeError(f"Command ({command}) is not of type list or tuple.")
 
         self.base_command = command[0]
         self.command = command
@@ -70,8 +70,8 @@ class Subprocess:
 
         if not abspath:
             raise SubprocessRuntimeError(
-                "%s is not installed on the system.\n"
-                "Please make sure it is installed and added to the `PATH`." % self.base_command
+                f"{self.base_command} is not installed on the system.\n"
+                "Please make sure it is installed and added to the `PATH`."
             )
 
         LOG.debug("Located `%s` in `%s`", self.base_command, abspath)
@@ -103,11 +103,9 @@ class Subprocess:
                 timeout=self.timeout,
             )  # nosec
         except CalledProcessError as error:
-            raise ProcessError(
-                "%s returned a non-zero exit status %s" % (self.base_command, error.returncode)
-            ) from error
+            raise ProcessError(f"{self.base_command} returned a non-zero exit status {error.returncode}") from error
         except TimeoutExpired as error:
-            raise ProcessError("%s timed out after %s seconds" % (self.base_command, error.timeout)) from error
+            raise ProcessError(f"{self.base_command} timed out after {error.timeout} seconds") from error
 
     def execute_async(self):
         """
@@ -120,10 +118,10 @@ class Subprocess:
             LOG.debug("Starting asynchronous call: %s", self.command)
             Popen(self.command)  # pylint: disable=R1732
         except ValueError as error:
-            raise ProcessError("%s has an invalid argument: %s" % (self.base_command, error.args)) from error
+            raise ProcessError(f"{self.base_command} has an invalid argument: {error.args}") from error
         except OSError as error:
             raise ProcessError(
-                "%s returned an OS error: %s '%s' %s" % (self.base_command, error.errno, error.strerror, error.filename)
+                f"{self.base_command} returned an OS error: {error.errno} '{error.strerror}' {error.filename}"
             ) from error
 
     def execute_pipe(self, output_directory, filename, check_return_code=True):
@@ -157,7 +155,7 @@ class Subprocess:
             print(command_output.stdout.decode("utf-8"))
 
         if command_output.returncode != 0 and check_return_code:
-            raise ProcessError("%s returned a non-zero exit status %s" % (self.base_command, command_output.returncode))
+            raise ProcessError(f"{self.base_command} returned a non-zero exit status {command_output.returncode}")
 
         return command_output
 
@@ -174,12 +172,12 @@ class Subprocess:
         :param command_output: Optional raise exception with non-zero return code
         """
         try:
-            with open(join(output_directory, "{}_{}.log".format(filename, strftime("%Y%m%d-%H%M%S"))), "wb") as file:
+            with open(join(output_directory, f'{filename}_{strftime("%Y%m%d-%H%M%S")}.log'), "wb") as file:
                 file.write(command_output.stdout)
         except FileNotFoundError as exception:
             raise SubprocessRuntimeError(
-                "Unable to open ('%s') and write results.\nPlease use preconditions to enforce: "
-                "['OutputDirectoryExists', 'OutputDirectoryIsEmpty']." % exception.filename
+                f"Unable to open ('{exception.filename}') and write results.\nPlease use preconditions to enforce: "
+                "['OutputDirectoryExists', 'OutputDirectoryIsEmpty']."
             ) from exception
 
 

@@ -154,7 +154,6 @@ def perform_analysis(analysis):
 def parse_arguments(args):
     """Parse the commandline arguments."""
 
-    print(os.getcwd())
     parser = argparse.ArgumentParser()
     parser.add_argument("--version", action="version", version="%(prog)s 2.0")
     parser.add_argument(

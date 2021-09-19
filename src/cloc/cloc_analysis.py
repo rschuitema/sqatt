@@ -41,7 +41,6 @@ def get_settings(configuration_file, parser=None):
 
 def perform_analysis(analysis):
     """Perform the requested analysis."""
-    print(analysis)
 
     settings = get_settings(analysis.config)
 
