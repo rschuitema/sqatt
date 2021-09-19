@@ -31,8 +31,8 @@ def test_write_metrics(csv_mock):
 
     csv_mock.writer = Mock(writerow=Mock())
     calls = [
-        call.writerow(['Python', 201, 20, 1003, 230]),
-        call.writerow(['C#', 100, 7, 1220, 30]),
+        call.writerow(["Python", 201, 20, 1003, 230]),
+        call.writerow(["C#", 100, 7, 1220, 30]),
     ]
 
     # act
