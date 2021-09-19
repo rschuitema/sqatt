@@ -1,26 +1,11 @@
 """Unit test for cloc language analysis."""
 from unittest.mock import patch, Mock, call, mock_open
 
-from src.cloc.cloc_languages import write_header, write_metrics
+from src.cloc.cloc_languages import save_language_profile
 
 
 @patch("src.cloc.cloc_languages.csv")
-def test_write_header(csv_mock):
-    """Test that the correct header is written to the csv file."""
-
-    # arrange
-    csv_mock.writer = Mock(writerow=Mock())
-    calls = [call.writerow(["Language", "Number Of Files", "Blank Lines", "Lines Of Code", "Comment Lines"])]
-
-    # act
-    write_header(csv_mock.writer)
-
-    # assert
-    csv_mock.writer.writerow.assert_has_calls(calls)
-
-
-@patch("src.cloc.cloc_languages.csv")
-def test_write_metrics(csv_mock):
+def test_metrics_are_written_to_file(csv_mock):
     """Test that the metrics are written correctly to file."""
 
     # arrange
@@ -31,12 +16,37 @@ def test_write_metrics(csv_mock):
 
     csv_mock.writer = Mock(writerow=Mock())
     calls = [
+        call.writerow(["Language", "Number Of Files", "Blank Lines", "Lines Of Code", "Comment Lines"]),
         call.writerow(["Python", 201, 20, 1003, 230]),
         call.writerow(["C#", 100, 7, 1220, 30]),
     ]
 
     # act
-    write_metrics(csv_mock.writer, production_code_metrics)
+    with patch("src.cloc.cloc_languages.open", mock_open()) as mocked_file:
+        save_language_profile("language_profile.csv", production_code_metrics)
+        mocked_file.assert_called_once_with("language_profile.csv", "w", encoding="utf-8")
 
     # assert
-    csv_mock.writer.assert_has_calls(calls)
+    csv_mock.writer().writerow.assert_has_calls(calls)
+    assert csv_mock.writer().writerow.call_count == 3
+
+
+@patch("src.cloc.cloc_languages.csv")
+def test_metrics_are_not_written_to_file_when_profile_could_not_be_determined(csv_mock):
+    """Test that no metrics are written to file."""
+
+    # arrange
+    production_code_metrics = {}
+
+    csv_mock.writer = Mock(writerow=Mock())
+
+    # act
+    with patch("src.cloc.cloc_languages.open", mock_open()) as mocked_file:
+        language_profile_filename = "language_profile.csv"
+        save_language_profile(language_profile_filename, production_code_metrics)
+        mocked_file.assert_called_once_with(language_profile_filename, "w", encoding="utf-8")
+
+        # assert
+        csv_mock.writer().writerow.assert_called_once_with(
+            ["Language", "Number Of Files", "Blank Lines", "Lines Of Code", "Comment Lines"]
+        )
