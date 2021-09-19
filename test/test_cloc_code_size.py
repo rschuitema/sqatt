@@ -132,5 +132,5 @@ def test_analyze_size_correct_metrics_per_code_type_are_saved_to_report_file(
     measure_loc_mock.assert_called_once_with("src", report_file_name, "filter1")
     get_size_metrics_mock.assert_called_once_with(report_file_name)
     save_code_metrics_mock.assert_called_once_with(report_file_name, 100)
-    assert len(metrics) > 0
+
     assert metrics["production"] == 100
