@@ -23,14 +23,14 @@ The workflow in Jira is configured according to the following principle.
 ![workflow](./workflow.png)
 
 Each issue starts in the state "New". From the state "New" a transition
-is possible to the state "To_<Activity>". This state indicates that
-the issue is ready for the <Activity> to be performed. When the activity
-is started the issue transitions to the <Activity> state. In this state
-the actual <Activity> is performed. When the <Activity> is finished the
-issue transitions to the "<Activity_Done>" state. There it can be decided
-if the issue needs another <Activity> or can transition to the state "Done".
+is possible to the state "To_Activity". This state indicates that
+the issue is ready for the "Activity" to be performed. When the activity
+is started the issue transitions to the "Activity" state. In this state
+the actual "Activity" is performed. When the "Activity" is finished the
+issue transitions to the "Activity_Done" state. There it can be decided
+if the issue needs another "Activity" or can transition to the state "Done".
 
-The <Activity> is where projects can extend the workflow. There are a
+The "Activity" is where projects can extend the workflow. There are a
 few default activities defined:
 
 * Analyzing
