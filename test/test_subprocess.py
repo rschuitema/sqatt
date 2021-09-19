@@ -1,3 +1,5 @@
+"""Unit tests for SubProcess."""
+
 from subprocess import CalledProcessError, DEVNULL, TimeoutExpired  # nosec
 from os.path import join
 from types import SimpleNamespace
@@ -10,7 +12,11 @@ from src.facility.subprocess import ProcessError, Subprocess, SubprocessRuntimeE
 
 
 class TestSubprocess(TestCase):
+    """Test the Subprocess class."""
+
     def setUp(self):
+        """Prepare the test cases."""
+
         self.which_mock = patch("src.facility.subprocess.which").start()
         self.check_call_mock = patch("src.facility.subprocess.check_call").start()
 
@@ -19,10 +25,14 @@ class TestSubprocess(TestCase):
         self.check_call_mock.return_value.returncode = 0
 
     def tearDown(self):
+        """Teardown the test cases."""
+
         patch.stopall()
 
     @staticmethod
     def test_subprocess_throws_exception_when_providing_command_as_plain_string():
+        """Test that subprocess throws an exception when a command is provided as plain string."""
+
         # Arrange
         command = "test_command test_arguments"
 
@@ -32,6 +42,8 @@ class TestSubprocess(TestCase):
             Subprocess(command)
 
     def test_which_is_successful_with_correct_parameters(self):
+        """Test that which is successful with correct parameters."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
         self.which_mock.return_value = "/long/test/path/test_command"
@@ -45,6 +57,8 @@ class TestSubprocess(TestCase):
         assert process.command[0] == "/long/test/path/test_command"
 
     def test_which_raises_exception_with_shutil_which_returning_none(self):
+        """Test that which raises an exception with shutil."""
+
         # Arrange
         command = ["unexisting_test_command", "test_arguments"]
         self.which_mock.return_value = None
@@ -57,6 +71,8 @@ class TestSubprocess(TestCase):
         self.which_mock.assert_called_once_with("unexisting_test_command")
 
     def test_execute_is_successful_with_correct_command_parameters(self):
+        """Test that execute is successful with correct command parameters."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
         process = Subprocess(command)
@@ -74,6 +90,8 @@ class TestSubprocess(TestCase):
         )
 
     def test_standard_streams_are_modified_when_overridden(self):
+        """Test that standard streams are modified when overridden."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
         process = Subprocess(command, stdout="stdout_stream", stderr="stderr_stream")
@@ -91,6 +109,8 @@ class TestSubprocess(TestCase):
         )
 
     def test_execute_runs_subprocess_with_stderr_output_with_verbose_is_2(self):
+        """Test that execute run subprocess with stderr output with verbose level 2."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
         process = Subprocess(command, stdout="stdout_stream", stderr="stderr_stream", verbose=2)
@@ -108,6 +128,8 @@ class TestSubprocess(TestCase):
         )
 
     def test_execute_runs_subprocess_with_stdout_and_stderr_output_with_verbose_is_3(self):
+        """Test that execute run subprocess with stdout and stderr output with verbose level 3."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
         process = Subprocess(command, stdout="stdout_stream", stderr="stderr_stream", verbose=3)
@@ -125,6 +147,8 @@ class TestSubprocess(TestCase):
         )
 
     def test_execute_runs_subprocess_with_stdout_and_stderr_default_constructor_output_with_verbose_is_3(self):
+        """Test that execute runs subprocess with default constructor with stdout and stderr output with verbose level 2."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
         process = Subprocess(command, verbose=3)
@@ -142,6 +166,8 @@ class TestSubprocess(TestCase):
         )
 
     def test_execute_runs_subprocess_with_stdout_and_stderr_output_with_verbose_is_greater_than_3(self):
+        """Test that execute runs subprocess with stdout and stderr output with verbose level > 3."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
         process = Subprocess(command, stdout="stdout_stream", stderr="stderr_stream", verbose=8)
@@ -159,6 +185,8 @@ class TestSubprocess(TestCase):
         )
 
     def test_execute_runs_subprocess_with_stdout_redirect_with_defined_stdout_stream_and_verbose_smaller_than_3(self):
+        """Test that execute run subprocess with stdout redirected to stream output with verbose level < 3."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
         process = Subprocess(command, stdout="stdout_stream", stderr="stderr_stream", verbose=1)
@@ -176,6 +204,8 @@ class TestSubprocess(TestCase):
         )
 
     def test_execute_runs_subprocess_with_stdout_redirect_with_defined_stdout_stream_and_verbose_greater_than_3(self):
+        """Test that execute run subprocess with stdout redirected to stream output with verbose level > 3."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
         process = Subprocess(command, stdout="stdout_stream", stderr="stderr_stream", verbose=8)
@@ -193,6 +223,8 @@ class TestSubprocess(TestCase):
         )
 
     def test_execute_runs_subprocess_with_correct_timeout_value_with_timeout_set(self):
+        """Test that execute runs subprocess times out at specified moment."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
         process = Subprocess(command, timeout=180)
@@ -210,6 +242,8 @@ class TestSubprocess(TestCase):
         )
 
     def test_execute_raises_exception_with_subprocess_called_process_error_exception(self):
+        """Test that execute raises an process error exception."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
         process = Subprocess(command)
@@ -222,6 +256,8 @@ class TestSubprocess(TestCase):
             process.execute()
 
     def test_execute_raises_exception_with_subprocess_timeout_expired_exception(self):
+        """Test that execute raises and process timeout expired exception."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
         process = Subprocess(command)
@@ -235,7 +271,11 @@ class TestSubprocess(TestCase):
 
 
 class TestSubprocessPipe(TestCase):
+    """Test the SubprocessPipe class."""
+
     def setUp(self):
+        """Prepare of the test cases."""
+
         self.which_mock = patch("src.facility.subprocess.which").start()
         self.open_mock = patch("src.facility.subprocess.open").start()
         self.print_mock = patch("src.facility.subprocess.print").start()
@@ -248,10 +288,14 @@ class TestSubprocessPipe(TestCase):
         self.strftime_mock.return_value = "yyyymmdd-hhmmss"
 
     def tearDown(self):
+        """Tear down of test cases."""
+
         patch.stopall()
 
     @staticmethod
     def test_execute_pipe_when_command_is_executed_successful_then_stdout_is_returned():
+        """Test that execute pipe returns stdout when successful."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
 
@@ -263,6 +307,8 @@ class TestSubprocessPipe(TestCase):
         assert output.stdout == b"standard_output"
 
     def test_execute_pipe_when_command_is_executed_then_stdout_is_saved_to_file(self):
+        """Test that execute pipe saves sdtout to file."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
 
@@ -275,6 +321,8 @@ class TestSubprocessPipe(TestCase):
         self.open_mock.has_calls([call().__enter__().write("standard_output")])
 
     def test_execute_pipe_when_unable_to_open_logfile_then_subprocess_runtime_error_is_raised(self):
+        """Test that execute pipe raises runtime error when unable to open logfile."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
         self.open_mock.side_effect = FileNotFoundError(None, None, "filename")
@@ -291,6 +339,8 @@ class TestSubprocessPipe(TestCase):
         )
 
     def test_execute_pipe_when_non_zero_return_code_then_stdout_is_saved_to_file(self):
+        """Test that stdout is saved to file when non zero is returned."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
         self.run_mock.return_value = SimpleNamespace(stdout=b"standard_out", returncode=1)
@@ -305,6 +355,8 @@ class TestSubprocessPipe(TestCase):
         self.open_mock.has_calls([call().__enter__().write("standard_output")])
 
     def test_execute_pipe_when_verbose_is_less_than_3_then_stdout_is_not_printed_to_terminal(self):
+        """Test that stdout is not printed to terminal when verbose level < 3."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
 
@@ -316,6 +368,8 @@ class TestSubprocessPipe(TestCase):
         self.print_mock.assert_not_called()
 
     def test_execute_pipe_when_verbose_equals_3_then_stdout_printed_to_terminal(self):
+        """Test that stdout is printed to terminal when verbose level = 3."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
 
@@ -327,6 +381,8 @@ class TestSubprocessPipe(TestCase):
         self.print_mock.assert_called_once_with("standard_output")
 
     def test_execute_pipe_when_verbose_is_greater_than_3_then_stdout_is_printed_to_terminal(self):
+        """Test that stdout is printed to terminal when verbose level > 3."""
+
         # Arrange
         command = ["test_command", "test_arguments"]
 

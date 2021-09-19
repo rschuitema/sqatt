@@ -13,6 +13,8 @@ from src.cloc.cloc_code_size import (
 
 
 def test_code_size_test_code_size_ratio_calculated_correctly():
+    """Test that the code size to test code size ratio is calculated correctly."""
+
     production_code_metrics = {"SUM": {"code": 120, "comment": 30}}
     test_code_metrics = {"SUM": {"code": 30, "comment": 10}}
 
@@ -22,6 +24,7 @@ def test_code_size_test_code_size_ratio_calculated_correctly():
 
 
 def test_comment_to_code_ratio_calculated_correctly():
+    """Test that the comment to code ratio is calculated correctly."""
 
     production_code_metrics = {"SUM": {"code": 120, "comment": 30}}
     test_code_metrics = {"SUM": {"code": 30, "comment": 10}}
@@ -62,6 +65,8 @@ def test_write_code_size_metrics(csv_mock):
 
 @patch("src.cloc.cloc_code_size.csv")
 def test_save_metrics(csv_mock):
+    """Test that the metrics are saved."""
+
     production_code_size_file = "code_size.csv"
 
     production_code_metrics = {
@@ -84,6 +89,8 @@ def test_save_metrics(csv_mock):
 
 @patch("src.reporting.reporting.create_report_directory")
 def test_metrics_are_empty_when_no_code_type_specified(create_report_directory_mock):
+    """Test that the metrics are empty when no code type is specified."""
+
     # arrange
     settings = {"report_directory": "./reports", "code_type": ""}
 
@@ -101,8 +108,10 @@ def test_metrics_are_empty_when_no_code_type_specified(create_report_directory_m
 @patch("src.cloc.cloc_code_size.measure_lines_of_code")
 @patch("src.reporting.reporting.create_report_directory")
 def test_analyze_size_correct_metrics_per_code_type_are_saved_to_report_file(
-    create_report_directory_mock, measure_loc_mock, get_size_metrics_mock, save_code_metrics_mock
+        create_report_directory_mock, measure_loc_mock, get_size_metrics_mock, save_code_metrics_mock
 ):
+    """Test that the correct metrics per code type are saved to the report file."""
+
     # arrange
     settings = {
         "report_directory": "./reports",

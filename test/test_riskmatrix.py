@@ -1,4 +1,4 @@
-"""This module tests the functionality of the RiskMatrix class."""
+"""Unit tests for the functionality of the RiskMatrix class."""
 import csv
 from io import StringIO
 from unittest.mock import patch, mock_open

@@ -6,6 +6,8 @@ from src.cloc.cloc_measure import get_size_metrics, measure_lines_of_code
 
 
 def test_get_size_metrics():
+    """Test that the size metrics can be retrieved from file."""
+
     data = StringIO(
         """language, files, blank, comment, code
         Java, 10, 11, 12, 13

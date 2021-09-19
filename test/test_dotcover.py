@@ -247,8 +247,7 @@ def test_create_report_directory_directory_created(path_exists_mock, makedirs_mo
 
 
 def test_determine_coverage_per_namespace_returns_correct_coverage_numbers_for_several_namespaces():
-    """Test that the determine coverage per namespace returns the correct coverage numbers when therer
-    are several namespaces"""
+    """Test that the correct coverage numbers are returned when there are several namespaces."""
 
     # arrange
     xml_to_read = (
