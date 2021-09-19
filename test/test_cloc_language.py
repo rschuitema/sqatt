@@ -63,7 +63,6 @@ def test_show_language_profile_figure_created_with_correct_values(figure_mock):
 
     # act
     with patch("src.profile.show.go.Pie") as pie_mock:
-        figure_mock.data = [pie_mock]
         figure_mock.show = Mock()
         show_language_profile(language_profile)
 
