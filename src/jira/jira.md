@@ -79,21 +79,21 @@ permission schemes.
 This is the scheme for project permissions.
 
 | Permission | Description | Role |
-| --- |--- |---| 
+| --- |--- |---|
 | Administer Projects     | Ability to administer a project in Jira. | Administrators |
 | Browse Projects         | Ability to browse projects and the issues within them. | Developers, Viewers |
 | Edit Sprints            | Ability to edit sprint name and goal. | ??? |
 | Manage Sprints          | Ability to manage sprints. | Administrators |
 | Start/Complete Sprints  | Ability to start and complete sprints. | ??? |
 | View Development Tools  | Allows users in a software project to view development-related information on the issue, such as commits, reviews and build information. | Developers, Viewers |
-| View Read-Only Workflow | Users with this permission may view a read-only version of a workflow. | Developers, Viewers | 
+| View Read-Only Workflow | Users with this permission may view a read-only version of a workflow. | Developers, Viewers |
 
 ### Issue permissions
 
 This is the scheme for issue permissions.
 
 | Permission | Description | Role |
-| --- |--- |---| 
+| --- |--- |---|
 | Assignable User | Users with this permission may be assigned to issues. | Developers |
 | Assign Issues   | Ability to assign issues to other people. | Developers |
 | Close Issues | Ability to close issues. Often useful where your developers resolve issues, and a QA department closes them. | Developers |
@@ -107,6 +107,3 @@ This is the scheme for issue permissions.
 | Schedule Issues | Ability to view or edit an issue's due date. | Developers |
 | Set Issue Security | Ability to set the level of security on an issue so that only people in that security level can see the issue. | Developers |
 | Transition Issues | Ability to transition issues to a new state. | Developers |
-
-
-
