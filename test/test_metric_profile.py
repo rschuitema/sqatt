@@ -1,8 +1,10 @@
 """Unit test for the metric profile class."""
-from unittest.mock import patch, mock_open, call, Mock
+from unittest.mock import patch, mock_open, call, Mock, ANY
 
 from src.profile.MetricProfile import MetricProfile
 from src.profile.MetricRegion import MetricRegion
+from src.profile.show import show_profile
+from src.profile.sqatt_profiles import create_function_size_profile
 
 
 def test_profile_can_have_one_region():
@@ -139,3 +141,33 @@ def test_profile_saved_correctly(csv_mock):
     # assert
     mocked_file.assert_called_once_with(report_file, "w", encoding="utf-8")
     csv_mock.writer().assert_has_calls(calls)
+
+
+@patch("src.profile.show.go.Figure")
+def test_profile_is_shown_correctly(figure_mock):
+    """Test that the profile is show correctly in a figure."""
+
+    # arrange
+    profile = create_function_size_profile()
+
+    profile.update_loc(20)
+    profile.update_loc(100)
+    profile.update_loc(10)
+    profile.update_loc(40)
+
+    # act
+    with patch("src.profile.show.go.Pie") as pie_mock:
+        figure_mock.show = Mock()
+        show_profile(profile)
+
+    # assert
+    pie_mock.assert_called_once_with(
+        title={"text": "Function size"},
+        labels=["0-15", "16-30", "31-60", "60+"],
+        values=[10, 20, 40, 100],
+        hole=ANY,
+        marker_line=ANY,
+        marker_colors=ANY,
+    )
+
+    figure_mock().show.assert_called_once()
