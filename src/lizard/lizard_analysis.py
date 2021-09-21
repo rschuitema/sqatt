@@ -51,8 +51,7 @@ def determine_profiles(profiles, metrics_file, reader=None):
 def measure_function_metrics(input_dir, output_dir):
     """Measure the function metrics."""
 
-    report_dir = create_report_directory(output_dir)
-    function_metrics_file = os.path.join(report_dir, "function_metrics.csv")
+    function_metrics_file = os.path.join(output_dir, "function_metrics.csv")
 
     measure_function_size_command = [
         "lizard",
@@ -70,11 +69,11 @@ def measure_function_metrics(input_dir, output_dir):
 def perform_analysis(analysis):
     """Perform the requested analysis."""
 
-    metrics_file = measure_function_metrics(analysis.input, analysis.output)
+    report_dir = create_report_directory(analysis.output)
+    metrics_file = measure_function_metrics(analysis.input, report_dir)
     profiles = create_profiles()
     determine_profiles(profiles, metrics_file)
 
-    report_dir = create_report_directory(analysis.output)
     function_size_profile_file = os.path.join(report_dir, "function_size_profile.csv")
     complexity_profile_file = os.path.join(report_dir, "complexity_profile.csv")
     parameters_profile_file = os.path.join(report_dir, "parameters_profile.csv")
