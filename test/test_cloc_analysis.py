@@ -43,7 +43,7 @@ def test_option_code_size_performs_only_code_size_analysis(cloc_analysis_mocks):
     """Test that only the code size analysis is performed when the --code-size option is provided."""
 
     # arrange
-    args = parse_arguments(["/tmp/input", "--code-size"])
+    args = parse_arguments(["/bla/input", "--code-size"])
 
     # act
     args.func(args)
@@ -57,7 +57,7 @@ def test_option_language_performs_only_language_analysis(cloc_analysis_mocks):
     """Test that only the code size analysis is performed when the --code-size option is provided."""
 
     # arrange
-    args = parse_arguments(["/tmp/input", "--language"])
+    args = parse_arguments(["/bla/input", "--language"])
 
     # act
     args.func(args)
@@ -71,7 +71,7 @@ def test_option_all_performs_all_analysis(cloc_analysis_mocks):
     """Test that only the code size analysis is performed when the --code-size option is provided."""
 
     # arrange
-    args = parse_arguments(["/tmp/input", "--all"])
+    args = parse_arguments(["/bla/input", "--all"])
 
     # act
     args.func(args)
@@ -85,7 +85,7 @@ def test_option_output_has_correct_default(cloc_analysis_mocks):
     """Test that the default output directory is correct."""
 
     # arrange
-    args = parse_arguments(["/tmp/input", "--all"])
+    args = parse_arguments(["/bla/input", "--all"])
 
     # act
     args.func(args)
@@ -98,7 +98,7 @@ def test_option_output_has_correct_value(cloc_analysis_mocks):
     """Test that the default output directory is correct."""
 
     # arrange
-    args = parse_arguments(["/tmp/input", "--all", "--output=/tmp/reports"])
+    args = parse_arguments(["/bla/input", "--all", "--output=/tmp/reports"])
 
     # act
     args.func(args)

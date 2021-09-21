@@ -285,13 +285,13 @@ def test_options_file_should_have_correct_values(metrics_mocks):
     """Test that the options for file have correct provided values."""
 
     # arrange
-    args = parse_arguments(["metrics", "--file", "--output=/tmp/reports", "--module=foo", "--sort=CountLine", "db"])
+    args = parse_arguments(["metrics", "--file", "--output=/bla/reports", "--module=foo", "--sort=CountLine", "db"])
 
     # act
     args.func(args)
 
     # assert
-    metrics_mocks.file_mock.assert_called_with("db", "/tmp/reports", "foo", "CountLine")
+    metrics_mocks.file_mock.assert_called_with("db", "/bla/reports", "foo", "CountLine")
 
 
 def test_option_function_collects_only_function_metrics(metrics_mocks):

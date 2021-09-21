@@ -63,7 +63,7 @@ def test_measure_function_metrics(subprocess_mock, report_mock):
 
     # arrange
     input_dir = "/code/source"
-    output_dir = "/tmp/reports"
+    output_dir = "/bla/reports"
     output_file = os.path.join(output_dir, "function_metrics.csv")
     expected_command = ["lizard", "--csv", f"-o{output_file}", input_dir]
 

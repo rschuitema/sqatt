@@ -200,7 +200,7 @@ def test_save_coverage_per_namespace(csv_mock):
 
     items = {"A": 15, "b": 8}
     csv_mock.writer = Mock(writerow=Mock())
-    report_dir = r"/tmp/"
+    report_dir = r"/bla/"
     calls = [call.writerow(["Namespace", "Coverage"]), call.writerow(["A", 15]), call.writerow(["b", 8])]
     with patch("src.dotcover.dotcover.open", mock_open()) as mocked_file:
         save_coverage_per_namespace(items, report_dir)
@@ -297,7 +297,7 @@ def test_read_coverage_returns_xml_document():
     # act
     with patch("src.dotcover.dotcover.open", mock_open()) as mocked_file:
         mocked_file.return_value.read.return_value = xml_to_read
-        doc = read_coverage(r"/tmp/coverage_results.xml")
+        doc = read_coverage(r"/bla/coverage_results.xml")
 
         # assert
         assemblies = doc["Root"]["Assembly"]
