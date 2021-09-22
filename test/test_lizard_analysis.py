@@ -171,53 +171,20 @@ def test_option_all_performs_all_analysis(lizard_analysis_mocks):
     assert lizard_analysis_mocks.print_profile_mock.call_count == 3
 
 
-def test_option_function_size_performs_only_function_size_analysis(lizard_analysis_mocks):
-    """Test that only the code size analysis is performed when the --code-size option is provided."""
+test_data = [
+    ("--parameter", os.path.join("test_reports", "parameters_profile.csv")),
+    ("--complexity", os.path.join("test_reports", "complexity_profile.csv")),
+    ("--function-size", os.path.join("test_reports", "function_size_profile.csv")),
+]
+
+
+@pytest.mark.parametrize("option,expected_report_file", test_data)
+def test_option_only_perform_specified_analysis(lizard_analysis_mocks, option, expected_report_file):
+    """Test that only the analysis is performed that is specified."""
 
     # arrange
-    args = parse_arguments(["/bla/input", "--function-size"])
-    lizard_analysis_mocks.create_report_directory_mock.return_value = "./test_reports"
-    expected_report_file = os.path.join("./test_reports", "function_size_profile.csv")
-
-    # act
-    args.func(args)
-
-    # assert
-    lizard_analysis_mocks.create_report_directory_mock.assert_called_once()
-    lizard_analysis_mocks.measure_function_metrics_mock.assert_called_once()
-    lizard_analysis_mocks.determine_profiles_mock.assert_called_once()
-    lizard_analysis_mocks.show_profile_mock.assert_called_once()
-    lizard_analysis_mocks.save_profile_mock.assert_called_once_with(expected_report_file)
-    lizard_analysis_mocks.print_profile_mock.assert_called_once()
-
-
-def test_option_complexity_performs_only_complexity_analysis(lizard_analysis_mocks):
-    """Test that only the complexity analysis is performed when the --complexity option is provided."""
-
-    # arrange
-    args = parse_arguments(["/bla/input", "--complexity"])
+    args = parse_arguments(["/bla/input", option])
     lizard_analysis_mocks.create_report_directory_mock.return_value = "test_reports"
-    expected_report_file = os.path.join("test_reports", "complexity_profile.csv")
-
-    # act
-    args.func(args)
-
-    # assert
-    lizard_analysis_mocks.create_report_directory_mock.assert_called_once()
-    lizard_analysis_mocks.measure_function_metrics_mock.assert_called_once()
-    lizard_analysis_mocks.determine_profiles_mock.assert_called_once()
-    lizard_analysis_mocks.show_profile_mock.assert_called_once()
-    lizard_analysis_mocks.save_profile_mock.assert_called_once_with(expected_report_file)
-    lizard_analysis_mocks.print_profile_mock.assert_called_once()
-
-
-def test_option_parameter_performs_only_parameter_analysis(lizard_analysis_mocks):
-    """Test that only the parameter analysis is performed when the --parameter option is provided."""
-
-    # arrange
-    args = parse_arguments(["/bla/input", "--parameter"])
-    lizard_analysis_mocks.create_report_directory_mock.return_value = "test_reports"
-    expected_report_file = os.path.join("test_reports", "parameters_profile.csv")
 
     # act
     args.func(args)
