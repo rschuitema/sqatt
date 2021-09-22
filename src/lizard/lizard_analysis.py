@@ -106,10 +106,12 @@ def perform_analysis(analysis):
         show_profile(profiles["parameters"])
 
 
-def add_analysis_parser(subparsers):
-    """Add argument parser for analysis."""
+def parse_arguments(args):
+    """Parse the commandline arguments."""
 
-    parser = subparsers.add_parser("analysis", help="analysis commands")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--version", action="version", version="%(prog)s 2.0")
+
     parser.add_argument("input", help="directory to analyze")
     parser.add_argument("--output", help="directory where to place the report", default="./reports")
 
@@ -119,16 +121,6 @@ def add_analysis_parser(subparsers):
     parser.add_argument("--function-size", help="analyze the function size", action="store_true")
 
     parser.set_defaults(func=perform_analysis)
-
-
-def parse_arguments(args):
-    """Parse the commandline arguments."""
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--version", action="version", version="%(prog)s 2.0")
-    subparsers = parser.add_subparsers(help="available sub-commands")
-
-    add_analysis_parser(subparsers)
 
     return parser.parse_args(args)
 

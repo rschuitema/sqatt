@@ -2,14 +2,66 @@
 import csv
 import os
 from io import StringIO
-from unittest.mock import patch, mock_open
+from unittest.mock import patch, mock_open, call
 
-from src.lizard.lizard_analysis import determine_profiles, measure_function_metrics, create_profiles
+import pytest
+
+from src.lizard.lizard_analysis import determine_profiles, measure_function_metrics, create_profiles, parse_arguments
+
 from src.profile.sqatt_profiles import (
     create_function_size_profile,
     create_complexity_profile,
     create_function_parameters_profile,
 )
+
+
+class LizardAnalysisMocks:
+    """Collection of mocks for all analysis functions."""
+
+    def __init__(self):
+        """Create the analysis patches."""
+        self.create_report_directory_patch = patch("src.lizard.lizard_analysis.create_report_directory")
+        self.measure_function_metrics_patch = patch("src.lizard.lizard_analysis.measure_function_metrics")
+        self.determine_profiles_patch = patch("src.lizard.lizard_analysis.determine_profiles")
+        self.save_profile_patch = patch("src.profile.MetricProfile.MetricProfile.save")
+        self.show_profile_patch = patch("src.lizard.lizard_analysis.show_profile")
+        self.print_profile_patch = patch("src.profile.MetricProfile.MetricProfile.print")
+
+        self.create_report_directory_mock = None
+        self.measure_function_metrics_mock = None
+        self.determine_profiles_mock = None
+        self.show_profile_mock = None
+        self.save_profile_mock = None
+        self.print_profile_mock = None
+
+    def start(self):
+        """Start the patches."""
+
+        self.create_report_directory_mock = self.create_report_directory_patch.start()
+        self.measure_function_metrics_mock = self.measure_function_metrics_patch.start()
+        self.determine_profiles_mock = self.determine_profiles_patch.start()
+        self.show_profile_mock = self.show_profile_patch.start()
+        self.save_profile_mock = self.save_profile_patch.start()
+        self.print_profile_mock = self.print_profile_patch.start()
+
+    def stop(self):
+        """Stop the patches."""
+        self.create_report_directory_patch.stop()
+        self.measure_function_metrics_patch.stop()
+        self.determine_profiles_patch.stop()
+        self.show_profile_patch.stop()
+        self.save_profile_patch.stop()
+        self.print_profile_patch.stop()
+
+
+@pytest.fixture
+def lizard_analysis_mocks():
+    """Fixture for creating analysis mocks."""
+
+    mocks = LizardAnalysisMocks()
+    mocks.start()
+    yield mocks
+    mocks.stop()
 
 
 def test_determine_function_size_profile():
@@ -91,3 +143,115 @@ def test_create_profiles():
     assert profiles["function_size"].name() == "Function size"
     assert profiles["complexity"].name() == "Complexity"
     assert profiles["parameters"].name() == "Function parameters"
+
+
+def test_option_all_performs_all_analysis(lizard_analysis_mocks):
+    """Test that all analysis is performed when the --all option is provided."""
+
+    # arrange
+    args = parse_arguments(["/bla/input", "--all"])
+    lizard_analysis_mocks.create_report_directory_mock.return_value = "test_reports"
+
+    calls = [
+        call.save(os.path.join("test_reports", "function_size_profile.csv")),
+        call.save(os.path.join("test_reports", "complexity_profile.csv")),
+        call.save(os.path.join("test_reports", "parameters_profile.csv")),
+    ]
+
+    # act
+    args.func(args)
+
+    # assert
+    lizard_analysis_mocks.create_report_directory_mock.assert_called_once()
+    lizard_analysis_mocks.measure_function_metrics_mock.assert_called_once()
+    lizard_analysis_mocks.determine_profiles_mock.assert_called_once()
+
+    lizard_analysis_mocks.save_profile_mock.has_calls(calls)
+    assert lizard_analysis_mocks.show_profile_mock.call_count == 3
+    assert lizard_analysis_mocks.print_profile_mock.call_count == 3
+
+
+def test_option_function_size_performs_only_function_size_analysis(lizard_analysis_mocks):
+    """Test that only the code size analysis is performed when the --code-size option is provided."""
+
+    # arrange
+    args = parse_arguments(["/bla/input", "--function-size"])
+    lizard_analysis_mocks.create_report_directory_mock.return_value = "./test_reports"
+    expected_report_file = os.path.join("./test_reports", "function_size_profile.csv")
+
+    # act
+    args.func(args)
+
+    # assert
+    lizard_analysis_mocks.create_report_directory_mock.assert_called_once()
+    lizard_analysis_mocks.measure_function_metrics_mock.assert_called_once()
+    lizard_analysis_mocks.determine_profiles_mock.assert_called_once()
+    lizard_analysis_mocks.show_profile_mock.assert_called_once()
+    lizard_analysis_mocks.save_profile_mock.assert_called_once_with(expected_report_file)
+    lizard_analysis_mocks.print_profile_mock.assert_called_once()
+
+
+def test_option_complexity_performs_only_complexity_analysis(lizard_analysis_mocks):
+    """Test that only the complexity analysis is performed when the --complexity option is provided."""
+
+    # arrange
+    args = parse_arguments(["/bla/input", "--complexity"])
+    lizard_analysis_mocks.create_report_directory_mock.return_value = "test_reports"
+    expected_report_file = os.path.join("test_reports", "complexity_profile.csv")
+
+    # act
+    args.func(args)
+
+    # assert
+    lizard_analysis_mocks.create_report_directory_mock.assert_called_once()
+    lizard_analysis_mocks.measure_function_metrics_mock.assert_called_once()
+    lizard_analysis_mocks.determine_profiles_mock.assert_called_once()
+    lizard_analysis_mocks.show_profile_mock.assert_called_once()
+    lizard_analysis_mocks.save_profile_mock.assert_called_once_with(expected_report_file)
+    lizard_analysis_mocks.print_profile_mock.assert_called_once()
+
+
+def test_option_parameter_performs_only_parameter_analysis(lizard_analysis_mocks):
+    """Test that only the parameter analysis is performed when the --parameter option is provided."""
+
+    # arrange
+    args = parse_arguments(["/bla/input", "--parameter"])
+    lizard_analysis_mocks.create_report_directory_mock.return_value = "test_reports"
+    expected_report_file = os.path.join("test_reports", "parameters_profile.csv")
+
+    # act
+    args.func(args)
+
+    # assert
+    lizard_analysis_mocks.create_report_directory_mock.assert_called_once()
+    lizard_analysis_mocks.measure_function_metrics_mock.assert_called_once()
+    lizard_analysis_mocks.determine_profiles_mock.assert_called_once()
+    lizard_analysis_mocks.show_profile_mock.assert_called_once()
+    lizard_analysis_mocks.save_profile_mock.assert_called_once_with(expected_report_file)
+    lizard_analysis_mocks.print_profile_mock.assert_called_once()
+
+
+def test_option_output_has_correct_default(lizard_analysis_mocks):
+    """Test that the default output directory is correct."""
+
+    # arrange
+    args = parse_arguments(["/bla/input", "--all"])
+
+    # act
+    args.func(args)
+
+    # assert
+    lizard_analysis_mocks.create_report_directory_mock.assert_called_with("./reports")
+
+
+def test_option_output_has_correct_value(lizard_analysis_mocks):
+    """Test that the default output directory is correct."""
+
+    # arrange
+    args = parse_arguments(["/bla/input", "--all", "--output=/bla/reports"])
+
+    # act
+    args.func(args)
+
+    # assert
+    lizard_analysis_mocks.create_report_directory_mock.assert_called_with("/bla/reports")
