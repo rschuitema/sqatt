@@ -2,7 +2,7 @@
 import csv
 import os
 
-from src.cloc.cloc_measure import measure_lines_of_code, measure_loc, get_size_metrics
+from src.cloc.cloc_measure import measure_lines_of_code, get_size_metrics
 from src.profile.colors import profile_colors
 from src.profile.show import make_donut
 from src.reporting.reporting import create_report_directory
@@ -71,15 +71,15 @@ def analyze_languages(settings):
     return metrics
 
 
-def analyze_language(config):
+def analyze_language(settings):
     """Analyze the the lines of code per language."""
 
-    report_dir = create_report_directory(config["reporting"]["directory"])
+    report_dir = create_report_directory(settings["report_directory"])
     report_file = os.path.join(report_dir, "language_profile.csv")
-    measure_loc(config, "production")
-
-    measure_lines_of_code(config["analysis"]["directory"], report_file, "--exclude-dir=test,tst")
+    measure_lines_of_code(settings["analysis_directory"], report_file, "--exclude-dir=test,tst")
     language_metrics = get_size_metrics(report_file)
+
+    del language_metrics["SUM"]
 
     save_language_profile(report_file, language_metrics)
     show_language_profile(language_metrics)

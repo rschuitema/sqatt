@@ -98,7 +98,7 @@ def test_option_output_has_correct_value(cloc_analysis_mocks):
     """Test that the default output directory is correct."""
 
     # arrange
-    args = parse_arguments(["/bla/input", "--all", "--output=/tmp/reports"])
+    args = parse_arguments(["/bla/input", "--all", "--output=/bla/reports"])
 
     # act
     args.func(args)
