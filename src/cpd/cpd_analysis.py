@@ -70,6 +70,8 @@ def determine_duplicate_lines_of_code(csv_input):
 
 
 def check_valid_header(csv_data):
+    """Check if the header is valid, raise exception if not."""
+
     if csv_data and not csv_data[0] == 'lines,tokens,occurrences':
         raise ValueError
 
