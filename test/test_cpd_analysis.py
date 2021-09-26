@@ -7,6 +7,7 @@ from src.cpd.cpd_analysis import (
     measure_lines_of_code,
     determine_duplicate_lines_of_code,
     determine_colors,
+    determine_total_lines_of_code,
 )
 
 
@@ -149,6 +150,56 @@ def test_determine_duplicated_loc_raises_exception_when_lines_count_is_string():
     # act & assert
     with pytest.raises(ValueError):
         determine_duplicate_lines_of_code(data)
+
+
+def test_determine_total_lines_of_code_is_correct():
+    """Test if the correct number of total lines of code is determined."""
+
+    # arrange
+    data = (
+        "\n"
+        'files,language,blank,comment,code,"github.com/AlDanial/cloc v 1.82"\n'
+        "58,Python,992,495,2178\n"
+        "2,Cucumber,10,0,79\n"
+        "81,SUM,1066,500,5003\n"
+    )
+
+    # act
+    total_loc = int(determine_total_lines_of_code(data))
+
+    # assert
+    assert total_loc == 5003
+
+
+def test_determine_total_lines_of_code_is_0_when_provided_empty_string():
+    """Test if the total lines of code is 0 when provide an empty string."""
+
+    # arrange
+    data = "\n"
+
+    # act
+    total_loc = int(determine_total_lines_of_code(data))
+
+    # assert
+    assert total_loc == 0
+
+
+def test_determine_total_lines_of_code_is_0_when_sum_not_in_string():
+    """Test if the total lines of code is 0 when sum not in string."""
+
+    # arrange
+    data = (
+        "\n"
+        'files,language,blank,comment,code,"github.com/AlDanial/cloc v 1.82"\n'
+        "58,Java,992,495,2178\n"
+        "2,Cucumber,10,0,79\n"
+    )
+
+    # act
+    total_loc = int(determine_total_lines_of_code(data))
+
+    # assert
+    assert total_loc == 0
 
 
 TEST_DATA = [
