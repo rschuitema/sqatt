@@ -5,8 +5,9 @@ import pytest
 from src.cpd.cpd_analysis import measure_code_duplication, measure_lines_of_code, determine_duplicate_lines_of_code
 
 
+@patch("os.path.exists")
 @patch("src.cpd.cpd_analysis.Subprocess")
-def test_measure_code_duplication_calls_cpd_with_correct_parameters(subprocess_mock):
+def test_measure_code_duplication_calls_cpd_with_correct_parameters(subprocess_mock, exists_mock):
     """Test that cpd is called with the correct parameters to measure code duplication."""
 
     # arrange
@@ -16,6 +17,8 @@ def test_measure_code_duplication_calls_cpd_with_correct_parameters(subprocess_m
         "tokens": 123,
         "analysis_directory": "input_root/source",
     }
+
+    exists_mock.return_value = True
 
     # act
     measure_code_duplication(settings)
@@ -37,8 +40,9 @@ def test_measure_code_duplication_calls_cpd_with_correct_parameters(subprocess_m
     )
 
 
+@patch("os.path.exists")
 @patch("src.cpd.cpd_analysis.Subprocess")
-def test_measure_lines_of_code_calls_cloc_with_correct_parameters(subprocess_mock):
+def test_measure_lines_of_code_calls_cloc_with_correct_parameters(subprocess_mock, exists_mock):
     """Test that cloc is called with the correct parameters to measure the lines of code."""
 
     # arrange
@@ -48,6 +52,8 @@ def test_measure_lines_of_code_calls_cloc_with_correct_parameters(subprocess_moc
         "tokens": 11,
         "analysis_directory": "input_root/source",
     }
+
+    exists_mock.return_value = True
 
     # act
     measure_lines_of_code(settings)
