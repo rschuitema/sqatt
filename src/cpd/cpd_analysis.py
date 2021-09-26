@@ -59,12 +59,19 @@ def determine_duplicate_lines_of_code(csv_input):
     """Calculate the number of duplicated lines of code."""
 
     csv_data = csv_input.splitlines()
-    data = csv.DictReader(csv_data)
+    check_valid_header(csv_data)
+
     duplicate_loc = 0
+    data = csv.DictReader(csv_data)
     for row in data:
         duplicate_loc = duplicate_loc + (int(row["lines"]) * (int(row["occurrences"])))
 
     return duplicate_loc
+
+
+def check_valid_header(csv_data):
+    if csv_data and not csv_data[0] == 'lines,tokens,occurrences':
+        raise ValueError
 
 
 def determine_total_lines_of_code(csv_input):
