@@ -2,7 +2,12 @@ from unittest.mock import patch
 
 import pytest
 
-from src.cpd.cpd_analysis import measure_code_duplication, measure_lines_of_code, determine_duplicate_lines_of_code
+from src.cpd.cpd_analysis import (
+    measure_code_duplication,
+    measure_lines_of_code,
+    determine_duplicate_lines_of_code,
+    determine_colors,
+)
 
 
 @patch("os.path.exists")
@@ -144,3 +149,28 @@ def test_determine_duplicated_loc_raises_exception_when_lines_count_is_string():
     # act & assert
     with pytest.raises(ValueError):
         determine_duplicate_lines_of_code(data)
+
+
+TEST_DATA = [
+    (0, ["rgb(204, 5, 5)", "rgb(121, 185, 79)"]),
+    (3, ["rgb(121, 185, 79)", "rgb(121, 185, 79)"]),
+    (4, ["rgb(255, 204, 5)", "rgb(121, 185, 79)"]),
+    (5, ["rgb(255, 204, 5)", "rgb(121, 185, 79)"]),
+    (19, ["rgb(251, 135, 56)", "rgb(121, 185, 79)"]),
+    (20, ["rgb(251, 135, 56)", "rgb(121, 185, 79)"]),
+    (21, ["rgb(204, 5, 5)", "rgb(121, 185, 79)"]),
+]
+
+
+@pytest.mark.parametrize("percentage,expected_colors", TEST_DATA)
+def test_determine_colors(percentage, expected_colors):
+    """Test that the correct colors are determine from the percentage."""
+
+    # arrange
+
+    # act
+    colors = determine_colors(percentage)
+
+    # assert
+    assert colors == expected_colors
+    assert len(colors) == 2
