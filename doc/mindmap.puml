@@ -4,6 +4,13 @@
 -- Process
 --- PMI
 --- Defect age
+--- Test Pyramid
+----_ Profile:
+----_ Number of unit tests
+----_ Number of integration tests
+----_ Number of system tests
+----_ Number of user interface tests
+----_ Number of manual tests
 
 -- CICD
 --- Stability
