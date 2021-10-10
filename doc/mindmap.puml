@@ -1,27 +1,57 @@
 @startmindmap
 *[#lightblue] Sqatt
-** Static Analysis
 
-*** Complexity
-****_ Profile:
-****_ Green: 0-5
-****_ Yellow: 6-10
-****_ Orange: 11-25
-****_ Red: 25+
+-- Process
+--- PMI
+--- Defect age
 
-*** Function size
-****_ Profile:
-****_ Green: 1-15
-****_ Yellow: 16-30
-****_ Orange: 31-60
-****_ Red: 60+
+-- CICD
+--- Stability
+----_ Failure rate
+----_ Recovery time
+--- Throughput
+----_ Lead time
+----_ Interval
+--- Aspects
+----_ Build
+----_ Deployment
+----_ Mainline
 
-*** Function parameters
-****_ Profile:
-****_ Green: 1-2
-****_ Yellow: 3-4
-****_ Orange: 5-6
-****_ Red: 6+
+-- Behaviour Analysis
+--- Hotspots
+--- Temporal coupling
+--- Test automation
+--- Modus operandi
+--- Knowledge map
+--- Commits
+
+
+
+
+** Static Code Analysis
+
+*** Function Metrics
+
+**** Function size
+*****_ Profile:
+*****_ Green: 1-15
+*****_ Yellow: 16-30
+*****_ Orange: 31-60
+*****_ Red: 60+
+
+**** Function parameters
+*****_ Profile:
+*****_ Green: 1-2
+*****_ Yellow: 3-4
+*****_ Orange: 5-6
+*****_ Red: 6+
+
+**** Complexity
+*****_ Profile:
+*****_ Green: 0-5
+*****_ Yellow: 6-10
+*****_ Orange: 11-25
+*****_ Red: 25+
 
 *** Code duplication
 ****_ profile:
@@ -32,63 +62,64 @@
 ****_ % not duplicated
 *****_ Green: 0-3 %
 
-*** Fan in
-****_ Profile:
-****_ Green: 1-10
-****_ Yellow: 11-20
-****_ Orange: 21-50
-****_ Red: 50+
+*** Code size
+**** Code volume breakdown
+*****_ Profile:
+*****_ Code lines
+*****_ Blank lines
+*****_ Comment lines
+*****_ Inactive lines
+*****_ Preprocessor lines
 
-*** Fan out
-****_ Profile:
-****_ Green: 1-10
-****_ Yellow: 11-20
-****_ Orange: 21-50
-****_ Red: 50+
+**** Language breakdown
+*****_ Profile:
+*****_ Java
+*****_ C++
+*****_ ...
 
-*** Cyclic dependencies
-****_ Profile:
-****_ List of cyclic dependencies
+**** Code type breakdown
+*****_ Profile:
+*****_ Generated code
+*****_ Test code
+*****_ Production code
+*****_ 3rd party code
 
-*** Test automation
-****_ Profile
-****_ (Test loc / Production loc) * 100%
-
-*** Code volume breakdown
-****_ Profile:
-****_ Code lines
-****_ Blank lines
-****_ Comment lines
-****_ Inactive lines
-****_ Preprocessor lines
-
-*** Language breakdown
-****_ Profile:
-****_ Java
-****_ C++
-****_ ...
-
-*** Code type breakdown
-****_ Profile:
-****_ Generated code
-****_ Test code
-****_ Production code
-****_ 3rd party code
+**** Test automation
+*****_ Profile:
+*****_ (Test loc / Production loc) * 100%
 
 *** Coding rules
 ****_ Profile:
 ****_ violations per rule
 ****_ violations per rule category
+****_ for industry standard
+*****_ MISRA
+*****_ CERT
 
--- Behaviour Analysis
---- Hotspots
---- Temporal coupling
---- Test automation
---- Modus operandi
---- Knowledge map
---- Build failure rate
---- Build recovery time
---- PMI
---- Defect age
+*** Design Metrics
+**** Fan in
+*****_ Profile:
+*****_ Green: 1-10
+*****_ Yellow: 11-20
+*****_ Orange: 21-50
+*****_ Red: 50+
+
+**** Fan out
+*****_ Profile:
+*****_ Green: 1-10
+*****_ Yellow: 11-20
+*****_ Orange: 21-50
+*****_ Red: 50+
+
+**** Dependencies
+*****_ Profile:
+*****_ List of cyclic dependencies
+*****_ Design Structure Matrix
+
+**** Include graph
+*****_ Profile:
+*****_ List of cyclic includes
+*****_ graph of includes
+*****_ path from file to included file
 
 @endmindmap
