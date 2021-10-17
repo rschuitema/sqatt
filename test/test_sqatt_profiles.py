@@ -5,7 +5,7 @@ from src.profile.sqatt_profiles import (
     create_complexity_profile,
     create_function_parameters_profile,
     create_fan_in_profile,
-    create_fan_out_profile,
+    create_fan_out_profile, create_file_size_profile,
 )
 
 
@@ -83,6 +83,22 @@ def test_create_fan_out_profile():
 
     # assert
     assert profile.name() == "Fan out"
+    assert profile.regions()[0].loc() == 0
+    assert profile.regions()[1].loc() == 0
+    assert profile.regions()[2].loc() == 0
+    assert profile.regions()[3].loc() == 0
+
+
+def test_create_file_size_profile():
+    """Test the creation of the file size profile."""
+
+    # arrange
+
+    # act
+    profile = create_file_size_profile()
+
+    # assert
+    assert profile.name() == "File size"
     assert profile.regions()[0].loc() == 0
     assert profile.regions()[1].loc() == 0
     assert profile.regions()[2].loc() == 0
