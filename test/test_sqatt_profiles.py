@@ -5,7 +5,8 @@ from src.profile.sqatt_profiles import (
     create_complexity_profile,
     create_function_parameters_profile,
     create_fan_in_profile,
-    create_fan_out_profile, create_file_size_profile,
+    create_fan_out_profile,
+    create_file_size_profile,
 )
 
 
