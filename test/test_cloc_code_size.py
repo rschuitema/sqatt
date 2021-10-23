@@ -1,6 +1,6 @@
 """Unit test for cloc code size analysis."""
 import os
-from unittest.mock import patch, Mock, call, mock_open
+from unittest.mock import patch, Mock, call, mock_open, ANY
 
 from src.cloc.cloc_code_size import (
     calculate_test_code_to_production_code_ratio,
@@ -9,7 +9,9 @@ from src.cloc.cloc_code_size import (
     write_code_size_metrics,
     save_code_metrics,
     analyze_size,
+    show_code_profile,
 )
+from src.profile.colors import profile_colors
 
 
 def test_code_size_test_code_size_ratio_calculated_correctly():
@@ -134,3 +136,31 @@ def test_analyze_size_correct_metrics_per_code_type_are_saved_to_report_file(
     save_code_metrics_mock.assert_called_once_with(report_file_name, 100)
 
     assert metrics["production"] == 100
+
+
+@patch("src.profile.show.go.Figure")
+def test_show_code_size_profile_figure_created_with_correct_values(figure_mock):
+    """Test that the figure is created with the correct values."""
+
+    # arrange
+    code_profile = {
+        "SUM": {"files": 70, "blank": 879, "code": 3061, "comment": 395},
+        "C#": {"files": 100, "blank": 7, "code": 1220, "comment": 30},
+    }
+
+    # act
+    with patch("src.profile.show.go.Pie") as pie_mock:
+        figure_mock.show = Mock()
+        show_code_profile(code_profile, "Production")
+
+    # assert
+    pie_mock.assert_called_once_with(
+        title={"text": "Production code <br> breakdown"},
+        labels=["Blank Lines", "Lines of Code", "Comment Lines"],
+        values=[879, 3061, 395],
+        hole=ANY,
+        marker_colors=profile_colors,
+        marker_line=ANY,
+    )
+
+    figure_mock().show.assert_called_once()
