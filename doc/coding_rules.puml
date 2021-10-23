@@ -1,8 +1,12 @@
 @startuml
 
-class CodingStandard {
+interface CodingStandard {
   read_rules()
+  add_rule(CodingRule)
 }
+
+class MisraCodingStandard
+class CertCodingStandard
 
 class CodingRule {
   -identification
@@ -34,7 +38,10 @@ interface Reader {
 class MisraReader
 class ResharperReader
 
-CodingStandard *-- CodingRule
+CodingStandard <|-- MisraCodingStandard
+CodingStandard <|-- CertCodingStandard
+MisraCodingStandard *-- CodingRule
+CertCodingStandard *-- CodingRule
 CodingRuleParser -> CodingStandard
 CodingRuleParser -down-> CodingRuleProfile : creates
 Reader <- CodingRuleParser
