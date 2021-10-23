@@ -68,7 +68,7 @@ def parse_arguments(args):
 
     parser.add_argument("--all", help="analyze all aspects", action="store_true")
     parser.add_argument("--code-size", help="analyze the code size", action="store_true")
-    parser.add_argument("--language", help="analyze all aspects", action="store_true")
+    parser.add_argument("--language", help="analyze the code size per language", action="store_true")
 
     parser.set_defaults(func=perform_analysis)
 
