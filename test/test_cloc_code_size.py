@@ -10,6 +10,7 @@ from src.cloc.cloc_code_size import (
     save_code_metrics,
     analyze_size,
     show_code_profile,
+    show_code_type_profile,
 )
 from src.profile.colors import profile_colors
 
@@ -139,8 +140,50 @@ def test_analyze_size_correct_metrics_per_code_type_are_saved_to_report_file(
 
 
 @patch("src.profile.show.go.Figure")
-def test_show_code_size_profile_figure_created_with_correct_values(figure_mock):
+def test_show_code_type_profile_figure_created_with_correct_values(figure_mock):
     """Test that the figure is created with the correct values."""
+
+    # arrange
+    metrics = {
+        "production": {
+            "SUM": {"files": "70", "blank": "879", "comment": "395", "code": "3072"},
+            "Python": {"files": "54", "blank": "843", "comment": "391", "code": "1889"},
+        },
+        "test": {
+            "SUM": {"files": "17", "blank": "766", "comment": "568", "code": "1652"},
+            "Python": {"files": "16", "blank": "763", "comment": "568", "code": "1647"},
+        },
+        "third_party": {
+            "SUM": {"files": "10", "blank": "172", "comment": "67", "code": "598"},
+            "Python": {"files": "5", "blank": "134", "comment": "67", "code": "373"},
+        },
+        "generated": {
+            "SUM": {"files": "4", "blank": "85", "comment": "47", "code": "1597"},
+            "Python": {"files": "2", "blank": "85", "comment": "46", "code": "127"},
+        },
+    }
+
+    # act
+    with patch("src.profile.show.go.Pie") as pie_mock:
+        figure_mock.show = Mock()
+        show_code_type_profile(metrics)
+
+    # assert
+    pie_mock.assert_called_once_with(
+        title={"text": "Code type breakdown"},
+        labels=["Production", "Test", "Third Party", "Generated"],
+        values=["3072", "1652", "598", "1597"],
+        hole=ANY,
+        marker_colors=profile_colors,
+        marker_line=ANY,
+    )
+
+    figure_mock().show.assert_called_once()
+
+
+@patch("src.profile.show.go.Figure")
+def test_show_code_profile_figure_created_with_correct_values(figure_mock):
+    """Test that the code type figure is created with the correct values."""
 
     # arrange
     code_profile = {
