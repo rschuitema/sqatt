@@ -171,14 +171,14 @@ def test_option_all_performs_all_analysis(lizard_analysis_mocks):
     assert lizard_analysis_mocks.print_profile_mock.call_count == 3
 
 
-test_data = [
+TEST_DATA = [
     ("--parameter", os.path.join("test_reports", "parameters_profile.csv")),
     ("--complexity", os.path.join("test_reports", "complexity_profile.csv")),
     ("--function-size", os.path.join("test_reports", "function_size_profile.csv")),
 ]
 
 
-@pytest.mark.parametrize("option,expected_report_file", test_data)
+@pytest.mark.parametrize("option,expected_report_file", TEST_DATA)
 def test_option_only_perform_specified_analysis(lizard_analysis_mocks, option, expected_report_file):
     """Test that only the analysis is performed that is specified."""
 
