@@ -1,4 +1,4 @@
-from unittest.mock import patch
+from unittest.mock import patch, Mock, ANY
 
 import pytest
 
@@ -8,6 +8,7 @@ from src.cpd.cpd_analysis import (
     determine_duplicate_lines_of_code,
     determine_colors,
     determine_total_lines_of_code,
+    show_duplication_profile,
 )
 
 
@@ -225,3 +226,27 @@ def test_determine_colors(percentage, expected_colors):
     # assert
     assert colors == expected_colors
     assert len(colors) == 2
+
+
+@patch("src.profile.show.go.Figure")
+def test_show_duplication_profile_figure_created_with_correct_values(figure_mock):
+    """Test that the figure is created with the correct values."""
+
+    # arrange
+
+    # act
+    with patch("src.profile.show.go.Pie") as pie_mock:
+        figure_mock.show = Mock()
+        show_duplication_profile(1000, 450)
+
+    # assert
+    pie_mock.assert_called_once_with(
+        title={"text": "Code duplication"},
+        labels=["Duplicated code", "Non duplicated code"],
+        values=[450, 550],
+        hole=ANY,
+        marker_line=ANY,
+        marker_colors=ANY,
+    )
+
+    figure_mock().show.assert_called_once()
