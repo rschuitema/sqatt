@@ -9,6 +9,8 @@ from src.cpd.cpd_analysis import (
     determine_colors,
     determine_total_lines_of_code,
     show_duplication_profile,
+    parse_arguments,
+    get_settings,
 )
 
 
@@ -250,3 +252,45 @@ def test_show_duplication_profile_figure_created_with_correct_values(figure_mock
     )
 
     figure_mock().show.assert_called_once()
+
+
+@patch("os.path.join")
+def test_options_have_correct_default(os_path_join_mock):
+    """Test that the default output directory is correct."""
+
+    # arrange
+    os_path_join_mock.return_value = "/bin/reports"
+
+    args = parse_arguments(["/bla/input"])
+
+    expected_defaults = {
+        "tokens": 100,
+        "language": "python",
+        "report_directory": "/bin/reports",
+        "analysis_directory": "/bla/input",
+    }
+
+    # act
+    settings = get_settings(args)
+
+    # assert
+    assert settings == expected_defaults
+
+
+def test_options_have_correct_value():
+    """Test that the default output directory is correct."""
+
+    # arrange
+    args = parse_arguments(["/bla/input", "--tokens=16", "--language=java", "--output=/bin/reports"])
+    expected_defaults = {
+        "tokens": 16,
+        "language": "java",
+        "report_directory": "/bin/reports",
+        "analysis_directory": "/bla/input",
+    }
+
+    # act
+    settings = get_settings(args)
+
+    # assert
+    assert settings == expected_defaults

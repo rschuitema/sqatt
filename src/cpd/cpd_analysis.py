@@ -141,15 +141,8 @@ def analyze_duplication(settings):
     return metrics
 
 
-def perform_analysis(analysis):
+def perform_analysis(settings):
     """Perform the requested analysis."""
-
-    settings = {
-        "analysis_directory": analysis.input,
-        "report_directory": analysis.output,
-        "tokens": analysis.tokens,
-        "language": analysis.language,
-    }
 
     output = measure_code_duplication(settings)
     duplicated_loc = int(determine_duplicate_lines_of_code(output))
@@ -166,11 +159,11 @@ def parse_arguments(args):
     parser = argparse.ArgumentParser()
     parser.add_argument("--version", action="version", version="%(prog)s 2.0")
     parser.add_argument(
-        "--output", help="The directory where to place the report.", default=os.path.join(os.getcwd(), "reports")
+        "--output", help="The directory where to place the report.", default=os.path.join(os.getcwd(), "./reports")
     )
-    parser.add_argument("--language", help="The language to analyze.", default="python", required=True)
+    parser.add_argument("--language", help="The language to analyze.", default="python")
     parser.add_argument(
-        "--tokens", help="The minimum token length which should be reported as a duplicate.", default=100, required=True
+        "--tokens", help="The minimum token length which should be reported as a duplicate.", type=int, default=100
     )
     parser.add_argument("input", help="The directory to analyze.")
 
@@ -179,11 +172,24 @@ def parse_arguments(args):
     return parser.parse_args(args)
 
 
+def get_settings(args):
+    """Determine the settings from the commandline arguments."""
+
+    settings = {
+        "analysis_directory": args.input,
+        "report_directory": args.output,
+        "tokens": args.tokens,
+        "language": args.language,
+    }
+    return settings
+
+
 def main():
     """Start of the program."""
 
     args = parse_arguments(sys.argv[1:])
-    args.func(args)
+    settings = get_settings(args)
+    args.func(settings)
 
 
 if __name__ == "__main__":
