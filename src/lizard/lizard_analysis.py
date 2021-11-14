@@ -74,36 +74,46 @@ def perform_analysis(analysis):
     profiles = create_profiles()
     determine_profiles(profiles, metrics_file)
 
-    function_size_profile_file = os.path.join(report_dir, "function_size_profile.csv")
-    complexity_profile_file = os.path.join(report_dir, "complexity_profile.csv")
-    parameters_profile_file = os.path.join(report_dir, "parameters_profile.csv")
-
     if analysis.all:
-        profiles["function_size"].print()
-        profiles["complexity"].print()
-        profiles["parameters"].print()
-
-        profiles["function_size"].save(function_size_profile_file)
-        profiles["complexity"].save(complexity_profile_file)
-        profiles["parameters"].save(parameters_profile_file)
-        show_profile(profiles["function_size"])
-        show_profile(profiles["complexity"])
-        show_profile(profiles["parameters"])
+        analyze_complexity(report_dir, profiles)
+        analyze_function_size(report_dir, profiles)
+        analyze_parameters(report_dir, profiles)
 
     if analysis.complexity:
-        profiles["complexity"].print()
-        profiles["complexity"].save(complexity_profile_file)
-        show_profile(profiles["complexity"])
+        analyze_complexity(report_dir, profiles)
 
     if analysis.function_size:
-        profiles["function_size"].print()
-        profiles["function_size"].save(function_size_profile_file)
-        show_profile(profiles["function_size"])
+        analyze_function_size(report_dir, profiles)
 
     if analysis.parameters:
-        profiles["parameters"].print()
-        profiles["parameters"].save(parameters_profile_file)
-        show_profile(profiles["parameters"])
+        analyze_parameters(report_dir, profiles)
+
+
+def analyze_parameters(report_dir, profiles):
+    """Analyze the function parameters."""
+
+    parameters_profile_file = os.path.join(report_dir, "parameters_profile.csv")
+    profiles["parameters"].print()
+    profiles["parameters"].save(parameters_profile_file)
+    show_profile(profiles["parameters"])
+
+
+def analyze_function_size(report_dir, profiles):
+    """Analyze the function size."""
+
+    function_size_profile_file = os.path.join(report_dir, "function_size_profile.csv")
+    profiles["function_size"].print()
+    profiles["function_size"].save(function_size_profile_file)
+    show_profile(profiles["function_size"])
+
+
+def analyze_complexity(report_dir, profiles):
+    """Analyze the complexity."""
+
+    complexity_profile_file = os.path.join(report_dir, "complexity_profile.csv")
+    profiles["complexity"].print()
+    profiles["complexity"].save(complexity_profile_file)
+    show_profile(profiles["complexity"])
 
 
 def parse_arguments(args):
