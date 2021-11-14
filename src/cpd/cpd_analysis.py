@@ -144,13 +144,8 @@ def analyze_duplication(settings):
 def perform_analysis(settings):
     """Perform the requested analysis."""
 
-    output = measure_code_duplication(settings)
-    duplicated_loc = int(determine_duplicate_lines_of_code(output))
-
-    output = measure_lines_of_code(settings)
-    total_loc = int(determine_total_lines_of_code(output))
-
-    show_duplication_profile(total_loc, duplicated_loc)
+    metrics = analyze_duplication(settings)
+    show_duplication_profile(metrics["total_loc"], metrics["duplicated_loc"])
 
 
 def parse_arguments(args):
