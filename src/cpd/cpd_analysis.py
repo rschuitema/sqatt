@@ -141,11 +141,8 @@ def analyze_duplication(settings):
     return metrics
 
 
-def save_duplication_profile(settings, metrics):
+def save_duplication_profile(report_file, metrics):
     """Save the profile to a csv file."""
-
-    report_dir = create_report_directory(settings["report_directory"])
-    report_file = os.path.join(report_dir, "code_duplication.csv")
 
     with open(report_file, "w", encoding="utf-8") as report:
         csv_writer = csv.writer(report, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
@@ -157,7 +154,10 @@ def perform_analysis(settings):
     """Perform the requested analysis."""
 
     metrics = analyze_duplication(settings)
-    save_duplication_profile(settings, metrics)
+    report_dir = create_report_directory(settings["report_directory"])
+    report_file = os.path.join(report_dir, "code_duplication.csv")
+
+    save_duplication_profile(report_file, metrics)
     show_duplication_profile(metrics["total_loc"], metrics["duplicated_loc"])
 
 

@@ -1,4 +1,4 @@
-from unittest.mock import patch, Mock, ANY, call
+from unittest.mock import patch, Mock, ANY, call, mock_open
 
 import pytest
 
@@ -302,13 +302,6 @@ def test_that_profile_is_saved_correctly(csv_mock):
     """Test that the code duplication profile is save correctly."""
 
     # arrange
-    settings = {
-        "tokens": 120,
-        "language": "java",
-        "report_directory": "/bin/reports",
-        "analysis_directory": "/bla/input",
-    }
-
     metrics = {"duplicated_loc": 100, "total_loc": 200}
 
     csv_mock.writer = Mock(writerow=Mock())
@@ -318,7 +311,9 @@ def test_that_profile_is_saved_correctly(csv_mock):
     ]
 
     # act
-    save_duplication_profile(settings, metrics)
+    with patch("src.cpd.cpd_analysis.open", mock_open()) as mocked_file:
+        save_duplication_profile("code_duplication.csv", metrics)
+        mocked_file.assert_called_once_with("code_duplication.csv", "w", encoding="utf-8")
 
     # assert
     csv_mock.writer().writerow.assert_has_calls(calls)
