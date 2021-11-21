@@ -1,4 +1,4 @@
-from unittest.mock import patch, Mock, ANY
+from unittest.mock import patch, Mock, ANY, call
 
 import pytest
 
@@ -11,6 +11,7 @@ from src.cpd.cpd_analysis import (
     show_duplication_profile,
     parse_arguments,
     get_settings,
+    save_duplication_profile,
 )
 
 
@@ -283,7 +284,7 @@ def test_options_have_correct_value():
     # arrange
     args = parse_arguments(["/bla/input", "--tokens=16", "--language=java", "--output=/bin/reports"])
     expected_defaults = {
-        "tokens": 16,
+        "tokens": "16",
         "language": "java",
         "report_directory": "/bin/reports",
         "analysis_directory": "/bla/input",
@@ -294,3 +295,31 @@ def test_options_have_correct_value():
 
     # assert
     assert settings == expected_defaults
+
+
+@patch("src.cpd.cpd_analysis.csv")
+def test_that_profile_is_saved_correctly(csv_mock):
+    """Test that the code duplication profile is save correctly."""
+
+    # arrange
+    settings = {
+        "tokens": 120,
+        "language": "java",
+        "report_directory": "/bin/reports",
+        "analysis_directory": "/bla/input",
+    }
+
+    metrics = {"duplicated_loc": 100, "total_loc": 200}
+
+    csv_mock.writer = Mock(writerow=Mock())
+    calls = [
+        call.writerow(["Duplicated Lines Of Code", "Total Lines Of Code"]),
+        call.writerow([100, 200]),
+    ]
+
+    # act
+    save_duplication_profile(settings, metrics)
+
+    # assert
+    csv_mock.writer().writerow.assert_has_calls(calls)
+    assert csv_mock.writer().writerow.call_count == 2
