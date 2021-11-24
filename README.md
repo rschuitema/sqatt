@@ -6,7 +6,9 @@
 This repository contains scripts that are useful when analyzing software quality. These tools are inspired by the book
 [Building Maintainable Software](https://www.softwareimprovementgroup.com/resources/ebook-building-maintainable-software/)
 of the Software Improvement Group and the legacy code bases that I needed to comprehend. These tools are written in
-python as I wanted to learn a new language.
+python as I wanted to learn a new language. I believe in the principles of eating your own dog food and practice what
+you preach. The codebase is analyzed by [better code hub](https://bettercodehub.com/) of the Software Improvement Group.
+The analysis results of better code hub often is a reason to make an improvement.
 
 It contains scripts to create profiles of specific quality aspects of a code base.
 ![profiles](./doc/profiles.png)
