@@ -127,7 +127,7 @@ def parse_arguments(args):
 
     parser.add_argument("--all", help="analyze all aspects", action="store_true")
     parser.add_argument("--complexity", help="analyze the complexity of the code", action="store_true")
-    parser.add_argument("--parameters", help="analyze the interface size", action="store_true")
+    parser.add_argument("--parameters", help="analyze the function parameters", action="store_true")
     parser.add_argument("--function-size", help="analyze the function size", action="store_true")
 
     parser.set_defaults(func=perform_analysis)
