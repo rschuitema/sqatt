@@ -92,7 +92,7 @@ def perform_analysis(analysis):
 def analyze_parameters(report_dir, profiles):
     """Analyze the function parameters."""
 
-    parameters_profile_file = os.path.join(report_dir, "parameters_profile.csv")
+    parameters_profile_file = os.path.join(report_dir, "function_parameters_profile.csv")
     profiles["parameters"].print()
     profiles["parameters"].save(parameters_profile_file)
     show_profile(profiles["parameters"])
