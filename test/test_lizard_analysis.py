@@ -172,7 +172,7 @@ def test_option_all_performs_all_analysis(lizard_analysis_mocks):
 
 
 TEST_DATA = [
-    ("--parameter", os.path.join("test_reports", "parameters_profile.csv")),
+    ("--parameter", os.path.join("test_reports", "function_parameters_profile.csv")),
     ("--complexity", os.path.join("test_reports", "complexity_profile.csv")),
     ("--function-size", os.path.join("test_reports", "function_size_profile.csv")),
 ]
