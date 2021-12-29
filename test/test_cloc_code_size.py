@@ -104,7 +104,7 @@ def test_metrics_are_empty_when_no_code_type_specified(create_report_directory_m
     metrics = analyze_size_per_code_type(settings)
 
     # assert
-    assert len(metrics) == 0
+    assert bool(metrics) is False
     save_code_type_profile_mock.assert_called_once()
 
 
@@ -114,11 +114,11 @@ def test_metrics_are_empty_when_no_code_type_specified(create_report_directory_m
 @patch("src.cloc.cloc_code_size.measure_lines_of_code")
 @patch("src.reporting.reporting.create_report_directory")
 def test_analyze_size_correct_metrics_per_code_type_are_saved_to_report_file(
-    create_report_directory_mock,
-    measure_loc_mock,
-    get_size_metrics_mock,
-    save_code_metrics_mock,
-    save_code_type_profile_mock,
+        create_report_directory_mock,
+        measure_loc_mock,
+        get_size_metrics_mock,
+        save_code_metrics_mock,
+        save_code_type_profile_mock,
 ):
     """Test that the correct metrics per code type are saved to the report file."""
 
