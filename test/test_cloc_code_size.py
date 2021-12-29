@@ -90,12 +90,13 @@ def test_save_metrics(csv_mock):
         csv_mock.writer().assert_has_calls(calls)
 
 
+@patch("src.cloc.cloc_code_size.save_code_type_profile")
 @patch("src.cloc.cloc_code_size.create_report_directory")
-def test_metrics_are_empty_when_no_code_type_specified(create_report_directory_mock):
+def test_metrics_are_empty_when_no_code_type_specified(create_report_directory_mock, save_code_type_mock):
     """Test that the metrics are empty when no code type is specified."""
 
     # arrange
-    settings = {"report_directory": "./reports", "code_type": ""}
+    settings = {"report_directory": "./reports/not_exists", "code_type": ""}
 
     create_report_directory_mock.return_value = settings["report_directory"]
 
