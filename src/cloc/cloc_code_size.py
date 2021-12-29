@@ -77,18 +77,58 @@ def save_ratios(comment_code_ratio, test_code_ratio):
     print(comment_code_ratio, test_code_ratio)
 
 
-def analyze_size(settings):
+def save_code_type_profile(report_dir, metrics):
+    """Save the code metrics to a file."""
+
+    report_file = os.path.join(report_dir, "code_type_profile.csv")
+    with open(report_file, "w", encoding="utf-8") as output:
+        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+
+        write_code_type_header(csv_writer)
+        write_code_type_metrics(csv_writer, metrics)
+
+
+def write_code_type_metrics(csv_writer, metrics):
+    """Save the code type metrics."""
+
+    if metrics:
+        csv_writer.writerow(
+            [
+                metrics["production"]["SUM"]["code"],
+                metrics["test"]["SUM"]["code"],
+                metrics["generated"]["SUM"]["code"],
+                metrics["third_party"]["SUM"]["code"],
+            ]
+        )
+
+
+def write_code_type_header(csv_writer):
+    """Save the code type metrics header."""
+
+    csv_writer.writerow(
+        [
+            "Production",
+            "Test",
+            "Generated",
+            "Third Party",
+        ]
+    )
+
+
+def analyze_size_per_code_type(settings):
     """Analyze the code size for all code types."""
+
     metrics = {}
     report_dir = create_report_directory(settings["report_directory"])
 
     for code_type in settings["code_type"]:
-        report_file = os.path.join(report_dir, f"{code_type}_profile.csv")
+        report_file = os.path.join(report_dir, f"{code_type}_code_volume_profile.csv")
         analysis_filter = settings[f"{code_type}_filter"]
         measure_lines_of_code(settings["analysis_directory"], report_file, analysis_filter)
         metrics[code_type] = get_size_metrics(report_file)
         save_code_metrics(report_file, metrics[code_type])
 
+    save_code_type_profile(report_dir, metrics)
     return metrics
 
 
@@ -110,7 +150,7 @@ def show_code_type_profile(metrics):
 def analyze_code_size(settings):
     """Analyze the code size."""
 
-    metrics = analyze_size(settings)
+    metrics = analyze_size_per_code_type(settings)
 
     comment_code_ratio = calculate_comment_to_code_ratio(metrics["production"], metrics["test"])
     test_code_ratio = calculate_test_code_to_production_code_ratio(metrics["production"], metrics["test"])

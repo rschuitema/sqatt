@@ -1,30 +1,31 @@
 """Show how many languages are used in the project."""
+import csv
 
 from dash import dcc
 from dash import html
-
-from src.cloc.cloc_languages import analyze_languages
 
 from src.profile.colors import profile_colors
 from src.profile.show import make_donut
 
 
+def get_language_metrics(report_file, reader=None):
+    """Get the language metrics from the report file."""
+
+    metrics = {}
+
+    with open(report_file, "r", newline="\n", encoding="utf-8") as csv_file:
+        csv_reader = reader or csv.DictReader(csv_file, delimiter=",")
+        for row in csv_reader:
+            metrics[row["Language"]] = row["Lines Of Code"]
+
+    return metrics
+
+
 def language_breakdown():
     """Create the language break down."""
 
-    settings = {
-        "report_directory": "D:\\\\Projects\\github\\sqatt\\reports",
-        "analysis_directory": "D:\\\\Projects\\github\\sqatt",
-        "code_type": ["production", "test", "third_party", "generated"],
-        "production_filter": "--exclude-dir=test,tst,jira,resharper",
-        "test_filter": "--match-d=(test|tst)",
-        "third_party_filter": "--match-d=(external|ext|jira)",
-        "generated_filter": "--match-d=(generated|gen|resharper)",
-    }
-
-    metrics = analyze_languages(settings)
-
-    del metrics["SUM"]
+    report_file = "D:\\\\Projects\\github\\sqatt\\reports\\language_profile.csv"
+    metrics = get_language_metrics(report_file)
 
     content = html.Div(
         [html.H3("Language breakdown"), dcc.Graph(id="language_breakdown", figure=language_breakdown_figure(metrics))],
@@ -37,8 +38,8 @@ def language_breakdown_figure(metrics):
 
     labels = []
     values = []
-    for language, metric in metrics.items():
+    for language in metrics:
         labels.append(language)
-        values.append(metric["code"])
+        values.append(metrics[language])
 
     return make_donut(labels, values, "Language breakdown", profile_colors)

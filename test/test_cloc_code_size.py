@@ -8,7 +8,7 @@ from src.cloc.cloc_code_size import (
     write_code_size_header,
     write_code_size_metrics,
     save_code_metrics,
-    analyze_size,
+    analyze_size_per_code_type,
     show_code_profile,
     show_code_type_profile,
 )
@@ -100,18 +100,23 @@ def test_metrics_are_empty_when_no_code_type_specified(create_report_directory_m
     create_report_directory_mock.return_value = settings["report_directory"]
 
     # act
-    metrics = analyze_size(settings)
+    metrics = analyze_size_per_code_type(settings)
 
     # assert
     assert len(metrics) == 0
 
 
+@patch("src.cloc.cloc_code_size.save_code_type_profile")
 @patch("src.cloc.cloc_code_size.save_code_metrics")
 @patch("src.cloc.cloc_code_size.get_size_metrics")
 @patch("src.cloc.cloc_code_size.measure_lines_of_code")
 @patch("src.reporting.reporting.create_report_directory")
 def test_analyze_size_correct_metrics_per_code_type_are_saved_to_report_file(
-    create_report_directory_mock, measure_loc_mock, get_size_metrics_mock, save_code_metrics_mock
+        create_report_directory_mock,
+        measure_loc_mock,
+        get_size_metrics_mock,
+        save_code_metrics_mock,
+        save_code_type_profile_mock,
 ):
     """Test that the correct metrics per code type are saved to the report file."""
 
@@ -128,13 +133,14 @@ def test_analyze_size_correct_metrics_per_code_type_are_saved_to_report_file(
     get_size_metrics_mock.return_value = 100
 
     # act
-    metrics = analyze_size(settings)
+    metrics = analyze_size_per_code_type(settings)
 
     # assert
-    report_file_name = os.path.join("./reports", "production_profile.csv")
+    report_file_name = os.path.join("./reports", "production_code_volume_profile.csv")
     measure_loc_mock.assert_called_once_with("src", report_file_name, "filter1")
     get_size_metrics_mock.assert_called_once_with(report_file_name)
     save_code_metrics_mock.assert_called_once_with(report_file_name, 100)
+    save_code_type_profile_mock.assert_called_once_with(settings["report_directory"], {"production": 100})
 
     assert metrics["production"] == 100
 

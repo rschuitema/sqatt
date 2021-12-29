@@ -1,24 +1,34 @@
 """Show the code duplication metric."""
+import csv
 
 from dash import dcc
 from dash import html
 
-from src.cpd.cpd_analysis import analyze_duplication, determine_colors
+from src.cpd.cpd_analysis import determine_colors
 
 from src.profile.show import make_donut
+
+
+def get_duplication_metrics(report_file, reader=None):
+    """Get the language metrics from the report file."""
+
+    metrics = {}
+
+    with open(report_file, "r", newline="\n", encoding="utf-8") as csv_file:
+        csv_reader = reader or csv.DictReader(csv_file, delimiter=",")
+        for row in csv_reader:
+            metrics["duplicated_loc"] = row["Duplicated Lines Of Code"]
+            metrics["total_loc"] = row["Total Lines Of Code"]
+
+    return metrics
 
 
 def code_duplication():
     """Determine the code duplication."""
 
-    settings = {
-        "report_directory": "D:\\\\Projects\\github\\sqatt\\reports",
-        "analysis_directory": "D:\\\\Projects\\github\\sqatt",
-        "tokens": "20",
-        "language": "python",
-    }
+    report_file = "D:\\\\Projects\\github\\sqatt\\reports\\code_duplication.csv"
 
-    metrics = analyze_duplication(settings)
+    metrics = get_duplication_metrics(report_file)
 
     content = html.Div(
         [html.H3("Code duplication"), dcc.Graph(id="code_duplication", figure=code_duplication_figure(metrics))],
@@ -29,8 +39,8 @@ def code_duplication():
 def code_duplication_figure(metrics):
     """Create the code duplication donut."""
 
-    duplicated_loc = metrics["duplicated_loc"]
-    total_loc = metrics["total_loc"]
+    duplicated_loc = int(metrics["duplicated_loc"])
+    total_loc = int(metrics["total_loc"])
 
     labels = ["Duplicated code", "Non duplicated code"]
     values = [duplicated_loc, (total_loc - duplicated_loc)]
