@@ -92,7 +92,7 @@ def test_save_metrics(csv_mock):
 
 @patch("src.cloc.cloc_code_size.save_code_type_profile")
 @patch("src.cloc.cloc_code_size.create_report_directory")
-def test_metrics_are_empty_when_no_code_type_specified(create_report_directory_mock, save_code_type_mock):
+def test_metrics_are_empty_when_no_code_type_specified(create_report_directory_mock, save_code_type_profile_mock):
     """Test that the metrics are empty when no code type is specified."""
 
     # arrange
@@ -105,6 +105,7 @@ def test_metrics_are_empty_when_no_code_type_specified(create_report_directory_m
 
     # assert
     assert len(metrics) == 0
+    save_code_type_profile_mock.assert_called_once()
 
 
 @patch("src.cloc.cloc_code_size.save_code_type_profile")
