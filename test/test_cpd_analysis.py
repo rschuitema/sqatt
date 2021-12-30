@@ -1,3 +1,5 @@
+"""Unit tests for CPD code duplication analysis."""
+
 from unittest.mock import patch, Mock, ANY, call, mock_open
 
 import pytest
