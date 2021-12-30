@@ -90,9 +90,9 @@ def test_determine_duplicated_loc_calculates_correct_number_of_duplicated_lines(
     # arrange
     data = (
         "lines,tokens,occurrences\n"
-        "40, 84, 2, 210,\west\west_dotcover.py, 19,\west\west_resharper_profile.py\n"
-        "15, 78, 2, 76,\west\west_riskmatrix.py, 105,\west\west_riskmatrix.py\n"
-        "34, 82, 3, 213,\west\west_dotcover.py, 7,\west\west_reporting.py, 22, \west\wet_resharper.py\n"
+        "40, 84, 2, 210,\\west\\west_dotcover.py, 19,\\west\\west_resharper_profile.py\n"
+        "15, 78, 2, 76,\\west\\west_riskmatrix.py, 105,\\west\\west_riskmatrix.py\n"
+        "34, 82, 3, 213,\\west\\west_dotcover.py, 7,\\west\\west_reporting.py, 22, \\west\\wet_resharper.py\n"
     )
 
     # act
@@ -132,9 +132,9 @@ def test_determine_duplicated_loc_raises_when_provided_string_has_wrong_header()
     # arrange
     data = (
         "hello,tokens,occurrences\n"
-        "40, 84, 2, 210,\west\west_dotcover.py, 19,\west\west_resharper_profile.py\n"
-        "15, 78, 2, 76,\west\west_riskmatrix.py, 105,\west\west_riskmatrix.py\n"
-        "34, 82, 3, 213,\west\west_dotcover.py, 7,\west\west_reporting.py, 22, \west\wet_resharper.py\n"
+        "40, 84, 2, 210,\\west\\west_dotcover.py, 19,\\west\\west_resharper_profile.py\n"
+        "15, 78, 2, 76,\\west\\west_riskmatrix.py, 105,\\west\\west_riskmatrix.py\n"
+        "34, 82, 3, 213,\\west\\west_dotcover.py, 7,\\west\\west_reporting.py, 22, \\west\\wet_resharper.py\n"
     )
 
     # act & assert
@@ -148,9 +148,9 @@ def test_determine_duplicated_loc_raises_exception_when_lines_count_is_string():
     # arrange
     data = (
         "lines,tokens,occurrences\n"
-        "40, 84, 2, 210,\west\west_dotcover.py, 19,\west\west_resharper_profile.py\n"
-        "bla, 78, 2, 76,\west\west_riskmatrix.py, 105,\west\west_riskmatrix.py\n"
-        "34, 82, 3, 213,\west\west_dotcover.py, 7,\west\west_reporting.py, 22, \west\wet_resharper.py\n"
+        "40, 84, 2, 210,\\west\\west_dotcover.py, 19,\\west\\west_resharper_profile.py\n"
+        "bla, 78, 2, 76,\\west\\west_riskmatrix.py, 105,\\west\\west_riskmatrix.py\n"
+        "34, 82, 3, 213,\\west\\west_dotcover.py, 7,\\west\\west_reporting.py, 22, \\west\\wet_resharper.py\n"
     )
 
     # act & assert
