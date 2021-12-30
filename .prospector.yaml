@@ -1,7 +1,7 @@
 vulture:
   run: true
   options:
-    min_confidence: 80
+    min-confidence: 80
     paths: [ "src", "test" ]
 
 pylint:
