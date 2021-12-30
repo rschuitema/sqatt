@@ -147,7 +147,8 @@ class TestSubprocess(TestCase):
         )
 
     def test_execute_runs_subprocess_with_stdout_and_stderr_default_constructor_output_with_verbose_is_3(self):
-        """Test that execute runs subprocess with default constructor with stdout and stderr output with verbose level 2."""
+        """Test that execute runs subprocess with default constructor with stdout and stderr output with verbose
+        level 2."""
 
         # Arrange
         command = ["test_command", "test_arguments"]
