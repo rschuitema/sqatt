@@ -6,7 +6,7 @@ import dash_bootstrap_components as dbc
 from dash import dcc
 from dash import html
 
-from src.profile.colors import profile_colors
+from src.profile.colors import PROFILE_COLORS
 from src.profile.show import make_donut
 
 
@@ -37,7 +37,7 @@ def code_volume_breakdown(report_directory):
         metrics["Comment Lines"],
     ]
 
-    return make_donut(labels, values, "Code volume <br> breakdown", profile_colors)
+    return make_donut(labels, values, "Code volume <br> breakdown", PROFILE_COLORS)
 
 
 def get_code_type_metrics(report_directory, reader=None):
@@ -69,7 +69,7 @@ def code_type_breakdown(report_directory):
         metrics["generated"],
     ]
 
-    return make_donut(labels, values, "Code type <br> breakdown", profile_colors)
+    return make_donut(labels, values, "Code type <br> breakdown", PROFILE_COLORS)
 
 
 def code_breakdown_settings():

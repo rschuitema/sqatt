@@ -1,6 +1,6 @@
 """Definition of the profile colors."""
 
-profile_colors = [
+PROFILE_COLORS = [
     "rgb(121, 185, 79)",
     "rgb(255, 204, 5)",
     "rgb(251, 135, 56)",

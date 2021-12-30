@@ -4,7 +4,7 @@ import csv
 from dash import dcc
 from dash import html
 
-from src.profile.colors import profile_colors
+from src.profile.colors import PROFILE_COLORS
 from src.profile.show import make_donut
 
 
@@ -42,4 +42,4 @@ def language_breakdown_figure(metrics):
         labels.append(language)
         values.append(metrics[language])
 
-    return make_donut(labels, values, "Language breakdown", profile_colors)
+    return make_donut(labels, values, "Language breakdown", PROFILE_COLORS)

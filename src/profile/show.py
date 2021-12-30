@@ -2,7 +2,7 @@
 
 import plotly.graph_objects as go
 
-from src.profile.colors import profile_colors
+from src.profile.colors import PROFILE_COLORS
 
 
 def make_donut(labels, values, title, colors):
@@ -34,7 +34,7 @@ def make_profile(profile):
         labels.append(region.label())
         values.append(region.loc())
 
-    fig = make_donut(labels, values, profile.name(), profile_colors)
+    fig = make_donut(labels, values, profile.name(), PROFILE_COLORS)
     return fig
 
 

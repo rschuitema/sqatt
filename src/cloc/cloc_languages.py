@@ -3,7 +3,7 @@ import csv
 import os
 
 from src.cloc.cloc_measure import measure_lines_of_code, get_size_metrics
-from src.profile.colors import profile_colors
+from src.profile.colors import PROFILE_COLORS
 from src.profile.show import make_donut
 from src.reporting.reporting import create_report_directory
 
@@ -57,7 +57,7 @@ def show_language_profile(profile):
         labels.append(language)
         values.append(metrics["code"])
 
-    fig = make_donut(labels, values, "Language profile", profile_colors)
+    fig = make_donut(labels, values, "Language profile", PROFILE_COLORS)
     fig.show()
 
 

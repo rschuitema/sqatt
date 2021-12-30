@@ -3,7 +3,7 @@ import csv
 import os
 
 from src.cloc.cloc_measure import measure_lines_of_code, get_size_metrics
-from src.profile.colors import profile_colors
+from src.profile.colors import PROFILE_COLORS
 from src.profile.show import make_donut
 from src.reporting.reporting import create_report_directory
 
@@ -14,7 +14,7 @@ def show_code_profile(profile, title):
     labels = ["Blank Lines", "Lines of Code", "Comment Lines"]
     values = [profile["SUM"]["blank"], profile["SUM"]["code"], profile["SUM"]["comment"]]
 
-    fig = make_donut(labels, values, f"{title} code <br> breakdown", profile_colors)
+    fig = make_donut(labels, values, f"{title} code <br> breakdown", PROFILE_COLORS)
     fig.show()
 
 
@@ -143,7 +143,7 @@ def show_code_type_profile(metrics):
         metrics["generated"]["SUM"]["code"],
     ]
 
-    fig = make_donut(labels, values, "Code type breakdown", profile_colors)
+    fig = make_donut(labels, values, "Code type breakdown", PROFILE_COLORS)
     fig.show()
 
 

@@ -12,7 +12,7 @@ from src.cloc.cloc_code_size import (
     show_code_profile,
     show_code_type_profile,
 )
-from src.profile.colors import profile_colors
+from src.profile.colors import PROFILE_COLORS
 
 
 def test_code_size_test_code_size_ratio_calculated_correctly():
@@ -182,7 +182,7 @@ def test_show_code_type_profile_figure_created_with_correct_values(figure_mock):
         labels=["Production", "Test", "Third Party", "Generated"],
         values=["3072", "1652", "598", "1597"],
         hole=ANY,
-        marker_colors=profile_colors,
+        marker_colors=PROFILE_COLORS,
         marker_line=ANY,
     )
 
@@ -210,7 +210,7 @@ def test_show_code_profile_figure_created_with_correct_values(figure_mock):
         labels=["Blank Lines", "Lines of Code", "Comment Lines"],
         values=[879, 3061, 395],
         hole=ANY,
-        marker_colors=profile_colors,
+        marker_colors=PROFILE_COLORS,
         marker_line=ANY,
     )
 

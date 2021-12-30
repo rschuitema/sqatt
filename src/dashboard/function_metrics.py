@@ -6,7 +6,7 @@ from dash import dcc
 from dash import html
 
 import plotly.graph_objects as go
-from src.profile.colors import profile_colors
+from src.profile.colors import PROFILE_COLORS
 
 
 def get_complexity_metrics(reader=None):
@@ -31,7 +31,7 @@ def make_my_profile(metrics, name):
         labels.append(metric)
         values.append(value)
 
-    fig = make_donut(labels, values, name, profile_colors)
+    fig = make_donut(labels, values, name, PROFILE_COLORS)
     return fig
 
 
