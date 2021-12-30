@@ -10,7 +10,7 @@ from src.profile.colors import profile_colors
 
 
 def get_complexity_metrics(reader=None):
-    """Get the language metrics from the report file."""
+    """Get the complexity metrics from the report file."""
 
     metrics = {}
     report_file = "D:\\\\Projects\\github\\sqatt\\reports\\complexity_profile.csv"

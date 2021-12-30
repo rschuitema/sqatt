@@ -10,7 +10,7 @@ from src.profile.show import make_donut
 
 
 def get_duplication_metrics(report_file, reader=None):
-    """Get the language metrics from the report file."""
+    """Get the duplication metrics from the report file."""
 
     metrics = {}
 
