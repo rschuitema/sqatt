@@ -91,6 +91,13 @@
 *****_ Production code
 *****_ 3rd party code
 
+**** File size
+*****_ Profile:
+*****_ Green: 0-100
+*****_ Yellow: 101-500
+*****_ Orange: 501-1000
+*****_ Red: 1000+
+
 **** Test automation
 *****_ Profile:
 *****_ (Test loc / Production loc) * 100%
