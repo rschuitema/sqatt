@@ -33,6 +33,7 @@ def get_settings(configuration_file, parser=None):
             code_types.append(code_type)
             settings[f"{code_type}_filter"] = config["filters"][f"{code_type}_filter"]
 
+        settings["file_size_filter"] = config["filters"]["file_size_filter"]
         settings["code_type"] = code_types
         settings["report_directory"] = config["reporting"]["directory"]
         settings["analysis_directory"] = config["analysis"]["directory"]

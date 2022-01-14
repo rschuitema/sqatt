@@ -161,6 +161,7 @@ def test_get_setting_has_correct_code_types(path_exists_mock):
     config.set("filters", "test_filter", "bla2")
     config.set("reporting", "directory", "bla3")
     config.set("analysis", "directory", "bla4")
+    config.set("filters", "file_size_filter", "bla5")
 
     # act
     settings = get_settings("config.bla", config)
