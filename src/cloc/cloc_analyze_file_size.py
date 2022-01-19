@@ -39,7 +39,8 @@ def get_file_size_metrics(report_file, reader=None):
                 "comment": row["comment"],
                 "code": row["code"],
             }
-            metrics[row["filename"]] = file_metric
+            if row["filename"]:
+                metrics[row["filename"]] = file_metric
 
     return metrics
 
