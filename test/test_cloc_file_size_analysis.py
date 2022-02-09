@@ -42,6 +42,8 @@ def test_that_metrics_are_saved_to_file_size_metrics_csv_in_metric_directory(cre
 
 
 def test_that_file_size_profile_is_determined_correctly():
+    """Test that file size profile is determined correctly."""
+
     file_size_metrics = {
         "File1": {"language": "Java", "blank": 20, "code": 50, "comment": 230},
         "File2": {"language": "C++", "blank": 20, "code": 200, "comment": 30},
@@ -61,6 +63,8 @@ def test_that_file_size_profile_is_determined_correctly():
 
 
 def test_that_metrics_that_have_no_filename_are_not_collected():
+    """Test that metrics that have no filename are not collected."""
+
     report_file = "bla.csv"
 
     data = StringIO(
