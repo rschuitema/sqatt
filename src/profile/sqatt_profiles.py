@@ -72,9 +72,9 @@ def create_file_size_profile():
     """Create the file size profile."""
 
     regions = [
-        MetricRegion("< 100", 0, 100),
-        MetricRegion("100-500", 101, 500),
-        MetricRegion("500-1000", 501, 1000),
+        MetricRegion("0-100", 0, 100),
+        MetricRegion("101-500", 101, 500),
+        MetricRegion("501-1000", 501, 1000),
         MetricRegion("1000+", 1001, 100000),
     ]
 

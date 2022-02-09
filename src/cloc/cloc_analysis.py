@@ -12,6 +12,7 @@ import os
 import sys
 import configparser
 
+from src.cloc.cloc_analyze_file_size import analyze_file_size
 from src.cloc.cloc_code_size import analyze_code_size
 from src.cloc.cloc_languages import analyze_language
 
@@ -32,6 +33,7 @@ def get_settings(configuration_file, parser=None):
             code_types.append(code_type)
             settings[f"{code_type}_filter"] = config["filters"][f"{code_type}_filter"]
 
+        settings["file_size_filter"] = config["filters"]["file_size_filter"]
         settings["code_type"] = code_types
         settings["report_directory"] = config["reporting"]["directory"]
         settings["analysis_directory"] = config["analysis"]["directory"]
@@ -47,9 +49,13 @@ def perform_analysis(analysis):
     if analysis.all:
         analyze_code_size(settings)
         analyze_language(settings)
+        analyze_file_size(settings)
 
     if analysis.code_size:
         analyze_code_size(settings)
+
+    if analysis.file_size:
+        analyze_file_size(settings)
 
     if analysis.language:
         analyze_language(settings)
@@ -68,6 +74,7 @@ def parse_arguments(args):
 
     parser.add_argument("--all", help="analyze all aspects", action="store_true")
     parser.add_argument("--code-size", help="analyze the code size", action="store_true")
+    parser.add_argument("--file-size", help="analyze the file size", action="store_true")
     parser.add_argument("--language", help="analyze the code size per language", action="store_true")
 
     parser.set_defaults(func=perform_analysis)

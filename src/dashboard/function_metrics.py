@@ -74,7 +74,7 @@ def get_parameters_metrics(reader=None):
     """Get the language metrics from the report file."""
 
     metrics = {}
-    report_file = "D:\\\\Projects\\github\\sqatt\\reports\\parameters_profile.csv"
+    report_file = "D:\\\\Projects\\github\\sqatt\\reports\\function_parameters_profile.csv"
 
     with open(report_file, "r", newline="\n", encoding="utf-8") as csv_file:
         csv_reader = reader or csv.DictReader(csv_file, delimiter=",")
@@ -110,7 +110,8 @@ def function_metrics():
             dcc.Graph(id="function_size", figure=make_my_profile(get_metrics("Function size"), "Function size")),
             html.H3("Function parameters"),
             dcc.Graph(
-                id="function_parameters", figure=make_my_profile(get_metrics("Parameters"), "Function parameters")
+                id="function_parameters",
+                figure=make_my_profile(get_metrics("Function parameters"), "Function parameters"),
             ),
         ]
     )
