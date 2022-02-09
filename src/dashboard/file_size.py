@@ -48,7 +48,7 @@ def get_file_size_metrics(reader=None):
 
     metrics = {}
     report_directory = "D:\\\\Projects\\github\\sqatt\\reports\\profiles"
-    report_file = os.path.join(report_directory, 'file_size_profile.csv')
+    report_file = os.path.join(report_directory, "file_size_profile.csv")
 
     with open(report_file, "r", newline="\n", encoding="utf-8") as csv_file:
         csv_reader = reader or csv.DictReader(csv_file, delimiter=",")

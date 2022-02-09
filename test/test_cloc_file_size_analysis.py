@@ -4,8 +4,12 @@ import os
 from io import StringIO
 from unittest.mock import patch, Mock, call, mock_open
 
-from src.cloc.cloc_analyze_file_size import save_file_size_metrics, determine_profile, get_file_size_metrics, \
-    measure_file_size
+from src.cloc.cloc_analyze_file_size import (
+    save_file_size_metrics,
+    determine_profile,
+    get_file_size_metrics,
+    measure_file_size,
+)
 
 
 @patch("src.cloc.cloc_analyze_file_size.csv")

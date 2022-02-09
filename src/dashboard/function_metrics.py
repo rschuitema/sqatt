@@ -111,7 +111,7 @@ def function_metrics():
             html.H3("Function parameters"),
             dcc.Graph(
                 id="function_parameters",
-                figure=make_my_profile(get_metrics("Function parameters"), "Function parameters")
+                figure=make_my_profile(get_metrics("Function parameters"), "Function parameters"),
             ),
         ]
     )
