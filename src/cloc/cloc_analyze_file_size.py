@@ -4,6 +4,7 @@ import os
 import shutil
 
 from src.facility.subprocess import Subprocess
+from src.profile.sqatt_profiles import create_file_size_profile
 from src.reporting.reporting import create_report_directory
 
 
@@ -85,6 +86,14 @@ def save_file_size_metrics(metrics, report_dir):
         write_file_size_metrics(csv_writer, metrics)
 
 
+def determine_profile(metrics):
+    profile = create_file_size_profile()
+    for filename in metrics:
+        profile.update(int(metrics[filename]["code"]), int(metrics[filename]["code"]))
+
+    return profile
+
+
 def analyze_file_size(settings):
     """Analyze the file size."""
 
@@ -97,3 +106,10 @@ def analyze_file_size(settings):
 
     save_file_size_metrics(metrics, report_dir)
     shutil.rmtree(os.path.join(report_dir, "intermediate"))
+
+    profile = determine_profile(metrics)
+
+    profiles_dir = create_report_directory(os.path.join(report_dir, "profiles"))
+    profile_file = os.path.join(profiles_dir, "file_size_profile.csv")
+
+    profile.save(profile_file)
