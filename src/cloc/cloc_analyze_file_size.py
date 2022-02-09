@@ -87,6 +87,8 @@ def save_file_size_metrics(metrics, report_dir):
 
 
 def determine_profile(metrics):
+    """Determine the file size profile."""
+
     profile = create_file_size_profile()
     for filename in metrics:
         profile.update(int(metrics[filename]["code"]), int(metrics[filename]["code"]))
