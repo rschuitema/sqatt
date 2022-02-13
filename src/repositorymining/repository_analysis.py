@@ -1,5 +1,6 @@
 """
 Functionality for analyzing repositories.
+
 Code that resides in a test directory is considered test code.
 The rest is considered production code.
 """
