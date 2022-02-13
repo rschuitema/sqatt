@@ -3,19 +3,19 @@
 First off, thanks for taking the time to contribute!
 
 The following is a set of guidelines for contirbuting to SQATT.
-These are mostly guidelines, not rules. 
+These are mostly guidelines, not rules.
 Use your best judgment, and feel free to propose changes to this document in a pull request.
 
 ## Quality
 
 As this repository is all about measuring the quality of software, we cannot write code that complies to high standards.
 Therefore the quality of the SQATT codebase is checked in 3 ways: With github actions, Codacy and with Better Code Hub.
-The codebase follows the rules as defined by the python community. 
+The codebase follows the rules as defined by the python community.
 It is checked with tools like pylint, black, pycodestyle, pydocstyle etc.
 
 ## Testing
 
-It is highly appreciated and encouraged to write unit tests. 
+It is highly appreciated and encouraged to write unit tests.
 Pull requests that also have unit tests are more likely to be accepted.
 The current code base does not have unit tests for all code, but the intention is to gradually add unit tests.
 
@@ -50,13 +50,12 @@ Provide the following information when describing the enhancement suggestion:
 * **Provide specific examples to demonstrate the steps**. Include copy/pasteable snippets which you use in those examples, as [Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).
 * **Describe the current behavior** and **explain which behavior you expected to see instead** and why.
 * **Explain why this enhancement would be useful**.
-* **Specify which version of SQATT you are using.**
-* **Specify the name and version of the OS you're using.**
-
+* **Specify which version of SQATT you are using**.
+* **Specify the name and version of the OS you're using**.
 
 ## Pull Requests
 
-Keep teh pull requests small. 
+Keep teh pull requests small.
 Follow the quality guidelines of the python community.
 After you submit your pull request, verify that all [status checks](https://help.github.com/articles/about-status-checks/) are passing.
 
