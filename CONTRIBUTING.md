@@ -28,8 +28,12 @@ Explain the problem and include additional details to help maintainers reproduce
 
 * **Use a clear and descriptive title** for the issue to identify the problem.
 * **Describe the exact steps which reproduce the problem** in as many details as possible.
-* **Provide specific examples to demonstrate the steps**. Include links to files or GitHub projects, or copy/pasteable snippets, which you use in those examples. If you're providing snippets in the issue, use [Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).
-* **Describe the behavior you observed after following the steps** and point out what exactly is the problem with that behavior.
+* **Provide specific examples to demonstrate the steps**. 
+Include links to files or GitHub projects, or copy/pasteable snippets, which you use in those examples. 
+If you're providing snippets in the issue, use
+[Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).
+* **Describe the behavior you observed after following the steps** and point out what exactly is
+the problem with that behavior.
 * **Explain which behavior you expected to see instead and why.**
 
 Include details about your configuration and environment:
@@ -47,7 +51,9 @@ Provide the following information when describing the enhancement suggestion:
 
 * **Use a clear and descriptive title** for the issue to identify the suggestion.
 * **Provide a step-by-step description of the suggested enhancement** in as many details as possible.
-* **Provide specific examples to demonstrate the steps**. Include copy/pasteable snippets which you use in those examples, as [Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).
+* **Provide specific examples to demonstrate the steps**.
+Include copy/pasteable snippets which you use in those examples, as
+[Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).
 * **Describe the current behavior** and **explain which behavior you expected to see instead** and why.
 * **Explain why this enhancement would be useful**.
 * **Specify which version of SQATT you are using**.
@@ -57,6 +63,9 @@ Provide the following information when describing the enhancement suggestion:
 
 Keep teh pull requests small.
 Follow the quality guidelines of the python community.
-After you submit your pull request, verify that all [status checks](https://help.github.com/articles/about-status-checks/) are passing.
+After you submit your pull request,
+verify that all [status checks](https://help.github.com/articles/about-status-checks/) are passing.
 
-While the prerequisites above must be satisfied prior to having your pull request reviewed, the reviewer(s) may ask you to complete additional design work, tests, or other changes before your pull request can be ultimately accepted.
+While the prerequisites above must be satisfied prior to having your pull request reviewed,
+the reviewer(s) may ask you to complete additional design work, tests,
+or other changes before your pull request can be ultimately accepted.
