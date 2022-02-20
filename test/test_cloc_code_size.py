@@ -112,7 +112,7 @@ def test_metrics_are_empty_when_no_code_type_specified(create_report_directory_m
 @patch("src.cloc.cloc_code_size.save_code_metrics")
 @patch("src.cloc.cloc_code_size.get_size_metrics")
 @patch("src.cloc.cloc_code_size.measure_lines_of_code")
-@patch("src.reporting.reporting.create_report_directory")
+@patch("src.cloc.cloc_code_size.create_report_directory")
 def test_analyze_size_correct_metrics_per_code_type_are_saved_to_report_file(
     create_report_directory_mock,
     measure_loc_mock,
