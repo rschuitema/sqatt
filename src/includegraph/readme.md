@@ -1,6 +1,6 @@
 # Includegraph
 
-This python tool can analyze the include dependencies for C/C++ code. It has the following features:
+cdThis python tool can analyze the include dependencies for C/C++ code. It has the following features:
 
 * List the include cycles
 * Show the include graph
@@ -26,7 +26,7 @@ pip install graphviz
 ### Show the include graph of the code in a directory
 
 ```text
-python includegraph.py <directory_to_analyze> 
+python includegraph.py <directory_to_analyze>
 ```
 
 This will output the graph in a reports directory.
