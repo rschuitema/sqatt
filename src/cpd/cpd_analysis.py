@@ -55,10 +55,23 @@ def measure_lines_of_code(settings):
     return output.stdout.decode("utf-8")
 
 
+def clean_up_input(csv_data):
+    """Clean up the input data by removing all data before the header of the actual data."""
+
+    try:
+        position = csv_data.index("lines,tokens,occurrences")
+        csv_data = csv_data[position:]
+    except ValueError:
+        print("No valid data found.")
+
+    return csv_data
+
+
 def determine_duplicate_lines_of_code(csv_input):
     """Calculate the number of duplicated lines of code."""
 
     csv_data = csv_input.splitlines()
+    csv_data = clean_up_input(csv_data)
     check_valid_header(csv_data)
 
     duplicate_loc = 0

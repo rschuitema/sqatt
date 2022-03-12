@@ -102,6 +102,26 @@ def test_determine_duplicated_loc_calculates_correct_number_of_duplicated_lines(
     assert duplicated_loc == 212
 
 
+def test_determine_duplicated_loc_calculates_correct_number_of_duplicated_lines_when_input_starts_with_rubbish():
+    """Test that the number of duplicated lines of code is calculated correctly."""
+
+    # arrange
+    data = (
+        "Bla bla bla\n"
+        "Boe ba boe\n"
+        "lines,tokens,occurrences\n"
+        "40, 84, 2, 210,\\west\\west_dotcover.py, 19,\\west\\west_resharper_profile.py\n"
+        "15, 78, 2, 76,\\west\\west_riskmatrix.py, 105,\\west\\west_riskmatrix.py\n"
+        "34, 82, 3, 213,\\west\\west_dotcover.py, 7,\\west\\west_reporting.py, 22, \\west\\wet_resharper.py\n"
+    )
+
+    # act
+    duplicated_loc = int(determine_duplicate_lines_of_code(data))
+
+    # assert
+    assert duplicated_loc == 212
+
+
 def test_determine_duplicated_loc_returns_0_when_provided_string_is_empty():
     """Test that 0 is returned when the provided string is empty."""
 
