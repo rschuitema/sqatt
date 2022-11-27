@@ -22,7 +22,7 @@ networkx = "^2.6.3"
 graphviz = "^0.17"
 Understand = "^0.0.3"
 PyDriller = "^2.0"
-pillow = "^9.0.1"
+pillow = "^9.3.0"
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.6.2"
