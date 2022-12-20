@@ -1,7 +1,6 @@
 # SQATT
 
 ![Python application](https://github.com/rschuitema/sqatt/workflows/Python%20application/badge.svg)
-[![BCH compliance](https://bettercodehub.com/edge/badge/rschuitema/sqatt?branch=master)](https://bettercodehub.com/)
 
 This repository contains scripts that are useful when analyzing software quality. These tools are inspired by the book
 [Building Maintainable Software](https://www.softwareimprovementgroup.com/resources/ebook-building-maintainable-software/)
