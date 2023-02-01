@@ -16,12 +16,12 @@ def measure_lines_of_code(input_dir, report_file, measure_filter):
         cloc_measure_as_csv(input_dir, report_file, measure_filter)
 
 
-def get_sub_directories(dirname):
+def get_sub_directories(directory_name):
     """Get all subdirectories of a directory."""
 
-    sub_folders = [f.path for f in os.scandir(dirname) if f.is_dir()]
-    for dirname in list(sub_folders):
-        sub_folders.extend(get_sub_directories(dirname))
+    sub_folders = [f.path for f in os.scandir(directory_name) if f.is_dir()]
+    for dir_name in list(sub_folders):
+        sub_folders.extend(get_sub_directories(dir_name))
 
     return sub_folders
 
@@ -35,7 +35,7 @@ def convert_measurement_results_to_csv(combined_results_file, report_file):
         my_lines = [line for line in lines if not line.startswith("----")]
         my_lines = [line for line in my_lines if not line.startswith("Language")]
 
-        with open(report_file, 'w') as out_file:
+        with open(report_file, 'w', encoding="utf-8") as out_file:
             csv_writer = csv.writer(out_file, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
             csv_writer.writerow(["language", "files", "blank", "comment", "code"])
             for line in my_lines:
@@ -100,7 +100,7 @@ def cloc_measure_as_txt(input_folder, report_file):
     measure_language_size_command = [
         "cloc",
         "--hide-rate",
-        f"--out",
+        "--out",
         report_file,
         input_folder,
     ]
