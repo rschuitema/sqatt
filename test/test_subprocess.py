@@ -319,7 +319,7 @@ class TestSubprocessPipe(TestCase):
 
         # Assert
         self.open_mock.assert_called_once_with(join("test_directory", "filename_yyyymmdd-hhmmss.log"), "wb")
-        self.open_mock.has_calls([call().__enter__().write("standard_output")])
+        self.open_mock.assert_has_calls([call().__enter__().write(b"standard_output")])
 
     def test_execute_pipe_when_unable_to_open_logfile_then_subprocess_runtime_error_is_raised(self):
         """Test that execute pipe raises runtime error when unable to open logfile."""
@@ -344,7 +344,7 @@ class TestSubprocessPipe(TestCase):
 
         # Arrange
         command = ["test_command", "test_arguments"]
-        self.run_mock.return_value = SimpleNamespace(stdout=b"standard_out", returncode=1)
+        self.run_mock.return_value = SimpleNamespace(stdout=b"standard_output", returncode=1)
 
         # Act
         process = Subprocess(command)
@@ -353,7 +353,7 @@ class TestSubprocessPipe(TestCase):
 
         # Assert
         self.open_mock.assert_called_once_with(join("test_directory", "filename_yyyymmdd-hhmmss.log"), "wb")
-        self.open_mock.has_calls([call().__enter__().write("standard_output")])
+        self.open_mock.assert_has_calls([call().__enter__().write(b"standard_output")])
 
     def test_execute_pipe_when_verbose_is_less_than_3_then_stdout_is_not_printed_to_terminal(self):
         """Test that stdout is not printed to terminal when verbose level < 3."""

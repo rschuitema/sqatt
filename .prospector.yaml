@@ -1,8 +1,0 @@
-vulture:
-  run: true
-  options:
-    min-confidence: 80
-    paths: [ "src" ]
-
-pylint:
-  run: false
