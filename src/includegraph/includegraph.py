@@ -187,7 +187,7 @@ def highlight_cycles(dot_stream, cycle_list):
     for cycle in cycle_list:
         cycle_edges = determine_cycle_edges(cycle)
         for edge in cycle_edges:
-            regex = fr'([<"]{edge[0]}[">] -> [<"]{edge[1]}[">])'
+            regex = rf'([<"]{edge[0]}[">] -> [<"]{edge[1]}[">])'
             match = re.search(regex, dot_stream)
             if match:
                 replacement = match.group(1) + " [color = red]"
