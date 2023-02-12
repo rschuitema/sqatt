@@ -216,9 +216,7 @@ def show_issues_per_project(issues_per_project):
     fig = go.Figure([go.Bar(x=x_axis, y=y_axis)])
     fig.update_layout(
         title_text="Violations per project",
-        yaxis=dict(
-            title="Number of violations",
-        ),
+        yaxis={"title": 'Number of violations'}
     )
     fig.show()
 

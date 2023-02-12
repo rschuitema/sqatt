@@ -101,7 +101,7 @@ def create_cell_selected_handler(div1, data_source, url):
         }
     """
     on_cell_selected = CustomJS(
-        args=dict(s1=data_source, s2=PMI_FACTORS, div1=div1, jira_url=url),
+        args={"s1": data_source, "s2": PMI_FACTORS, "div1": div1, "jira_url": url},
         code=source_code,
     )
 
@@ -165,15 +165,15 @@ def show_pmi(pmi, url):
     trivial_counts[3] = CLOSING_FACTORS["Trivial"]["Count"]
     trivial_counts[4] = POSTPONED_FACTORS["Trivial"]["Count"]
 
-    data = dict(
-        status=["Analyzing", "Solving", "Verifying", "Closing", "Postponed"],
-        severe=severe_counts,
-        critical=critical_counts,
-        major=major_counts,
-        minor=minor_counts,
-        trivial=trivial_counts,
-        severity=["Severe", "Critical", "Major", "Minor", "Trivial"],
-    )
+    data = {
+        "status": ["Analyzing", "Solving", "Verifying", "Closing", "Postponed"],
+        "severe": severe_counts,
+        "critical": critical_counts,
+        "major": major_counts,
+        "minor": minor_counts,
+        "trivial": trivial_counts,
+        "severity": ["Severe", "Critical", "Major", "Minor", "Trivial"]
+    }
     source = ColumnDataSource(data)
 
     columns = [

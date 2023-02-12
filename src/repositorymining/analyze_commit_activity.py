@@ -82,12 +82,12 @@ def determine_commit_activity(repository, start_date, end_date):
         print(date, one_week_later, production_commits, test_commits, number_of_commits)
 
     dataframe = pd.DataFrame(
-        dict(
-            date=list(rrule(freq=WEEKLY, wkst=SU, byweekday=SU, dtstart=start_date, until=end_date)),
-            production_commit_count=production_commit_count,
-            test_commit_count=test_commit_count,
-            commit_count=commit_count,
-        )
+        {
+            "date": list(rrule(freq=WEEKLY, wkst=SU, byweekday=SU, dtstart=start_date, until=end_date)),
+            "production_commit_count": production_commit_count,
+            "test_commit_count": test_commit_count,
+            "commit_count": commit_count
+        }
     )
 
     return dataframe

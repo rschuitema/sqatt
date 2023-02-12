@@ -1,6 +1,6 @@
 """Predefined sqatt metric profiles."""
-from src.profile.MetricProfile import MetricProfile
-from src.profile.MetricRegion import MetricRegion
+from src.profile.metric_profile import MetricProfile
+from src.profile.metric_region import MetricRegion
 
 
 def create_function_size_profile():

@@ -65,7 +65,7 @@ def show_defects(sorted_defects, url):
         (),
     )  # like an hstack
 
-    source = ColumnDataSource(data=dict(x=x_coordinate, counts=counts))
+    source = ColumnDataSource(data={"x": x_coordinate, "counts": counts})
 
     plot = create_plot(source, states, x_coordinate)
 
@@ -117,7 +117,7 @@ def create_bar_selected_handler(div1, json_issues, source, url):
     """Handle the bar selection and show the list of issues that belong to the selected bar."""
 
     on_bar_selected = CustomJS(
-        args=dict(s1=source, s2=json_issues, div1=div1, jira_url=url),
+        args={"s1": source, "s2": json_issues, "div1": div1, "jira_url": url},
         code="""
         var ind = s1.selected.indices;
         var age_group = s1.data.x[ind][0]

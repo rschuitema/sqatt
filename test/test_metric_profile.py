@@ -1,8 +1,8 @@
 """Unit test for the metric profile class."""
 from unittest.mock import patch, mock_open, call, Mock, ANY
 
-from src.profile.MetricProfile import MetricProfile
-from src.profile.MetricRegion import MetricRegion
+from src.profile.metric_profile import MetricProfile
+from src.profile.metric_region import MetricRegion
 from src.profile.show import show_profile
 from src.profile.sqatt_profiles import create_function_size_profile
 
