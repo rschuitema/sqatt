@@ -100,7 +100,7 @@ def test_profile_printed_correctly(capsys):
     assert captured.out == "Function size : loc\n0-15 : 16\n16-30 : 33\n31-60 : 60\n60+ : 2062\n"
 
 
-@patch("src.profile.MetricProfile.csv")
+@patch("src.profile.metric_profile.csv")
 def test_profile_saved_correctly(csv_mock):
     """Test that the profile is saved to console correctly."""
 
@@ -135,7 +135,7 @@ def test_profile_saved_correctly(csv_mock):
     report_file = "report.csv"
 
     # act
-    with patch("src.profile.MetricProfile.open", mock_open()) as mocked_file:
+    with patch("src.profile.metric_profile.open", mock_open()) as mocked_file:
         profile.save(report_file)
 
     # assert

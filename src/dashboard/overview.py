@@ -30,6 +30,6 @@ def overview_graph():
         polar={"radialaxis": {"visible": True}},
         showlegend=False,
     )
-    fig.update_layout(legend={"orientation": 'h', "yanchor": 'bottom', "xanchor": 'center', "x": 0.5})
+    fig.update_layout(legend={"orientation": "h", "yanchor": "bottom", "xanchor": "center", "x": 0.5})
 
     return fig

@@ -86,7 +86,7 @@ def determine_commit_activity(repository, start_date, end_date):
             "date": list(rrule(freq=WEEKLY, wkst=SU, byweekday=SU, dtstart=start_date, until=end_date)),
             "production_commit_count": production_commit_count,
             "test_commit_count": test_commit_count,
-            "commit_count": commit_count
+            "commit_count": commit_count,
         }
     )
 

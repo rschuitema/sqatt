@@ -172,7 +172,7 @@ def show_pmi(pmi, url):
         "major": major_counts,
         "minor": minor_counts,
         "trivial": trivial_counts,
-        "severity": ["Severe", "Critical", "Major", "Minor", "Trivial"]
+        "severity": ["Severe", "Critical", "Major", "Minor", "Trivial"],
     }
     source = ColumnDataSource(data)
 

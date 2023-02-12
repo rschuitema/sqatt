@@ -33,12 +33,12 @@ def make_donut(labels, values, title, colors):
                 values=values,
                 hole=0.5,
                 marker_colors=colors,
-                marker_line={"color": 'white', "width": 2},
+                marker_line={"color": "white", "width": 2},
             )
         ]
     )
 
-    fig.update_layout(legend={"orientation": "h", "yanchor": "bottom", "xanchor": "center", "x": 0.5, "y":-0.2})
+    fig.update_layout(legend={"orientation": "h", "yanchor": "bottom", "xanchor": "center", "x": 0.5, "y": -0.2})
 
     return fig
 

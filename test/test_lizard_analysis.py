@@ -23,9 +23,9 @@ class LizardAnalysisMocks:
         self.create_report_directory_patch = patch("src.lizard.lizard_analysis.create_report_directory")
         self.measure_function_metrics_patch = patch("src.lizard.lizard_analysis.measure_function_metrics")
         self.determine_profiles_patch = patch("src.lizard.lizard_analysis.determine_profiles")
-        self.save_profile_patch = patch("src.profile.MetricProfile.MetricProfile.save")
+        self.save_profile_patch = patch("src.profile.metric_profile.MetricProfile.save")
         self.show_profile_patch = patch("src.lizard.lizard_analysis.show_profile")
-        self.print_profile_patch = patch("src.profile.MetricProfile.MetricProfile.print")
+        self.print_profile_patch = patch("src.profile.metric_profile.MetricProfile.print")
 
         self.create_report_directory_mock = None
         self.measure_function_metrics_mock = None
