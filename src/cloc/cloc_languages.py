@@ -62,10 +62,10 @@ def show_language_profile(profile):
 
 
 def analyze_language(settings):
-    """Analyze the the lines of code per language."""
+    """Analyze the lines of code per language."""
 
     report_dir = create_report_directory(settings["report_directory"])
-    report_file = os.path.join(report_dir, "language_profile.csv")
+    report_file = os.path.join(report_dir, "profiles", "language_profile.csv")
     measure_lines_of_code(settings["analysis_directory"], report_file, "--exclude-dir=test,tst")
     language_metrics = get_size_metrics(report_file)
 

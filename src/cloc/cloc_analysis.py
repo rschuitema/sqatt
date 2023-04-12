@@ -2,22 +2,25 @@
 Perform analysis on a codebase using the tool cloc (count lines of code).
 
 It can perform the following analysis:
-- code size
-- language distribution
+- lines of code per code type (Production, Test, Generated, Third party)
+- lines of code per language
+- code volume (blank lines, comment lines, code lines)
+- lines of code per file
 
-It provides metrics on file level.
 """
+
 import argparse
 import os
 import sys
 import configparser
 
 from src.cloc.cloc_analyze_file_size import analyze_file_size
-from src.cloc.cloc_code_size import analyze_code_size
+from src.cloc.cloc_code_type import analyze_code_type
+from src.cloc.cloc_code_volume import analyze_code_volume
 from src.cloc.cloc_languages import analyze_language
 
 
-def get_settings(configuration_file, parser=None):
+def read_settings(configuration_file, parser=None):
     """Get the configuration from the ini file."""
     settings = {}
 
@@ -37,6 +40,33 @@ def get_settings(configuration_file, parser=None):
         settings["code_type"] = code_types
         settings["report_directory"] = config["reporting"]["directory"]
         settings["analysis_directory"] = config["analysis"]["directory"]
+    return settings
+
+
+def create_default_settings(analysis_options):
+    """Create default settings."""
+
+    settings = {
+        "analysis_directory": analysis_options.input,
+        "code_type": ["production", "test"],
+        "production_filter": "--exclude-dir=test,tst",
+        "test_filter": "--match-d=(test|tst)",
+        "file_size_filter": "--exclude-dir=test,tst",
+        "report_directory": "./reports",
+    }
+    return settings
+
+
+def get_settings(analysis_options):
+    """Get the settings for the lines of code analysis."""
+
+    settings = read_settings(analysis_options.config)
+
+    if not settings:
+        settings = create_default_settings(analysis_options)
+
+    if analysis_options.output:
+        settings["report_directory"] = analysis_options.output
 
     return settings
 
@@ -44,15 +74,19 @@ def get_settings(configuration_file, parser=None):
 def perform_analysis(analysis):
     """Perform the requested analysis."""
 
-    settings = get_settings(analysis.config)
+    settings = get_settings(analysis)
 
     if analysis.all:
-        analyze_code_size(settings)
+        analyze_code_volume(settings)
+        analyze_code_type(settings)
         analyze_language(settings)
         analyze_file_size(settings)
 
-    if analysis.code_size:
-        analyze_code_size(settings)
+    if analysis.code_type:
+        analyze_code_type(settings)
+
+    if analysis.code_volume:
+        analyze_code_volume(settings)
 
     if analysis.file_size:
         analyze_file_size(settings)
@@ -68,14 +102,19 @@ def parse_arguments(args):
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--version", action="version", version="%(prog)s 2.0")
-    parser.add_argument("input", help="directory to analyze")
-    parser.add_argument("--output", help="The directory where to place the report", default="./reports")
+    parser.add_argument("input", help="The directory to analyze.")
+    parser.add_argument("--output", help="The directory where to place the report(s).")
     parser.add_argument("--config", help="The configuration file to use.", default="cloc_analysis.ini")
 
-    parser.add_argument("--all", help="analyze all aspects", action="store_true")
-    parser.add_argument("--code-size", help="analyze the code size", action="store_true")
-    parser.add_argument("--file-size", help="analyze the file size", action="store_true")
-    parser.add_argument("--language", help="analyze the code size per language", action="store_true")
+    parser.add_argument("--all", help="Analyze all aspects.", action="store_true")
+    parser.add_argument(
+        "--code-type",
+        help="Analyze the lined of code per type (production, test, third party, etc).",
+        action="store_true",
+    )
+    parser.add_argument("--code-volume", help="Analyze the code volume.", action="store_true")
+    parser.add_argument("--file-size", help="Analyze the lines of code per file.", action="store_true")
+    parser.add_argument("--language", help="Analyze the lines of code per language.", action="store_true")
 
     parser.set_defaults(func=perform_analysis)
 
