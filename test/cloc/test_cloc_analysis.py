@@ -82,8 +82,8 @@ def test_option_file_size_performs_only_file_size_analysis(cloc_analysis_mocks):
     cloc_analysis_mocks.language_size_mock.assert_not_called()
 
 
-def test_option_code_volume_performs_only_code_volume_analysis(cloc_analysis_mocks):
-    """Test that only the code volume analysis is performed when the --code-volume option is provided."""
+def test_option_code_volume_performs_code_type_and_volume_analysis(cloc_analysis_mocks):
+    """Test that code volume and code type analysis is performed when the --code-volume option is provided."""
 
     # arrange
     args = parse_arguments(["/bla/input", "--code-volume"])
@@ -92,14 +92,14 @@ def test_option_code_volume_performs_only_code_volume_analysis(cloc_analysis_moc
     args.func(args)
 
     # assert
+    cloc_analysis_mocks.code_type_mock.assert_called_once()
     cloc_analysis_mocks.code_volume_mock.assert_called_once()
     cloc_analysis_mocks.language_size_mock.assert_not_called()
     cloc_analysis_mocks.file_size_mock.assert_not_called()
-    cloc_analysis_mocks.code_type_mock.assert_not_called()
 
 
 def test_option_code_type_performs_only_code_type_analysis(cloc_analysis_mocks):
-    """Test that only the code volume analysis is performed when the --code-volume option is provided."""
+    """Test that only the code type analysis is performed when the --code-type option is provided."""
 
     # arrange
     args = parse_arguments(["/bla/input", "--code-type"])
@@ -115,7 +115,7 @@ def test_option_code_type_performs_only_code_type_analysis(cloc_analysis_mocks):
 
 
 def test_option_all_performs_all_analysis(cloc_analysis_mocks):
-    """Test that only the code size analysis is performed when the --code-size option is provided."""
+    """Test that all the analysis is performed when the --all option is provided."""
 
     # arrange
     args = parse_arguments(["/bla/input", "--all"])

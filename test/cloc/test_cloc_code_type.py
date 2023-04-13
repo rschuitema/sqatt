@@ -1,4 +1,4 @@
-"""UNit tests for the cloc code type analysis."""
+"""Unit tests for the cloc code type analysis."""
 
 import os
 from unittest.mock import patch, Mock, call, ANY, mock_open

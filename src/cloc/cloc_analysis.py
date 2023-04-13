@@ -72,13 +72,17 @@ def get_settings(analysis_options):
 
 
 def perform_analysis(analysis):
-    """Perform the requested analysis."""
+    """
+    Perform the requested analysis.
+
+    Note: the code volume analysis uses the results of the code type analysis.
+    """
 
     settings = get_settings(analysis)
 
     if analysis.all:
-        analyze_code_volume(settings)
         analyze_code_type(settings)
+        analyze_code_volume(settings)
         analyze_language(settings)
         analyze_file_size(settings)
 
@@ -86,6 +90,7 @@ def perform_analysis(analysis):
         analyze_code_type(settings)
 
     if analysis.code_volume:
+        analyze_code_type(settings)
         analyze_code_volume(settings)
 
     if analysis.file_size:
