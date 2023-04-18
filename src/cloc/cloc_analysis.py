@@ -10,65 +10,13 @@ It can perform the following analysis:
 """
 
 import argparse
-import os
 import sys
-import configparser
 
 from src.cloc.cloc_analyze_file_size import analyze_file_size
 from src.cloc.cloc_code_type import analyze_code_type
 from src.cloc.cloc_code_volume import analyze_code_volume
 from src.cloc.cloc_languages import analyze_language
-
-
-def read_settings(configuration_file, parser=None):
-    """Get the configuration from the ini file."""
-    settings = {}
-
-    if os.path.exists(configuration_file):
-        if parser:
-            config = parser
-        else:
-            config = configparser.ConfigParser()
-            config.read(configuration_file)
-
-        code_types = []
-        for code_type in config["code_type"]:
-            code_types.append(code_type)
-            settings[f"{code_type}_filter"] = config["filters"][f"{code_type}_filter"]
-
-        settings["file_size_filter"] = config["filters"]["file_size_filter"]
-        settings["code_type"] = code_types
-        settings["report_directory"] = config["reporting"]["directory"]
-        settings["analysis_directory"] = config["analysis"]["directory"]
-    return settings
-
-
-def create_default_settings(analysis_options):
-    """Create default settings."""
-
-    settings = {
-        "analysis_directory": analysis_options.input,
-        "code_type": ["production", "test"],
-        "production_filter": "--exclude-dir=test,tst",
-        "test_filter": "--match-d=(test|tst)",
-        "file_size_filter": "--exclude-dir=test,tst",
-        "report_directory": "./reports",
-    }
-    return settings
-
-
-def get_settings(analysis_options):
-    """Get the settings for the lines of code analysis."""
-
-    settings = read_settings(analysis_options.config)
-
-    if not settings:
-        settings = create_default_settings(analysis_options)
-
-    if analysis_options.output:
-        settings["report_directory"] = analysis_options.output
-
-    return settings
+from src.cloc.cloc_settings import get_settings
 
 
 def perform_analysis(analysis):
@@ -78,7 +26,7 @@ def perform_analysis(analysis):
     Note: the code volume analysis uses the results of the code type analysis.
     """
 
-    settings = get_settings(analysis)
+    settings = get_settings(analysis.config, analysis.output, analysis.input)
 
     if analysis.all:
         analyze_code_type(settings)

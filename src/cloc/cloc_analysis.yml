@@ -1,0 +1,13 @@
+# filters
+production_filter: --exclude-dir=test,tst,jira,resharper,venv
+test_filter: --exclude-dir=src,features,venv
+third_party_filter: --match-d=(external|ext|jira)
+generated_filter: --match-d=(generated|gen|resharper)
+file_size_filter: --exclude-dir=test,tst,jira,resharper,venv
+
+# code types
+code_type: [production, test, third_party, generated]
+
+# directories
+report_directory: d:\\projects\github\sqatt\reports
+analysis_directory: d:\\projects\github\sqatt
