@@ -1,9 +1,9 @@
 """Analyze the file size using the tool cloc."""
 import csv
 import os
-import shutil
 
 from src.facility.subprocess import Subprocess
+from src.profile.show import show_profile
 from src.profile.sqatt_profiles import create_file_size_profile
 from src.reporting.reporting import create_report_directory
 
@@ -75,10 +75,8 @@ def write_file_size_metrics(csv_writer, metrics):
         )
 
 
-def save_file_size_metrics(metrics, report_dir):
+def save_file_size_metrics(metrics, metrics_file):
     """Save the file metrics to a file."""
-    metrics_dir = create_report_directory(os.path.join(report_dir, "metrics"))
-    metrics_file = os.path.join(metrics_dir, "file_size_metrics.csv")
     with open(metrics_file, "w", encoding="utf-8") as output:
         csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
 
@@ -99,19 +97,18 @@ def determine_profile(metrics):
 def analyze_file_size(settings):
     """Analyze the file size."""
 
-    report_dir = create_report_directory(settings["report_directory"])
-    report_file = os.path.join(report_dir, "intermediate", "file_size_metrics.csv")
+    metrics_dir = create_report_directory(os.path.join(settings["report_directory"], "metrics"))
+    metrics_file = os.path.join(metrics_dir, "file_size_metrics.csv")
     analysis_filter = settings["file_size_filter"]
 
-    measure_file_size(settings["analysis_directory"], report_file, analysis_filter)
-    metrics = get_file_size_metrics(report_file)
-
-    save_file_size_metrics(metrics, report_dir)
-    shutil.rmtree(os.path.join(report_dir, "intermediate"))
+    measure_file_size(settings["analysis_directory"], metrics_file, analysis_filter)
+    metrics = get_file_size_metrics(metrics_file)
+    save_file_size_metrics(metrics, metrics_file)
 
     profile = determine_profile(metrics)
 
-    profiles_dir = create_report_directory(os.path.join(report_dir, "profiles"))
+    profiles_dir = create_report_directory(os.path.join(settings["report_directory"], "profiles"))
     profile_file = os.path.join(profiles_dir, "file_size_profile.csv")
 
+    show_profile(profile)
     profile.save(profile_file)

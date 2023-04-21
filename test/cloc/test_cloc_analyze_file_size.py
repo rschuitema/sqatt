@@ -9,7 +9,9 @@ from src.cloc.cloc_analyze_file_size import (
     determine_profile,
     get_file_size_metrics,
     measure_file_size,
+    analyze_file_size,
 )
+from src.profile.sqatt_profiles import create_file_size_profile
 
 
 @patch("src.cloc.cloc_analyze_file_size.csv")
@@ -18,7 +20,6 @@ def test_that_metrics_are_saved_to_file_size_metrics_csv_in_metric_directory(cre
     """Test that the metrics are saved."""
 
     report_dir = os.path.join("bla", "metrics")
-    expected_report_file = os.path.join(report_dir, "file_size_metrics.csv")
     create_report_directory_mock.return_value = report_dir
 
     file_size_metrics = {
@@ -37,7 +38,7 @@ def test_that_metrics_are_saved_to_file_size_metrics_csv_in_metric_directory(cre
     with patch("src.cloc.cloc_analyze_file_size.open", mock_open()) as mocked_file:
         save_file_size_metrics(file_size_metrics, report_dir)
 
-        mocked_file.assert_called_once_with(expected_report_file, "w", encoding="utf-8")
+        mocked_file.assert_called_once_with(report_dir, "w", encoding="utf-8")
         csv_mock.writer().assert_has_calls(calls)
 
 
@@ -112,3 +113,49 @@ def test_measure_file_size_calls_cloc_with_correct_parameters(subprocess_mock):
         ],
         verbose=1,
     )
+
+
+@patch("src.cloc.cloc_analyze_file_size.show_profile")
+@patch("src.cloc.cloc_analyze_file_size.determine_profile")
+@patch("src.cloc.cloc_analyze_file_size.save_file_size_metrics")
+@patch("src.cloc.cloc_analyze_file_size.get_file_size_metrics")
+@patch("src.cloc.cloc_analyze_file_size.measure_file_size")
+@patch("src.cloc.cloc_analyze_file_size.create_report_directory")
+def test_that_report_is_generated_in_correct_directory(
+    report_mock, measure_mock, size_mock, save_mock, determine_mock, show_mock
+):
+    """Test that the report is saved in the correct directory."""
+
+    # arrange
+    settings = {
+        "analysis_directory": "/bla/input",
+        "code_type": ["production", "test"],
+        "production_filter": "--exclude-dir=test,tst",
+        "test_filter": "--match-d=(test|tst)",
+        "file_size_filter": "--exclude-dir=test,tst",
+        "report_directory": "/bla/reports",
+    }
+
+    profiles_directory = os.path.join("/bla/reports", "profiles")
+    metrics_directory = os.path.join("/bla/reports", "metrics")
+    report_mock.side_effect = [metrics_directory, profiles_directory]
+
+    size_mock.return_value = {}
+    profile_mock = Mock(create_file_size_profile())
+    determine_mock.return_value = profile_mock
+
+    calls = [
+        call.create_report_directory(metrics_directory),
+        call.create_report_directory(profiles_directory),
+    ]
+    # act
+    analyze_file_size(settings)
+
+    # assert
+    report_mock.has_calls(calls)
+    assert measure_mock.call_count == 1
+    assert size_mock.call_count == 1
+    save_mock.assert_called_once_with({}, os.path.join(metrics_directory, "file_size_metrics.csv"))
+    determine_mock.assert_called_once_with({})
+    assert show_mock.call_count == 1
+    assert len(profile_mock.method_calls) == 1
