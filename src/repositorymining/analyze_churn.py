@@ -84,22 +84,17 @@ def show_churn_complexity_chart(total_frame):
                 + "#Functions: %{marker.color:,}"
                 + "<extra></extra>",
                 mode="markers",
-                marker=dict(
-                    color=total_frame["Functions"],
-                    colorbar=dict(title="Nr of Functions"),
-                    size=total_frame["NCSS"],
-                    sizemode="area",
-                    sizeref=2.0 * max(total_frame["NCSS"]) / (70.0**2),
-                    colorscale=["green", "yellow", "orange", "red"],
-                    showscale=True,
-                ),
+                marker={'color': total_frame["Functions"], 'colorbar': {'title': "Nr of Functions"},
+                        'size': total_frame["NCSS"], 'sizemode': "area",
+                        'sizeref': 2.0 * max(total_frame["NCSS"]) / (70.0 ** 2),
+                        'colorscale': ["green", "yellow", "orange", "red"], 'showscale': True},
             )
         ]
     )
 
     fig.update_layout(
-        xaxis_title=dict(text="Churn"),
-        yaxis_title=dict(text="CCN"),
+        xaxis_title={'text': "Churn"},
+        yaxis_title={'text': "CCN"},
         title={"text": "Churn vs. Complexity", "y": 0.9, "x": 0.5, "xanchor": "center", "yanchor": "top"},
     )
     fig.show()
@@ -116,7 +111,7 @@ def measure_file_churn(settings):
         add_deleted_lines_to_churn=True,
     )
     file_churn_map = {}
-    for file_name in metric.files:
+    for file_name in metric.files.items():
         if file_name is None:
             continue
         file_churn = sum(metric.files[file_name])
