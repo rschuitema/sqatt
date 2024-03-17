@@ -9,6 +9,12 @@ import argparse
 import datetime
 import sys
 
+from src.repositorymining.analyze_churn import (
+    analyze_file_churn,
+    analyze_churn_complexity,
+    save_churn_complexity,
+    show_churn_complexity_chart,
+)
 from src.repositorymining.analyze_commit_activity import (
     analyze_commits,
     show_commit_activity,
@@ -53,6 +59,14 @@ def perform_analysis(args):
         show_test_activity(dataframe)
         save_test_activity(settings, dataframe)
 
+    if args.churn:
+        analyze_file_churn(settings)
+
+    if args.churncomplexity:
+        churn_complexity_frame = analyze_churn_complexity(settings)
+        save_churn_complexity(churn_complexity_frame, settings)
+        show_churn_complexity_chart(churn_complexity_frame)
+
 
 def parse_arguments(args):
     """Parse the commandline arguments."""
@@ -66,6 +80,10 @@ def parse_arguments(args):
     parser.add_argument("--output", help="directory where to place the report", default="./reports")
 
     parser.add_argument("--all", help="analyze all aspects", action="store_true")
+    parser.add_argument("--churn", help="analyze the churn of the repository", action="store_true")
+    parser.add_argument(
+        "--churncomplexity", help="analyze the churn vs complexity for the repository", action="store_true"
+    )
     parser.add_argument("--commits", help="analyze the commit activity of the repository", action="store_true")
     parser.add_argument("--test-activity", help="analyze the commits in test and production code", action="store_true")
     parser.add_argument(
