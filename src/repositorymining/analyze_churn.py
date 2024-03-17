@@ -84,17 +84,22 @@ def show_churn_complexity_chart(total_frame):
                 + "#Functions: %{marker.color:,}"
                 + "<extra></extra>",
                 mode="markers",
-                marker={'color': total_frame["Functions"], 'colorbar': {'title': "Nr of Functions"},
-                        'size': total_frame["NCSS"], 'sizemode': "area",
-                        'sizeref': 2.0 * max(total_frame["NCSS"]) / (70.0 ** 2),
-                        'colorscale': ["green", "yellow", "orange", "red"], 'showscale': True},
+                marker={
+                    "color": total_frame["Functions"],
+                    "colorbar": {"title": "Nr of Functions"},
+                    "size": total_frame["NCSS"],
+                    "sizemode": "area",
+                    "sizeref": 2.0 * max(total_frame["NCSS"]) / (70.0**2),
+                    "colorscale": ["green", "yellow", "orange", "red"],
+                    "showscale": True,
+                },
             )
         ]
     )
 
     fig.update_layout(
-        xaxis_title={'text': "Churn"},
-        yaxis_title={'text': "CCN"},
+        xaxis_title={"text": "Churn"},
+        yaxis_title={"text": "CCN"},
         title={"text": "Churn vs. Complexity", "y": 0.9, "x": 0.5, "xanchor": "center", "yanchor": "top"},
     )
     fig.show()
