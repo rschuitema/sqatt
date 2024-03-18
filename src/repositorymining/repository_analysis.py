@@ -42,9 +42,9 @@ def perform_analysis(args):
     """Perform the requested analysis."""
 
     settings = get_settings(args)
-    dataframe = analyze_commits(settings)
 
     if args.all:
+        dataframe = analyze_commits(settings)
         save_commit_activity(settings, dataframe)
         save_test_activity(settings, dataframe)
 
@@ -52,10 +52,12 @@ def perform_analysis(args):
         show_test_activity(dataframe)
 
     if args.commits:
+        dataframe = analyze_commits(settings)
         save_commit_activity(settings, dataframe)
         show_commit_activity(dataframe)
 
     if args.test_activity:
+        dataframe = analyze_commits(settings)
         show_test_activity(dataframe)
         save_test_activity(settings, dataframe)
 
