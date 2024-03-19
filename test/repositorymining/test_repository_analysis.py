@@ -17,7 +17,6 @@ class ChurnAnalysisMocks:
         self.save_churn_complexity_patch = patch("src.repositorymining.repository_analysis.save_churn_complexity")
         self.show_churn_complexity_patch = patch("src.repositorymining.repository_analysis.show_churn_complexity_chart")
 
-        self.create_report_directory_mock = None
         self.analyze_churn_complexity_mock = None
         self.analyze_churn_mock = None
         self.save_churn_complexity_mock = None
@@ -59,6 +58,21 @@ def test_option_churn_only_performs_churn_analysis(churn_analysis_mocks):
 
     # assert
     churn_analysis_mocks.analyze_churn_mock.assert_called_once()
+
+
+def test_option_churn_complexity_only_performs_churn_complexity_analysis(churn_analysis_mocks):
+    """Test that option churncomplexity only analyzes the churn vs complexity."""
+
+    # arrange
+    args = parse_arguments(["/bla/input", "--churncomplexity"])
+
+    # act
+    args.func(args)
+
+    # assert
+    churn_analysis_mocks.analyze_churn_complexity_mock.assert_called_once()
+    churn_analysis_mocks.save_churn_complexity_mock.assert_called_once()
+    churn_analysis_mocks.show_churn_complexity_mock.assert_called_once()
 
 
 def test_default_value_for_end_date_is_today():
