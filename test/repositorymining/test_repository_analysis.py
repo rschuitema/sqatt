@@ -7,47 +7,70 @@ import pytest as pytest
 from src.repositorymining.repository_analysis import parse_arguments, get_settings
 
 
-class ChurnAnalysisMocks:
+class RepositoryAnalysisMocks:
     """Collection of mocks for all analysis functions."""
 
     def __init__(self):
         """Create the analysis patches."""
-        self.analyze_churn_complexity_patch = patch("src.repositorymining.repository_analysis.analyze_churn_complexity")
+
         self.analyze_churn_patch = patch("src.repositorymining.repository_analysis.analyze_file_churn")
+
+        self.analyze_churn_complexity_patch = patch("src.repositorymining.repository_analysis.analyze_churn_complexity")
         self.save_churn_complexity_patch = patch("src.repositorymining.repository_analysis.save_churn_complexity")
         self.show_churn_complexity_patch = patch("src.repositorymining.repository_analysis.show_churn_complexity_chart")
 
-        self.analyze_churn_complexity_mock = None
+        self.analyze_commits_patch = patch("src.repositorymining.repository_analysis.analyze_commits")
+        self.save_test_activity_patch = patch("src.repositorymining.repository_analysis.save_test_activity")
+        self.show_test_activity_patch = patch("src.repositorymining.repository_analysis.show_test_activity")
+
         self.analyze_churn_mock = None
+
+        self.analyze_churn_complexity_mock = None
         self.save_churn_complexity_mock = None
         self.show_churn_complexity_mock = None
+
+        self.analyze_commits_mock = None
+        self.save_test_activity_mock = None
+        self.show_test_activity_mock = None
 
     def start(self):
         """Start the patches."""
 
-        self.analyze_churn_complexity_mock = self.analyze_churn_complexity_patch.start()
         self.analyze_churn_mock = self.analyze_churn_patch.start()
+
+        self.analyze_churn_complexity_mock = self.analyze_churn_complexity_patch.start()
         self.save_churn_complexity_mock = self.save_churn_complexity_patch.start()
         self.show_churn_complexity_mock = self.show_churn_complexity_patch.start()
 
+        self.analyze_commits_mock = self.analyze_commits_patch.start()
+        self.save_test_activity_mock = self.save_test_activity_patch.start()
+        self.show_test_activity_mock = self.show_test_activity_patch.start()
+
     def stop(self):
         """Stop the patches."""
+
+        self.analyze_churn_patch.stop()
+
         self.analyze_churn_complexity_patch.stop()
         self.save_churn_complexity_patch.stop()
-        self.save_churn_complexity_patch.stop()
+        self.show_churn_complexity_patch.stop()
+
+        self.analyze_commits_patch.stop()
+        self.save_test_activity_patch.stop()
+        self.show_test_activity_patch.stop()
 
 
 @pytest.fixture
-def churn_analysis_mocks():
+def repository_analysis_mocks():
     """Fixture for creating analysis mocks."""
 
-    mocks = ChurnAnalysisMocks()
+    mocks = RepositoryAnalysisMocks()
     mocks.start()
     yield mocks
     mocks.stop()
 
 
-def test_option_churn_only_performs_churn_analysis(churn_analysis_mocks):
+def test_option_churn_only_performs_churn_analysis(repository_analysis_mocks):
     """Test that option churn only analyzes the churn."""
 
     # arrange
@@ -57,10 +80,10 @@ def test_option_churn_only_performs_churn_analysis(churn_analysis_mocks):
     args.func(args)
 
     # assert
-    churn_analysis_mocks.analyze_churn_mock.assert_called_once()
+    repository_analysis_mocks.analyze_churn_mock.assert_called_once()
 
 
-def test_option_churn_complexity_only_performs_churn_complexity_analysis(churn_analysis_mocks):
+def test_option_churn_complexity_only_performs_churn_complexity_analysis(repository_analysis_mocks):
     """Test that option churncomplexity only analyzes the churn vs complexity."""
 
     # arrange
@@ -70,9 +93,24 @@ def test_option_churn_complexity_only_performs_churn_complexity_analysis(churn_a
     args.func(args)
 
     # assert
-    churn_analysis_mocks.analyze_churn_complexity_mock.assert_called_once()
-    churn_analysis_mocks.save_churn_complexity_mock.assert_called_once()
-    churn_analysis_mocks.show_churn_complexity_mock.assert_called_once()
+    repository_analysis_mocks.analyze_churn_complexity_mock.assert_called_once()
+    repository_analysis_mocks.save_churn_complexity_mock.assert_called_once()
+    repository_analysis_mocks.show_churn_complexity_mock.assert_called_once()
+
+
+def test_option_test_activity_only_performs_test_activity_analysis(repository_analysis_mocks):
+    """Test that option test-activity only analyzes the test activity."""
+
+    # arrange
+    args = parse_arguments(["/bla/input", "--test-activity"])
+
+    # act
+    args.func(args)
+
+    # assert
+    repository_analysis_mocks.analyze_commits_mock.assert_called_once()
+    repository_analysis_mocks.save_test_activity_mock.assert_called_once()
+    repository_analysis_mocks.show_test_activity_mock.assert_called_once()
 
 
 def test_default_value_for_end_date_is_today():
