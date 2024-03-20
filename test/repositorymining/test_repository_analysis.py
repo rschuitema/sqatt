@@ -140,6 +140,30 @@ def test_option_commits_only_performs_commit_activity_analysis(repository_analys
     repository_analysis_mocks.show_commit_activity_mock.assert_called_once()
 
 
+def test_option_all_performs_all_analysis(repository_analysis_mocks):
+    """Test that option all performs all analyzes."""
+
+    # arrange
+    args = parse_arguments(["/bla/input", "--all"])
+
+    # act
+    args.func(args)
+
+    # assert
+    repository_analysis_mocks.analyze_commits_mock.assert_called_once()
+    repository_analysis_mocks.save_commit_activity_mock.assert_called_once()
+    repository_analysis_mocks.show_commit_activity_mock.assert_called_once()
+
+    repository_analysis_mocks.save_test_activity_mock.assert_called_once()
+    repository_analysis_mocks.show_test_activity_mock.assert_called_once()
+
+    repository_analysis_mocks.analyze_churn_complexity_mock.assert_called_once()
+    repository_analysis_mocks.save_churn_complexity_mock.assert_called_once()
+    repository_analysis_mocks.show_churn_complexity_mock.assert_called_once()
+
+    repository_analysis_mocks.analyze_churn_mock.assert_called_once()
+
+
 def test_default_value_for_end_date_is_today():
     """Test that when the --end-date option is not provided the end date is today."""
 

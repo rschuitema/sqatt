@@ -51,6 +51,12 @@ def perform_analysis(args):
         show_commit_activity(dataframe)
         show_test_activity(dataframe)
 
+        analyze_file_churn(settings)
+
+        churn_complexity_frame = analyze_churn_complexity(settings)
+        save_churn_complexity(churn_complexity_frame, settings)
+        show_churn_complexity_chart(churn_complexity_frame)
+
     if args.commits:
         dataframe = analyze_commits(settings)
         save_commit_activity(settings, dataframe)
