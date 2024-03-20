@@ -23,6 +23,9 @@ class RepositoryAnalysisMocks:
         self.save_test_activity_patch = patch("src.repositorymining.repository_analysis.save_test_activity")
         self.show_test_activity_patch = patch("src.repositorymining.repository_analysis.show_test_activity")
 
+        self.save_commit_activity_patch = patch("src.repositorymining.repository_analysis.save_commit_activity")
+        self.show_commit_activity_patch = patch("src.repositorymining.repository_analysis.show_commit_activity")
+
         self.analyze_churn_mock = None
 
         self.analyze_churn_complexity_mock = None
@@ -32,6 +35,9 @@ class RepositoryAnalysisMocks:
         self.analyze_commits_mock = None
         self.save_test_activity_mock = None
         self.show_test_activity_mock = None
+
+        self.save_commit_activity_mock = None
+        self.show_commit_activity_mock = None
 
     def start(self):
         """Start the patches."""
@@ -46,6 +52,9 @@ class RepositoryAnalysisMocks:
         self.save_test_activity_mock = self.save_test_activity_patch.start()
         self.show_test_activity_mock = self.show_test_activity_patch.start()
 
+        self.save_commit_activity_mock = self.save_commit_activity_patch.start()
+        self.show_commit_activity_mock = self.show_commit_activity_patch.start()
+
     def stop(self):
         """Stop the patches."""
 
@@ -58,6 +67,9 @@ class RepositoryAnalysisMocks:
         self.analyze_commits_patch.stop()
         self.save_test_activity_patch.stop()
         self.show_test_activity_patch.stop()
+
+        self.save_commit_activity_patch.stop()
+        self.show_commit_activity_patch.stop()
 
 
 @pytest.fixture
@@ -111,6 +123,21 @@ def test_option_test_activity_only_performs_test_activity_analysis(repository_an
     repository_analysis_mocks.analyze_commits_mock.assert_called_once()
     repository_analysis_mocks.save_test_activity_mock.assert_called_once()
     repository_analysis_mocks.show_test_activity_mock.assert_called_once()
+
+
+def test_option_commits_only_performs_commit_activity_analysis(repository_analysis_mocks):
+    """Test that option commits only analyzes the commit activity."""
+
+    # arrange
+    args = parse_arguments(["/bla/input", "--commits"])
+
+    # act
+    args.func(args)
+
+    # assert
+    repository_analysis_mocks.analyze_commits_mock.assert_called_once()
+    repository_analysis_mocks.save_commit_activity_mock.assert_called_once()
+    repository_analysis_mocks.show_commit_activity_mock.assert_called_once()
 
 
 def test_default_value_for_end_date_is_today():
