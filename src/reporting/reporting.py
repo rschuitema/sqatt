@@ -1,4 +1,5 @@
 """Report utility functions."""
+
 import os
 import shutil
 

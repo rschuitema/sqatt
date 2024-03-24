@@ -116,11 +116,10 @@ def measure_file_churn(settings):
         add_deleted_lines_to_churn=True,
     )
     file_churn_map = {}
-    for file_name in metric.files.items():
+    for file_name, churn in metric.files.items():
         if file_name is None:
             continue
-        file_churn = sum(metric.files[file_name])
-        file_churn_map[os.path.join(directory, file_name)] = file_churn
+        file_churn_map[os.path.join(directory, file_name)] = sum(churn)
 
     sorted_churn = sorted(file_churn_map.items(), key=lambda item: item[1], reverse=True)
     return sorted_churn

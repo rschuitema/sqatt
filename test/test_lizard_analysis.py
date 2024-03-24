@@ -1,4 +1,5 @@
 """Unit test for lizard function size analysis."""
+
 import csv
 import os
 from io import StringIO
