@@ -9,7 +9,7 @@ from src.repositorymining.repository_analysis import parse_arguments, get_settin
 
 
 # pylint: disable=redefined-outer-name
-class RepositoryAnalysisMocks:
+class RepositoryAnalysisMocks:  # pylint: disable=too-many-instance-attributes
     """Collection of mocks for all analysis functions."""
 
     def __init__(self):
