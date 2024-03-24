@@ -8,6 +8,7 @@ import pytest
 from src.repositorymining.repository_analysis import parse_arguments, get_settings
 
 
+# pylint: disable=redefined-outer-name
 class RepositoryAnalysisMocks:
     """Collection of mocks for all analysis functions."""
 
@@ -165,6 +166,7 @@ def test_option_all_performs_all_analysis(repository_analysis_mocks):
     repository_analysis_mocks.analyze_churn_mock.assert_called_once()
 
 
+# pylint: enable=redefined-outer-name
 def test_default_value_for_end_date_is_today():
     """Test that when the --end-date option is not provided the end date is today."""
 
