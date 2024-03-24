@@ -2,7 +2,7 @@
 import datetime
 from unittest.mock import patch
 
-import pytest as pytest
+import pytest
 
 from src.repositorymining.repository_analysis import parse_arguments, get_settings
 
