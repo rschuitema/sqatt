@@ -56,5 +56,5 @@ def test_measure_churn_returns_sorted_churn_per_file(code_churn_mock):
 
     # assert
     assert len(churn_per_file) == 2
-    assert churn_per_file[0] == ("github/my_repository\\file2", 22)
-    assert churn_per_file[1] == ("github/my_repository\\file1", 6)
+    assert churn_per_file[0] == (os.path.join("github/my_repository", "file2"), 22)
+    assert churn_per_file[1] == (os.path.join("github/my_repository", "file1"), 6)
