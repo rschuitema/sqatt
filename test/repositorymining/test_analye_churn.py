@@ -27,8 +27,8 @@ def test_measure_file_complexity_calls_lizard_with_correct_parameters(subprocess
     # assert
     subprocess_mock.assert_called_with(
         [
-            'lizard',
-            '--xml',
+            "lizard",
+            "--xml",
             f'-o{os.path.join(settings["report_directory"], "function_metrics.xml")}',
             settings["repository"],
         ],
@@ -41,8 +41,7 @@ def test_measure_churn_returns_sorted_churn_per_file(code_churn_mock):
     """test that measure churn returns a sorted list of churn per file."""
 
     # arrange
-    # files = {"file1": [1, 2, 3], "file2": [4, 5, 6, 7]}
-    code_churn_mock.return_value.files = {'file1': [1, 2, 3],  None: [1, 2], 'file2': [4, 5, 6, 7]}
+    code_churn_mock.return_value.files = {"file1": [1, 2, 3], None: [1, 2], "file2": [4, 5, 6, 7]}
 
     settings = {
         "repository": "github/my_repository",
@@ -57,6 +56,5 @@ def test_measure_churn_returns_sorted_churn_per_file(code_churn_mock):
 
     # assert
     assert len(churn_per_file) == 2
-    assert churn_per_file[0] == ('github/my_repository\\file2', 22)
-    assert churn_per_file[1] == ('github/my_repository\\file1', 6)
-
+    assert churn_per_file[0] == ("github/my_repository\\file2", 22)
+    assert churn_per_file[1] == ("github/my_repository\\file1", 6)
