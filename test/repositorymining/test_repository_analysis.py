@@ -73,7 +73,7 @@ class RepositoryAnalysisMocks:
         self.show_commit_activity_patch.stop()
 
 
-@pytest.fixture
+@pytest.fixture  # pylint disable=W0621
 def repository_analysis_mocks():
     """Fixture for creating analysis mocks."""
 
