@@ -1,4 +1,5 @@
 """Unit test for cloc analysis settings."""
+
 from unittest.mock import mock_open, patch
 
 import yaml

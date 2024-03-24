@@ -1,4 +1,5 @@
 """Unit test for the resharper profile functions."""
+
 from unittest.mock import Mock, patch, mock_open, call
 
 import xmltodict

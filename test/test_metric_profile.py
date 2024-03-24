@@ -1,4 +1,5 @@
 """Unit test for the metric profile class."""
+
 from unittest.mock import patch, mock_open, call, Mock, ANY
 
 from src.profile.metric_profile import MetricProfile

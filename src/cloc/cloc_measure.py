@@ -1,4 +1,5 @@
 """Measure the lines of code."""
+
 import csv
 from src.facility.subprocess import Subprocess
 

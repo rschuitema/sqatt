@@ -1,4 +1,5 @@
 """Unit test for cloc file size analysis."""
+
 import csv
 import os
 from io import StringIO

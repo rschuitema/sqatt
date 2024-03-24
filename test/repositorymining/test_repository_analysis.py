@@ -1,4 +1,5 @@
 """Unit tests for the repository analysis functions."""
+
 import datetime
 from unittest.mock import patch
 
