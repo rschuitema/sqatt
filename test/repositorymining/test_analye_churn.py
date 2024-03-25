@@ -2,9 +2,9 @@
 
 import os
 from datetime import datetime
-from unittest.mock import patch
+from unittest.mock import patch, Mock, call, mock_open
 
-from src.repositorymining.analyze_churn import measure_file_complexity, measure_file_churn
+from src.repositorymining.analyze_churn import measure_file_complexity, measure_file_churn, save_file_churn
 
 
 @patch("os.path.exists")
@@ -60,3 +60,29 @@ def test_measure_churn_returns_sorted_churn_per_file(code_churn_mock):
     assert len(churn_per_file) == 2
     assert churn_per_file[0] == (os.path.join("github/my_repository", "file2"), 22)
     assert churn_per_file[1] == (os.path.join("github/my_repository", "file1"), 6)
+
+
+@patch("src.repositorymining.analyze_churn.csv")
+def test_save_file_churn_saves_metrics_to_file(csv_mock):
+    """Test that the churn is saved."""
+
+    # arrange
+    csv_mock.writer = Mock(writerow=Mock())
+    calls = [
+        call.writerow(["File", "Churn"]),
+        call.writerow(["File1", 200]),
+        call.writerow(["Unknown", 100]),
+        call.writerow(["File2", 60]),
+    ]
+
+    report_dir = "bla/report"
+    churn = [("File1", 200), (None, 100), ("File2", 60)]
+    churn_report_file = os.path.join(report_dir, "churn.csv")
+
+    # act
+    with patch("src.repositorymining.analyze_churn.open", mock_open()) as mocked_file:
+        save_file_churn(report_dir, churn)
+
+        # assert
+        mocked_file.assert_called_once_with(churn_report_file, "w", encoding="utf-8")
+        csv_mock.writer().assert_has_calls(calls)
