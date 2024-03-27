@@ -4,7 +4,14 @@ import os
 from datetime import datetime
 from unittest.mock import patch, Mock, call, mock_open
 
-from src.repositorymining.analyze_churn import measure_file_complexity, measure_file_churn, save_file_churn
+import pandas
+
+from src.repositorymining.analyze_churn import (
+    measure_file_complexity,
+    measure_file_churn,
+    save_file_churn,
+    analyze_churn_complexity,
+)
 
 
 @patch("os.path.exists")
@@ -86,3 +93,61 @@ def test_save_file_churn_saves_metrics_to_file(csv_mock):
         # assert
         mocked_file.assert_called_once_with(churn_report_file, "w", encoding="utf-8")
         csv_mock.writer().assert_has_calls(calls)
+
+
+@patch("os.path.exists")
+@patch("src.repositorymining.analyze_churn.measure_file_complexity")
+@patch("src.repositorymining.analyze_churn.analyze_file_churn")
+@patch("src.repositorymining.analyze_churn.pd.read_xml")
+@patch("src.repositorymining.analyze_churn.pd.read_csv")
+def test_analyze_churn_complexity(
+    read_csv_mock, read_xml_mock, analyze_file_churn_mock, measure_file_complexity_mock, exists_mock
+):
+    """Test te analysis of the churn vs complexity."""
+
+    # arrange
+    settings = {
+        "repository": "github/my_repository",
+        "report_directory": "/report_root/reports",
+        "period_start": datetime(year=2024, month=1, day=1),
+        "period_end": datetime(year=2024, month=3, day=1),
+        "period_frequency": "WEEKLY",
+    }
+
+    churn_data = pandas.DataFrame(
+        {"File": pandas.Series(["File1", "File2", "File3"]), "Churn": pandas.Series([4, 5, 6])}
+    )
+
+    complexity_data = pandas.DataFrame(
+        {
+            "File": pandas.Series(["File1", "File2", "File3"]),
+            "Nr": pandas.Series([1, 2, 3]),
+            "NCSS": pandas.Series([12, 42, 23]),
+            "CCN": pandas.Series([3, 12, 6]),
+            "Functions": pandas.Series([5, 9, 16]),
+        }
+    )
+
+    expected_data = pandas.DataFrame(
+        {
+            "File": pandas.Series(["File1", "File2", "File3"]),
+            "NCSS": pandas.Series([12, 42, 23]),
+            "CCN": pandas.Series([3, 12, 6]),
+            "Functions": pandas.Series([5, 9, 16]),
+            "Churn": pandas.Series([4, 5, 6]),
+        }
+    )
+
+    read_csv_mock.return_value = churn_data
+    read_xml_mock.return_value = complexity_data
+    exists_mock.return_value = True
+
+    # act
+    with patch("src.repositorymining.analyze_churn.open", mock_open()) as mocked_file:
+        actual_data = analyze_churn_complexity(settings)
+
+        # assert
+        pandas.testing.assert_frame_equal(expected_data, actual_data)
+
+        analyze_file_churn_mock.assert_called_once()
+        measure_file_complexity_mock.assert_called_once()
