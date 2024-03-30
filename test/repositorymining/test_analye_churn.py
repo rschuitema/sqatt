@@ -11,7 +11,6 @@ from src.repositorymining.analyze_churn import (
     measure_file_churn,
     save_file_churn,
     analyze_churn_complexity,
-    analyze_file_churn,
     show_churn_complexity_chart,
 )
 
@@ -145,7 +144,7 @@ def test_analyze_churn_complexity(
     exists_mock.return_value = True
 
     # act
-    with patch("src.repositorymining.analyze_churn.open", mock_open()) as mocked_file:
+    with patch("src.repositorymining.analyze_churn.open", mock_open()):
         actual_data = analyze_churn_complexity(settings)
 
         # assert
