@@ -2,7 +2,7 @@
 
 import os
 from datetime import datetime
-from unittest.mock import patch, Mock, call, mock_open
+from unittest.mock import patch, Mock, call, mock_open, ANY
 
 import pandas
 
@@ -11,6 +11,8 @@ from src.repositorymining.analyze_churn import (
     measure_file_churn,
     save_file_churn,
     analyze_churn_complexity,
+    analyze_file_churn,
+    show_churn_complexity_chart,
 )
 
 
@@ -122,7 +124,7 @@ def test_analyze_churn_complexity(
         {
             "File": pandas.Series(["File1", "File2", "File3"]),
             "Nr": pandas.Series([1, 2, 3]),
-            "NCSS": pandas.Series([12, 42, 23]),
+            "NCSS": pandas.Series([12, 44, 23]),
             "CCN": pandas.Series([3, 12, 6]),
             "Functions": pandas.Series([5, 9, 16]),
         }
@@ -131,7 +133,7 @@ def test_analyze_churn_complexity(
     expected_data = pandas.DataFrame(
         {
             "File": pandas.Series(["File1", "File2", "File3"]),
-            "NCSS": pandas.Series([12, 42, 23]),
+            "NCSS": pandas.Series([12, 44, 23]),
             "CCN": pandas.Series([3, 12, 6]),
             "Functions": pandas.Series([5, 9, 16]),
             "Churn": pandas.Series([4, 5, 6]),
@@ -151,3 +153,37 @@ def test_analyze_churn_complexity(
 
         analyze_file_churn_mock.assert_called_once()
         measure_file_complexity_mock.assert_called_once()
+
+
+@patch("src.repositorymining.analyze_churn.go.Figure")
+def test_show_code_volume_profile_figure_created_with_correct_values(figure_mock):
+    """Test that the figure is created with the correct values."""
+
+    # arrange
+    data_frame = pandas.DataFrame(
+        {
+            "File": pandas.Series(["File1", "File2", "File3"]),
+            "NCSS": pandas.Series([12, 42, 23]),
+            "CCN": pandas.Series([3, 12, 6]),
+            "Functions": pandas.Series([5, 9, 16]),
+            "Churn": pandas.Series([4, 5, 6]),
+        }
+    )
+
+    # act
+    with patch("src.profile.show.go.Scatter") as scatter_mock:
+        figure_mock.show = Mock()
+        show_churn_complexity_chart(data_frame)
+
+    # assert
+    scatter_mock.assert_called_once_with(
+        x=data_frame["Churn"],
+        y=data_frame["CCN"],
+        text=data_frame["File"],
+        hovertemplate=ANY,
+        mode=ANY,
+        marker=ANY,
+    )
+
+    figure_mock().update_layout.assert_called_once()
+    figure_mock().show.assert_called_once()
