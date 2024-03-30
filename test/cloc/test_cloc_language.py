@@ -1,4 +1,5 @@
 """Unit test for cloc language analysis."""
+
 from unittest.mock import patch, Mock, call, mock_open, ANY
 from src.cloc.cloc_languages import save_language_profile, show_language_profile
 

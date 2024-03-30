@@ -1,4 +1,5 @@
 """Analyze the lines of code for all code types using the tool cloc."""
+
 import csv
 import os
 

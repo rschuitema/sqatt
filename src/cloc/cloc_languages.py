@@ -1,4 +1,5 @@
 """Analyze the code size per language using the tool cloc."""
+
 import csv
 import os
 

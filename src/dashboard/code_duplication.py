@@ -1,4 +1,5 @@
 """Show the code duplication metric."""
+
 import csv
 
 from dash import dcc

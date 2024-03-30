@@ -1,4 +1,5 @@
 """Unit test for cloc code size analysis."""
+
 import csv
 from io import StringIO
 from unittest.mock import patch, mock_open

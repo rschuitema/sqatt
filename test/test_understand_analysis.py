@@ -1,4 +1,5 @@
 """Unit test for the commandline parser of the understand analysis."""
+
 from unittest.mock import patch, Mock
 
 import sys

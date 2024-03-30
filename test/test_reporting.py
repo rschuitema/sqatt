@@ -1,4 +1,5 @@
 """Unit tests for the reporting module."""
+
 from unittest.mock import patch
 
 from src.reporting.reporting import create_report_directory, setup_report_directory

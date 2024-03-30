@@ -1,4 +1,5 @@
 """Manage the settings for the cloc analysis."""
+
 import yaml
 
 
