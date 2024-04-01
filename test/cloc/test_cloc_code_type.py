@@ -3,6 +3,8 @@
 import os
 from unittest.mock import patch, Mock, call, ANY, mock_open
 
+import pytest
+
 from src.cloc.cloc_code_type import (
     show_code_type_profile,
     save_code_type_profile,
@@ -19,19 +21,19 @@ def test_show_code_type_profile_figure_created_with_correct_values(figure_mock):
 
     # arrange
     metrics = {
-        "production": {
+        "Production": {
             "SUM": {"files": "70", "blank": "879", "comment": "395", "code": "3072"},
             "Python": {"files": "54", "blank": "843", "comment": "391", "code": "1889"},
         },
-        "test": {
+        "Test": {
             "SUM": {"files": "17", "blank": "766", "comment": "568", "code": "1652"},
             "Python": {"files": "16", "blank": "763", "comment": "568", "code": "1647"},
         },
-        "third_party": {
+        "Third Party": {
             "SUM": {"files": "10", "blank": "172", "comment": "67", "code": "598"},
             "Python": {"files": "5", "blank": "134", "comment": "67", "code": "373"},
         },
-        "generated": {
+        "Generated": {
             "SUM": {"files": "4", "blank": "85", "comment": "47", "code": "1597"},
             "Python": {"files": "2", "blank": "85", "comment": "46", "code": "127"},
         },
@@ -55,24 +57,36 @@ def test_show_code_type_profile_figure_created_with_correct_values(figure_mock):
     figure_mock().show.assert_called_once()
 
 
+TEST_DATA = [
+    {"production": {"SUM": {}}, "test": {"SUM": {}}, "generated": {"SUM": {}}, "third_party": {"SUM": {}}},
+    {"production": {"SUM": {}}, "test": {"SUM": {}}, "generated": {"SUM": {}}},
+    {"production": {"SUM": {}}, "test": {"SUM": {}}},
+    {"production": {"SUM": {}}},
+]
+
+
+@pytest.mark.parametrize("metrics", TEST_DATA)
 @patch("src.cloc.cloc_code_type.csv")
-def test_save_code_type_profile(csv_mock):
-    """Test that the metrics are saved."""
+def test_save_code_type_profile_saves_configured_metrics(csv_mock, metrics):
+    """Test that the metrics are saved that are configured in the config file."""
 
     # arrange
     code_type_profile = "code_type_profile.csv"
     code_type_profile_file = os.path.join("/bla/reports", code_type_profile)
 
-    metrics = {"production": {"SUM": {}}, "test": {"SUM": {}}, "generated": {"SUM": {}}, "third_party": {"SUM": {}}}
-    metrics["production"]["SUM"]["code"] = 100
-    metrics["test"]["SUM"]["code"] = 200
-    metrics["generated"]["SUM"]["code"] = 300
-    metrics["third_party"]["SUM"]["code"] = 400
+    lines_of_code = 100
+    header = []
+    values = []
+    for metric in metrics:
+        metrics[metric]["SUM"]["code"] = lines_of_code
+        header.append(metric)
+        values.append(lines_of_code)
+        lines_of_code = lines_of_code + 100
 
     csv_mock.writer = Mock(writerow=Mock())
     calls = [
-        call.writerow(["Production", "Test", "Generated", "Third Party"]),
-        call.writerow([100, 200, 300, 400]),
+        call.writerow(header),
+        call.writerow(values),
     ]
 
     # act

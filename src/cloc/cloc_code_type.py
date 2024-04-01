@@ -51,7 +51,7 @@ def save_code_type_profile(report_dir, metrics):
     with open(report_file, "w", encoding="utf-8") as output:
         csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
 
-        write_code_type_header(csv_writer)
+        write_code_type_header(csv_writer, metrics)
         write_code_type_metrics(csv_writer, metrics)
 
 
@@ -59,39 +59,28 @@ def write_code_type_metrics(csv_writer, metrics):
     """Save the code type metrics."""
 
     if metrics:
-        csv_writer.writerow(
-            [
-                metrics["production"]["SUM"]["code"],
-                metrics["test"]["SUM"]["code"],
-                metrics["generated"]["SUM"]["code"],
-                metrics["third_party"]["SUM"]["code"],
-            ]
-        )
+        row = []
+        for metric in metrics:
+            row.append(metrics[metric]["SUM"]["code"])
+        csv_writer.writerow(row)
 
 
-def write_code_type_header(csv_writer):
+def write_code_type_header(csv_writer, metrics):
     """Save the code type metrics header."""
-
-    csv_writer.writerow(
-        [
-            "Production",
-            "Test",
-            "Generated",
-            "Third Party",
-        ]
-    )
+    headers = []
+    for metric in metrics:
+        headers.append(metric)
+    csv_writer.writerow(headers)
 
 
 def show_code_type_profile(metrics):
     """Show the profile in a donut."""
 
-    labels = ["Production", "Test", "Third Party", "Generated"]
-    values = [
-        metrics["production"]["SUM"]["code"],
-        metrics["test"]["SUM"]["code"],
-        metrics["third_party"]["SUM"]["code"],
-        metrics["generated"]["SUM"]["code"],
-    ]
+    values = []
+    labels = []
+    for metric in metrics:
+        labels.append(metric)
+        values.append(metrics[metric]["SUM"]["code"])
 
     fig = make_donut(labels, values, "Code type breakdown", PROFILE_COLORS)
     fig.show()
