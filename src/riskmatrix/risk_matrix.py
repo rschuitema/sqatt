@@ -3,6 +3,7 @@ Represent a matrix that defines quality thresholds for each risk quadrant.
 
 Furthermore it knows to which risk quadrant each component belongs.
 """
+
 import csv
 
 

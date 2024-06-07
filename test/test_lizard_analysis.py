@@ -1,4 +1,5 @@
 """Unit test for lizard function size analysis."""
+
 import csv
 import os
 from io import StringIO
@@ -15,7 +16,8 @@ from src.profile.sqatt_profiles import (
 )
 
 
-class LizardAnalysisMocks:
+# pylint: disable=redefined-outer-name
+class LizardAnalysisMocks:  # pylint: disable=too-many-instance-attributes
     """Collection of mocks for all analysis functions."""
 
     def __init__(self):
@@ -222,3 +224,6 @@ def test_option_output_has_correct_value(lizard_analysis_mocks):
 
     # assert
     lizard_analysis_mocks.create_report_directory_mock.assert_called_with("/bla/reports")
+
+
+# pylint: enable=redefined-outer-name

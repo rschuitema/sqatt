@@ -1,4 +1,5 @@
 """Predefined sqatt metric profiles."""
+
 from src.profile.metric_profile import MetricProfile
 from src.profile.metric_region import MetricRegion
 

@@ -1,4 +1,5 @@
 """Show how many languages are used in the project."""
+
 import csv
 
 from dash import dcc

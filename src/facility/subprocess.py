@@ -116,7 +116,7 @@ class Subprocess:
         """
         try:
             LOG.debug("Starting asynchronous call: %s", self.command)
-            Popen(self.command)  # pylint: disable=R1732
+            Popen(self.command)  # nosec # pylint: disable=R1732
         except ValueError as error:
             raise ProcessError(f"{self.base_command} has an invalid argument: {error.args}") from error
         except OSError as error:

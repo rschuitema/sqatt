@@ -1,4 +1,5 @@
 """Generic class that represents a profile for a metric."""
+
 import csv
 
 
