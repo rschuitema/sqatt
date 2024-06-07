@@ -1,3 +1,4 @@
+xmltodict
 anytree~=2.12.1
 bokeh~=3.4.0
 defusedxml~=0.7.1
