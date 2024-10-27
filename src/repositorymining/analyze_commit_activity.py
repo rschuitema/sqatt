@@ -9,6 +9,8 @@ import plotly.graph_objects as go
 from dateutil.rrule import rrule, SU, WEEKLY
 from pydriller import Repository
 
+from src.reporting.reporting import create_report_directory
+
 
 def determine_begin_date_of_the_week(date):
     """Determine the date of the first day of the week closest to the provided date."""
@@ -102,7 +104,8 @@ def save_test_activity(settings, dataframe):
 
 def save_commit_activity(settings, dataframe):
     """Save the commit activity to a csv file in the report/metrics directory."""
-    metrics_file = os.path.join(settings["report_directory"], "metrics", "commit_activity.csv")
+    directory = create_report_directory(os.path.join(settings["report_directory"], "metrics"))
+    metrics_file = os.path.join(directory, "commit_activity.csv")
     dataframe.to_csv(metrics_file, sep=",", mode="w", columns=["date", "commit_count"])
 
 
