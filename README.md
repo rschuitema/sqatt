@@ -9,7 +9,7 @@ python as I wanted to learn a new language. I believe in the principles of eatin
 you preach. 
 
 It contains scripts to create profiles of specific quality aspects of a code base.
-![profiles](./doc/profiles.png)
+![profiles](doc/manual/images/profiles.png)
 The scripts can create profiles for:
 
 * code size
