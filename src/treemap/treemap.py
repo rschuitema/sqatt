@@ -1,3 +1,5 @@
+"""Represents metrics in the form of a treemap."""
+
 import os
 from pathlib import Path
 
@@ -8,6 +10,8 @@ import plotly.express as px
 
 
 def determine_parents_and_labels(analysis_directory):
+    """Determine the parents and labels for the treemap."""
+
     labels = []
     parents = []
     values = []
@@ -28,18 +32,19 @@ def determine_parents_and_labels(analysis_directory):
             "parents": pandas.Series(parents),
             "values": pandas.Series(values),
         }
-
     )
     return data_frame
 
 
 def show_treemap(data_frame):
+    """Show the treemap."""
+
     fig = px.treemap(
         names=data_frame["labels"],
         values=data_frame["values"],
         parents=data_frame["parents"],
         color=data_frame["values"],
-        color_continuous_scale='RdYlGn'
+        color_continuous_scale="RdYlGn",
     )
     fig.update_traces(root_color="lightgrey")
     fig.update_layout(margin=dict(t=50, l=25, r=25, b=25))
@@ -49,7 +54,7 @@ def show_treemap(data_frame):
 def main():
     """Start of the program."""
 
-    analysis_directory = 'D:\\Projects\\github\\sqatt-for-testing\\src'
+    analysis_directory = "D:\\Projects\\github\\sqatt-for-testing\\src"
     data_frame = determine_parents_and_labels(analysis_directory)
     show_treemap(data_frame)
     pandas.DataFrame.to_csv(data_frame, "tree.csv")
@@ -57,9 +62,11 @@ def main():
 
 
 def make_graph():
+    """Make a graph of the directory tree."""
+
     graph = networkx.Graph()
     level = 0
-    for root, dirs, files in os.walk('D:\\Projects\\github\\sqatt-for-testing\\src'):
+    for root, dirs, files in os.walk("D:\\Projects\\github\\sqatt-for-testing\\src"):
         print("--------------------------")
         print(f"root:{root}")
         print(f"dirs:{dirs}")
