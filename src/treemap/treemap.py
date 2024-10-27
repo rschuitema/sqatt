@@ -5,7 +5,6 @@ from pathlib import Path
 
 import networkx
 import pandas
-import plotly.graph_objects as go
 import plotly.express as px
 
 
@@ -16,7 +15,7 @@ def determine_parents_and_labels(analysis_directory):
     parents = []
     values = []
 
-    for root, dirs, files in os.walk(analysis_directory):
+    for root, _, files in os.walk(analysis_directory):
         labels.append(str(Path(root)))
         parents.append(str(Path(root).parent))
         values.append(sum(os.path.getsize(os.path.join(root, file)) for file in files))
@@ -47,7 +46,7 @@ def show_treemap(data_frame):
         color_continuous_scale="RdYlGn",
     )
     fig.update_traces(root_color="lightgrey")
-    fig.update_layout(margin=dict(t=50, l=25, r=25, b=25))
+    fig.update_layout(margin={"t": 50, "l": 25, "r": 25, "b": 25})
     fig.show()
 
 
