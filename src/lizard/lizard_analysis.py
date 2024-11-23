@@ -52,7 +52,7 @@ def determine_profiles(profiles, metrics_file, reader=None):
 def measure_function_metrics(input_dir, output_dir):
     """Measure the function metrics."""
 
-    function_metrics_file = os.path.join(output_dir, "function_metrics.csv")
+    function_metrics_file = os.path.join(output_dir, "metrics", "function_metrics.csv")
 
     measure_function_size_command = [
         "lizard",
@@ -93,7 +93,7 @@ def perform_analysis(analysis):
 def analyze_parameters(report_dir, profiles):
     """Analyze the function parameters."""
 
-    parameters_profile_file = os.path.join(report_dir, "function_parameters_profile.csv")
+    parameters_profile_file = os.path.join(report_dir, "profiles", "function_parameters_profile.csv")
     profiles["parameters"].print()
     profiles["parameters"].save(parameters_profile_file)
     show_profile(profiles["parameters"])
@@ -102,7 +102,7 @@ def analyze_parameters(report_dir, profiles):
 def analyze_function_size(report_dir, profiles):
     """Analyze the function size."""
 
-    function_size_profile_file = os.path.join(report_dir, "function_size_profile.csv")
+    function_size_profile_file = os.path.join(report_dir, "profiles", "function_size_profile.csv")
     profiles["function_size"].print()
     profiles["function_size"].save(function_size_profile_file)
     show_profile(profiles["function_size"])
@@ -111,7 +111,7 @@ def analyze_function_size(report_dir, profiles):
 def analyze_complexity(report_dir, profiles):
     """Analyze the complexity."""
 
-    complexity_profile_file = os.path.join(report_dir, "complexity_profile.csv")
+    complexity_profile_file = os.path.join(report_dir, "profiles", "complexity_profile.csv")
     profiles["complexity"].print()
     profiles["complexity"].save(complexity_profile_file)
     show_profile(profiles["complexity"])
