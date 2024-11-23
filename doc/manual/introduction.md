@@ -25,4 +25,4 @@ These scripts use the output of tools like:
 
 The ideas for these scripts are based upon the books:
 
-![](images/BuildingMaintainableSoftware.jpg)  ![](images/SoftwareDesignXRays.jpg)  ![](images/YourCodeAsACrimeScene.jpg)
+![](images/BuildingMaintainableSoftware.jpg)  ![](images/SoftwareDesignXRays.jpg)  ![](images/YourCodeAsACrimeScene.jpg)  ![](images/LegacyCodeFirstAidKit.png)
