@@ -118,7 +118,7 @@ def test_measure_function_metrics(subprocess_mock, report_mock):
     # arrange
     input_dir = "/code/source"
     output_dir = "/bla/reports"
-    output_file = os.path.join(output_dir, "function_metrics.csv")
+    output_file = os.path.join(output_dir, "metrics", "function_metrics.csv")
     expected_command = ["lizard", "--csv", f"-o{output_file}", input_dir]
 
     report_mock.return_value = output_dir
@@ -174,9 +174,9 @@ def test_option_all_performs_all_analysis(lizard_analysis_mocks):
 
 
 TEST_DATA = [
-    ("--parameter", os.path.join("test_reports", "function_parameters_profile.csv")),
-    ("--complexity", os.path.join("test_reports", "complexity_profile.csv")),
-    ("--function-size", os.path.join("test_reports", "function_size_profile.csv")),
+    ("--parameter", os.path.join("test_reports", "profiles", "function_parameters_profile.csv")),
+    ("--complexity", os.path.join("test_reports", "profiles", "complexity_profile.csv")),
+    ("--function-size", os.path.join("test_reports", "profiles", "function_size_profile.csv")),
 ]
 
 
