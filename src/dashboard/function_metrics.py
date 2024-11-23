@@ -89,7 +89,7 @@ def get_metrics(name, reader=None):
     """Get the language metrics from the report file."""
 
     metrics = {}
-    report_directory = "D:\\\\Projects\\github\\sqatt\\reports\\"
+    report_directory = "D:\\\\Projects\\github\\sqatt-for-testing-reports\\profiles"
     report_file = os.path.join(report_directory, f'{name.lower().replace(" ", "_")}_profile.csv')
 
     with open(report_file, "r", newline="\n", encoding="utf-8") as csv_file:

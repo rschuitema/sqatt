@@ -15,7 +15,7 @@ def get_production_code_size_metrics(report_directory, reader=None):
     """Get the production code size metrics from the report file."""
 
     metrics = {}
-    report_file = os.path.join(report_directory, "production_code_volume_profile.csv")
+    report_file = os.path.join(report_directory, "code_volume_profile.csv")
     with open(report_file, "r", newline="\n", encoding="utf-8") as csv_file:
         csv_reader = reader or csv.DictReader(csv_file, delimiter=",")
         for row in csv_reader:
@@ -50,10 +50,10 @@ def get_code_type_metrics(report_directory, reader=None):
     with open(report_file, "r", newline="\n", encoding="utf-8") as csv_file:
         csv_reader = reader or csv.DictReader(csv_file, delimiter=",")
         for row in csv_reader:
-            metrics["production"] = row["Production"]
-            metrics["test"] = row["Test"]
-            metrics["generated"] = row["Generated"]
-            metrics["third_party"] = row["Third Party"]
+            metrics["production"] = row["production"]
+            metrics["test"] = row["test"]
+            metrics["generated"] = row["generated"]
+            metrics["third_party"] = row["third_party"]
 
     return metrics
 
@@ -91,7 +91,7 @@ def code_breakdown_settings():
 def code_breakdown():
     """Show the code break down."""
 
-    report_directory = "D:\\\\Projects\\github\\sqatt\\reports"
+    report_directory = "D:\\\\Projects\\github\\sqatt-for-testing-reports\\profiles"
     container = html.Div(
         [
             html.H3("Code type breakdown"),

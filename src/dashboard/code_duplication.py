@@ -27,7 +27,7 @@ def get_duplication_metrics(report_file, reader=None):
 def code_duplication():
     """Determine the code duplication."""
 
-    report_file = "D:\\\\Projects\\github\\sqatt\\reports\\code_duplication.csv"
+    report_file = "D:\\\\Projects\\github\\sqatt-for-testing-reports\\reports\\code_duplication.csv"
 
     metrics = get_duplication_metrics(report_file)
 

@@ -25,7 +25,7 @@ def get_language_metrics(report_file, reader=None):
 def language_breakdown():
     """Create the language break down."""
 
-    report_file = "D:\\\\Projects\\github\\sqatt\\reports\\language_profile.csv"
+    report_file = "D:\\\\Projects\\github\\sqatt-for-testing-reports\\profiles\\language_profile.csv"
     metrics = get_language_metrics(report_file)
 
     content = html.Div(
