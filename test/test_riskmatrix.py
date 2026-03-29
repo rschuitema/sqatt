@@ -9,13 +9,11 @@ from src.riskmatrix.risk_matrix import RiskMatrix
 def test_read_metric_thresholds():
     """Test that the metric thresholds can be read form a csv file."""
 
-    thresholds = StringIO(
-        """Quadrant, Complexity, Function size, Coverage
+    thresholds = StringIO("""Quadrant, Complexity, Function size, Coverage
     Q1, < 5,< 15,> 80
     Q2, < 8,< 30,> 95
     Q3, < 16,< 50,> 70
-    Q4, < 20,< 100,> 60"""
-    )
+    Q4, < 20,< 100,> 60""")
 
     threshold_file = r"../src/riskmatrix/quadrant_metric_thresholds.csv"
     matrix = RiskMatrix()
@@ -35,15 +33,13 @@ def test_read_metric_thresholds():
 def test_read_component_risk_level():
     """Test that the component risk level can be read from csv file."""
 
-    risk_level = StringIO(
-        """Component, Quadrant
+    risk_level = StringIO("""Component, Quadrant
     ComponentA, Q1
     ComponentB, Q3
     ComponentC, Q2
     ComponentD, Q4
     ComponentE, Q2
-    ComponentF, Q1"""
-    )
+    ComponentF, Q1""")
 
     matrix = RiskMatrix()
     risk_level_file = r"component_risk_level.csv"
@@ -66,15 +62,13 @@ def test_all_component_comply_verify_metric_returns_true():
     """Test that verify metric returns true if all component comply to the metric."""
 
     # arrange
-    coverage = StringIO(
-        """Component, Coverage
+    coverage = StringIO("""Component, Coverage
     ComponentA, 77
     ComponentB, 99
     ComponentC, 99
     ComponentD, 60
     ComponentE, 99
-    ComponentF, 55"""
-    )
+    ComponentF, 55""")
 
     matrix = RiskMatrix()
     add_metric_thresholds(matrix)
@@ -95,15 +89,13 @@ def test_one_component_does_not_comply_verify_metric_returns_false():
     """Test that verify metric returns false if one component does not comply to the metric."""
 
     # arrange
-    coverage = StringIO(
-        """Component, Coverage
+    coverage = StringIO("""Component, Coverage
     ComponentA, 77
     ComponentB, 99
     ComponentC, 66
     ComponentD, 60
     ComponentE, 99
-    ComponentF, 59"""
-    )
+    ComponentF, 59""")
 
     matrix = RiskMatrix()
     add_metric_thresholds(matrix)
@@ -123,15 +115,13 @@ def test_one_component_does_not_comply_verify_metric_returns_false():
 def add_component_risk_levels(matrix, risk_levels=None):
     """Add risk levels for the components to the matrix."""
 
-    risk_levels = risk_levels or StringIO(
-        """Component, Quadrant
+    risk_levels = risk_levels or StringIO("""Component, Quadrant
     ComponentA, Q1
     ComponentB, Q3
     ComponentC, Q2
     ComponentD, Q4
     ComponentE, Q2
-    ComponentF, Q1"""
-    )
+    ComponentF, Q1""")
 
     component_risk_file = r"component_risk_level.csv"
     reader = csv.DictReader(risk_levels, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL, skipinitialspace=True)
@@ -142,13 +132,11 @@ def add_component_risk_levels(matrix, risk_levels=None):
 def add_metric_thresholds(matrix, thresholds=None):
     """Add metric threshold for each quadrant to the matrix."""
 
-    thresholds = thresholds or StringIO(
-        """Quadrant, Complexity, Function size, Coverage
+    thresholds = thresholds or StringIO("""Quadrant, Complexity, Function size, Coverage
     Q1, < 5,< 15,< 80
     Q2, < 8,< 30,> 95
     Q3, < 16,< 50,>= 70
-    Q4, < 20,< 100,<= 60"""
-    )
+    Q4, < 20,< 100,<= 60""")
 
     threshold_file = r"../src/riskmatrix/quadrant_metric_thresholds.csv"
     reader = csv.DictReader(thresholds, delimiter=",", quotechar='"', quoting=csv.QUOTE_ALL, skipinitialspace=True)

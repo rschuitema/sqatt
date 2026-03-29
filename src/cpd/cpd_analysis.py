@@ -158,9 +158,7 @@ def save_duplication_profile(report_file, metrics):
     """Save the profile to a csv file."""
 
     with open(report_file, "w", encoding="utf-8") as report:
-        csv_writer = csv.writer(
-            report, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL
-        )
+        csv_writer = csv.writer(report, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
         csv_writer.writerow(["Duplicated Lines Of Code", "Total Lines Of Code"])
         csv_writer.writerow([metrics["duplicated_loc"], metrics["total_loc"]])
 

@@ -9,12 +9,10 @@ from src.cloc.cloc_measure import get_size_metrics, measure_lines_of_code
 def test_get_size_metrics():
     """Test that the size metrics can be retrieved from file."""
 
-    data = StringIO(
-        """language, files, blank, comment, code
+    data = StringIO("""language, files, blank, comment, code
         Java, 10, 11, 12, 13
     C, 20, 21, 22, 23
-    SUM, 100, 200, 300, 400"""
-    )
+    SUM, 100, 200, 300, 400""")
 
     report_file_name = r"code_size_report.csv"
     test_reader = csv.DictReader(data, delimiter=",", skipinitialspace=True)

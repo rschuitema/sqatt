@@ -153,9 +153,7 @@ def save_issues(item_dict, report_file, item_name="Item"):
     """Save the issues in a csv file."""
 
     with open(report_file, "w", encoding="utf-8") as output:
-        csv_writer = csv.writer(
-            output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL
-        )
+        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
         csv_writer.writerow([item_name, "Number of violations"])
         for item in item_dict:
             csv_writer.writerow([item, item_dict[item]])
@@ -216,9 +214,7 @@ def show_issues_per_project(issues_per_project):
         y_axis.append(issues_per_project[item])
 
     fig = go.Figure([go.Bar(x=x_axis, y=y_axis)])
-    fig.update_layout(
-        title_text="Violations per project", yaxis={"title": "Number of violations"}
-    )
+    fig.update_layout(title_text="Violations per project", yaxis={"title": "Number of violations"})
     fig.show()
 
 

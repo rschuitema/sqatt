@@ -31,9 +31,7 @@ def language_breakdown():
     content = html.Div(
         [
             html.H3("Language breakdown"),
-            dcc.Graph(
-                id="language_breakdown", figure=language_breakdown_figure(metrics)
-            ),
+            dcc.Graph(id="language_breakdown", figure=language_breakdown_figure(metrics)),
         ],
     )
     return content

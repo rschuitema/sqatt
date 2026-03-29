@@ -53,9 +53,7 @@ class MetricProfile:
         """Save the profile to a csv file."""
 
         with open(report_file, "w", encoding="utf-8") as report:
-            csv_writer = csv.writer(
-                report, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL
-            )
+            csv_writer = csv.writer(report, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
             csv_writer.writerow([self._name, "Lines Of Code"])
             for region in self._regions:
                 csv_writer.writerow([region.label(), region.loc()])

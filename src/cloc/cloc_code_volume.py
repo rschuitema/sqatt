@@ -53,15 +53,9 @@ def determine_total_code_volume(settings, code_volume):
     total_volume = {"Blank Lines": 0, "Lines Of Code": 0, "Comment Lines": 0}
 
     for code_type in settings["code_type"]:
-        total_volume["Blank Lines"] = (
-            total_volume["Blank Lines"] + code_volume[code_type]["Blank Lines"]
-        )
-        total_volume["Lines Of Code"] = (
-            total_volume["Lines Of Code"] + code_volume[code_type]["Lines Of Code"]
-        )
-        total_volume["Comment Lines"] = (
-            total_volume["Comment Lines"] + code_volume[code_type]["Comment Lines"]
-        )
+        total_volume["Blank Lines"] = total_volume["Blank Lines"] + code_volume[code_type]["Blank Lines"]
+        total_volume["Lines Of Code"] = total_volume["Lines Of Code"] + code_volume[code_type]["Lines Of Code"]
+        total_volume["Comment Lines"] = total_volume["Comment Lines"] + code_volume[code_type]["Comment Lines"]
 
     return total_volume
 
@@ -71,9 +65,7 @@ def save_code_volume_profile(report_dir, metrics):
 
     report_file = os.path.join(report_dir, "profiles", "code_volume_profile.csv")
     with open(report_file, "w", encoding="utf-8") as output:
-        csv_writer = csv.writer(
-            output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL
-        )
+        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
 
         write_code_volume_header(csv_writer)
         write_code_volume_metrics(csv_writer, metrics)
@@ -100,9 +92,7 @@ def calculate_comment_to_code_ratio(code_volume):
     return float(code_volume["Comment Lines"]) / float(total_lines)
 
 
-def calculate_test_code_to_production_code_ratio(
-    production_code_metrics, test_code_metrics
-):
+def calculate_test_code_to_production_code_ratio(production_code_metrics, test_code_metrics):
     """Calculate the ratio between the test code and the production code."""
 
     lines_of_code = production_code_metrics["Lines Of Code"]
@@ -114,18 +104,12 @@ def calculate_test_code_to_production_code_ratio(
 def save_code_ratios(settings, comment_code_ratio, test_code_ratio):
     """Save the code ratios to a file in the directory specified by the settings."""
 
-    report_file = os.path.join(
-        settings["report_directory"], "profiles", "code_volume_ratios.csv"
-    )
+    report_file = os.path.join(settings["report_directory"], "profiles", "code_volume_ratios.csv")
 
     with open(report_file, "w", encoding="utf-8") as output:
-        csv_writer = csv.writer(
-            output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL
-        )
+        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
 
-        csv_writer.writerow(
-            ["Comment To Code Ratio", "Test Code To Production Code Ratio"]
-        )
+        csv_writer.writerow(["Comment To Code Ratio", "Test Code To Production Code Ratio"])
         csv_writer.writerow([comment_code_ratio, test_code_ratio])
 
 
@@ -147,7 +131,5 @@ def analyze_code_volume(settings):
     show_code_volume_profile(total_code_volume)
 
     comment_code_ratio = calculate_comment_to_code_ratio(total_code_volume)
-    test_code_ratio = calculate_test_code_to_production_code_ratio(
-        code_volume["production"], code_volume["test"]
-    )
+    test_code_ratio = calculate_test_code_to_production_code_ratio(code_volume["production"], code_volume["test"])
     save_code_ratios(settings, comment_code_ratio, test_code_ratio)

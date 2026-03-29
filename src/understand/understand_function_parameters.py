@@ -31,7 +31,5 @@ def analyze_function_parameters(database, output):
 
     profile.print()
 
-    report_file = os.path.join(
-        create_report_directory(output), "function_parameters.csv"
-    )
+    report_file = os.path.join(create_report_directory(output), "function_parameters.csv")
     profile.save(report_file)

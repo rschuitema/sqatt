@@ -19,9 +19,7 @@ def parse_arguments():
         "--namespace",
         help="the namespace for which the coverage needs to be calculated",
     )
-    parser.add_argument(
-        "--verbose", help="print details on console", action="store_true"
-    )
+    parser.add_argument("--verbose", help="print details on console", action="store_true")
     args = parser.parse_args()
     return args
 
@@ -55,14 +53,10 @@ def determine_coverage_of_namespace(xml_doc, name_space):
     covered_lines = 0
 
     if not isinstance(assemblies, list):
-        covered_lines, total_lines = get_coverage_of_namespace(
-            assemblies, covered_lines, name_space, total_lines
-        )
+        covered_lines, total_lines = get_coverage_of_namespace(assemblies, covered_lines, name_space, total_lines)
     else:
         for assembly in assemblies:
-            covered_lines, total_lines = get_coverage_of_namespace(
-                assembly, covered_lines, name_space, total_lines
-            )
+            covered_lines, total_lines = get_coverage_of_namespace(assembly, covered_lines, name_space, total_lines)
 
     coverage = 100 * (covered_lines / total_lines)
     return coverage
@@ -109,9 +103,7 @@ def determine_coverage_per_namespace(xml_doc):
     namespaces = determine_namespaces(xml_doc)
 
     for namespace in namespaces:
-        namespace_coverage[namespace] = determine_coverage_of_namespace(
-            xml_doc, namespace
-        )
+        namespace_coverage[namespace] = determine_coverage_of_namespace(xml_doc, namespace)
 
     return namespace_coverage
 
@@ -122,9 +114,7 @@ def save_coverage_per_namespace(coverage_per_namespace, report_dir):
     report_file = os.path.join(report_dir, "coverage_per_namespace.csv")
 
     with open(report_file, "w", encoding="utf-8") as output:
-        csv_writer = csv.writer(
-            output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL
-        )
+        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
         csv_writer.writerow(["Namespace", "Coverage"])
         for item in coverage_per_namespace:
             csv_writer.writerow([item, coverage_per_namespace[item]])

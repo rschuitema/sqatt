@@ -122,10 +122,8 @@ def test_read_code_volume_reads_correct_values():
     # arrange
     report_file = "bla.csv"
 
-    data = StringIO(
-        """Blank Lines, Lines Of Code, Comment Lines
-        10, 11, 12"""
-    )
+    data = StringIO("""Blank Lines, Lines Of Code, Comment Lines
+        10, 11, 12""")
 
     test_reader = csv.DictReader(data, delimiter=",", skipinitialspace=True)
 

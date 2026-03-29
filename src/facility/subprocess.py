@@ -43,9 +43,7 @@ class Subprocess:
     error messages to the user in case of failures.
     """
 
-    def __init__(
-        self, command, stdout=DEVNULL, stderr=DEVNULL, verbose=0, timeout=None
-    ):  # pylint: disable=R0913
+    def __init__(self, command, stdout=DEVNULL, stderr=DEVNULL, verbose=0, timeout=None):  # pylint: disable=R0913
         """
         Class initializer.
 
@@ -58,9 +56,7 @@ class Subprocess:
         :param timeout: Optional variable providing command timeout
         """
         if not isinstance(command, (list, tuple)):
-            raise SubprocessRuntimeError(
-                f"Command ({command}) is not of type list or tuple."
-            )
+            raise SubprocessRuntimeError(f"Command ({command}) is not of type list or tuple.")
 
         self.base_command = command[0]
         self.command = command
@@ -116,13 +112,9 @@ class Subprocess:
                 timeout=self.timeout,
             )  # nosec
         except CalledProcessError as error:
-            raise ProcessError(
-                f"{self.base_command} returned a non-zero exit status {error.returncode}"
-            ) from error
+            raise ProcessError(f"{self.base_command} returned a non-zero exit status {error.returncode}") from error
         except TimeoutExpired as error:
-            raise ProcessError(
-                f"{self.base_command} timed out after {error.timeout} seconds"
-            ) from error
+            raise ProcessError(f"{self.base_command} timed out after {error.timeout} seconds") from error
 
     def execute_async(self):
         """
@@ -135,9 +127,7 @@ class Subprocess:
             LOG.debug("Starting asynchronous call: %s", self.command)
             Popen(self.command)  # nosec # pylint: disable=R1732
         except ValueError as error:
-            raise ProcessError(
-                f"{self.base_command} has an invalid argument: {error.args}"
-            ) from error
+            raise ProcessError(f"{self.base_command} has an invalid argument: {error.args}") from error
         except OSError as error:
             raise ProcessError(
                 f"{self.base_command} returned an OS error: {error.errno} '{error.strerror}' {error.filename}"
@@ -174,9 +164,7 @@ class Subprocess:
             print(command_output.stdout.decode("utf-8"))
 
         if command_output.returncode != 0 and check_return_code:
-            raise ProcessError(
-                f"{self.base_command} returned a non-zero exit status {command_output.returncode}"
-            )
+            raise ProcessError(f"{self.base_command} returned a non-zero exit status {command_output.returncode}")
 
         return command_output
 

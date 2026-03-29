@@ -69,12 +69,10 @@ def test_that_metrics_that_have_no_filename_are_not_collected():
 
     report_file = "bla.csv"
 
-    data = StringIO(
-        """"filename","language","blank","code","comment"
+    data = StringIO(""""filename","language","blank","code","comment"
            "File1", "python", 3,1,162
            "File2", "java", 24,12,124
-           "", "c++", 24,12,50"""
-    )
+           "", "c++", 24,12,50""")
 
     test_reader = csv.DictReader(data, delimiter=",", skipinitialspace=True)
     with patch("src.cloc.cloc_analyze_file_size.open", mock_open()) as mocked_file:

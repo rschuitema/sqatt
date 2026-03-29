@@ -93,9 +93,7 @@ def perform_analysis(analysis):
 def analyze_parameters(report_dir, profiles):
     """Analyze the function parameters."""
 
-    parameters_profile_file = os.path.join(
-        report_dir, "profiles", "function_parameters_profile.csv"
-    )
+    parameters_profile_file = os.path.join(report_dir, "profiles", "function_parameters_profile.csv")
     profiles["parameters"].print()
     profiles["parameters"].save(parameters_profile_file)
     show_profile(profiles["parameters"])
@@ -104,9 +102,7 @@ def analyze_parameters(report_dir, profiles):
 def analyze_function_size(report_dir, profiles):
     """Analyze the function size."""
 
-    function_size_profile_file = os.path.join(
-        report_dir, "profiles", "function_size_profile.csv"
-    )
+    function_size_profile_file = os.path.join(report_dir, "profiles", "function_size_profile.csv")
     profiles["function_size"].print()
     profiles["function_size"].save(function_size_profile_file)
     show_profile(profiles["function_size"])
@@ -115,9 +111,7 @@ def analyze_function_size(report_dir, profiles):
 def analyze_complexity(report_dir, profiles):
     """Analyze the complexity."""
 
-    complexity_profile_file = os.path.join(
-        report_dir, "profiles", "complexity_profile.csv"
-    )
+    complexity_profile_file = os.path.join(report_dir, "profiles", "complexity_profile.csv")
     profiles["complexity"].print()
     profiles["complexity"].save(complexity_profile_file)
     show_profile(profiles["complexity"])
@@ -130,20 +124,12 @@ def parse_arguments(args):
     parser.add_argument("--version", action="version", version="%(prog)s 2.0")
 
     parser.add_argument("input", help="directory to analyze")
-    parser.add_argument(
-        "--output", help="directory where to place the report", default="./reports"
-    )
+    parser.add_argument("--output", help="directory where to place the report", default="./reports")
 
     parser.add_argument("--all", help="analyze all aspects", action="store_true")
-    parser.add_argument(
-        "--complexity", help="analyze the complexity of the code", action="store_true"
-    )
-    parser.add_argument(
-        "--parameters", help="analyze the function parameters", action="store_true"
-    )
-    parser.add_argument(
-        "--function-size", help="analyze the function size", action="store_true"
-    )
+    parser.add_argument("--complexity", help="analyze the complexity of the code", action="store_true")
+    parser.add_argument("--parameters", help="analyze the function parameters", action="store_true")
+    parser.add_argument("--function-size", help="analyze the function size", action="store_true")
 
     parser.set_defaults(func=perform_analysis)
 

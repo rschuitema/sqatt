@@ -85,14 +85,10 @@ def parse_arguments(args):
     parser.add_argument("--version", action="version", version="%(prog)s 2.0")
 
     parser.add_argument("repository", help="git repository to analyze")
-    parser.add_argument(
-        "--output", help="directory where to place the report", default="./reports"
-    )
+    parser.add_argument("--output", help="directory where to place the report", default="./reports")
 
     parser.add_argument("--all", help="analyze all aspects", action="store_true")
-    parser.add_argument(
-        "--churn", help="analyze the churn of the repository", action="store_true"
-    )
+    parser.add_argument("--churn", help="analyze the churn of the repository", action="store_true")
     parser.add_argument(
         "--churncomplexity",
         help="analyze the churn vs complexity for the repository",

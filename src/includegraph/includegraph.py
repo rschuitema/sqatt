@@ -56,9 +56,7 @@ def analyze_include_cycles(complete_graph, settings):
     """Analyze the include cycles in the include graph."""
 
     cycles = nx.simple_cycles(complete_graph)
-    cycles = list(
-        cycles
-    )  # make copy of the list created by the generator of simple_cycles
+    cycles = list(cycles)  # make copy of the list created by the generator of simple_cycles
     save_include_cycles(list(cycles), settings)
     show_include_cycles(list(cycles))
     return list(cycles)
@@ -70,9 +68,7 @@ def analyze_path(graph, settings):
     source_node = settings["show_path"][0]
     target_node = settings["show_path"][1]
     try:
-        path = nx.shortest_path(
-            graph, source=source_node, target=target_node
-        )  # pylint: disable=E1123,E1120
+        path = nx.shortest_path(graph, source=source_node, target=target_node)  # pylint: disable=E1123,E1120
 
         print(f"The path from {source_node} to {target_node} is:")
         print(str(path).translate(str.maketrans("", "", "[']")))
@@ -160,15 +156,9 @@ def parse_arguments(args):
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--version", action="version", version="%(prog)s 1.0")
-    parser.add_argument(
-        "--excludes", nargs="+", help="The directories to exclude from the analysis"
-    )
-    parser.add_argument(
-        "--showpath", nargs=2, help="Show the path from source to target"
-    )
-    parser.add_argument(
-        "--cycles", help="Find all cycles in the includes", action="store_true"
-    )
+    parser.add_argument("--excludes", nargs="+", help="The directories to exclude from the analysis")
+    parser.add_argument("--showpath", nargs=2, help="Show the path from source to target")
+    parser.add_argument("--cycles", help="Find all cycles in the includes", action="store_true")
     parser.add_argument("--file", help="The file to build the include graph for")
     parser.add_argument(
         "--output",

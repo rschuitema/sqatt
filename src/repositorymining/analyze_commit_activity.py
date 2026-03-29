@@ -46,9 +46,7 @@ def determine_commits_in_period(repository, start_date, end_date):
     production_code_commit_count = 0
     test_code_commit_count = 0
     number_of_commits = 0
-    for commit in Repository(
-        repository, since=start_date, to=end_date
-    ).traverse_commits():
+    for commit in Repository(repository, since=start_date, to=end_date).traverse_commits():
         if commit_contains_test_code(commit):
             test_code_commit_count = test_code_commit_count + 1
         if commit_contains_production_code(commit):
@@ -68,18 +66,14 @@ def determine_commit_activity(repository, start_date, end_date):
     cumulative_test_commits = 0
     cumulative_commits = 0
 
-    for date in rrule(
-        freq=WEEKLY, wkst=SU, byweekday=SU, dtstart=start_date, until=end_date
-    ):
+    for date in rrule(freq=WEEKLY, wkst=SU, byweekday=SU, dtstart=start_date, until=end_date):
         one_week_later = date + datetime.timedelta(days=7)
-        number_of_commits, production_commits, test_commits = (
-            determine_commits_in_period(repository, date, one_week_later)
+        number_of_commits, production_commits, test_commits = determine_commits_in_period(
+            repository, date, one_week_later
         )
 
         cumulative_commits = cumulative_commits + number_of_commits
-        cumulative_production_commits = (
-            cumulative_production_commits + production_commits
-        )
+        cumulative_production_commits = cumulative_production_commits + production_commits
         cumulative_test_commits = cumulative_test_commits + test_commits
 
         production_commit_count.append(cumulative_production_commits)
@@ -110,9 +104,7 @@ def determine_commit_activity(repository, start_date, end_date):
 def save_test_activity(settings, dataframe):
     """Save the test activity to a csv file in the reports/metrics directory."""
 
-    metrics_file = os.path.join(
-        settings["report_directory"], "metrics", "test_activity.csv"
-    )
+    metrics_file = os.path.join(settings["report_directory"], "metrics", "test_activity.csv")
     dataframe.to_csv(
         metrics_file,
         sep=",",
@@ -123,9 +115,7 @@ def save_test_activity(settings, dataframe):
 
 def save_commit_activity(settings, dataframe):
     """Save the commit activity to a csv file in the report/metrics directory."""
-    metrics_file = os.path.join(
-        settings["report_directory"], "metrics", "commit_activity.csv"
-    )
+    metrics_file = os.path.join(settings["report_directory"], "metrics", "commit_activity.csv")
     dataframe.to_csv(metrics_file, sep=",", mode="w", columns=["date", "commit_count"])
 
 
@@ -133,9 +123,7 @@ def show_commit_activity(dataframe):
     """Show the commit activity graph."""
 
     fig = go.Figure()
-    fig.update_layout(
-        title_text="Commit activity", yaxis_title="# Commits", xaxis_title="Date"
-    )
+    fig.update_layout(title_text="Commit activity", yaxis_title="# Commits", xaxis_title="Date")
     fig.add_trace(
         go.Bar(
             name="Commit count",
