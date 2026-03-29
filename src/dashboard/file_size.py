@@ -38,7 +38,15 @@ def make_donut(labels, values, title, colors):
         ]
     )
 
-    fig.update_layout(legend={"orientation": "h", "yanchor": "bottom", "xanchor": "center", "x": 0.5, "y": -0.2})
+    fig.update_layout(
+        legend={
+            "orientation": "h",
+            "yanchor": "bottom",
+            "xanchor": "center",
+            "x": 0.5,
+            "y": -0.2,
+        }
+    )
 
     return fig
 
@@ -64,7 +72,10 @@ def file_size_metrics():
     container = html.Div(
         [
             html.H3("File size"),
-            dcc.Graph(id="File size", figure=make_my_profile(get_file_size_metrics(), "File size")),
+            dcc.Graph(
+                id="File size",
+                figure=make_my_profile(get_file_size_metrics(), "File size"),
+            ),
         ]
     )
     return container

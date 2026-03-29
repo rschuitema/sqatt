@@ -29,7 +29,12 @@ def language_breakdown():
     metrics = get_language_metrics(report_file)
 
     content = html.Div(
-        [html.H3("Language breakdown"), dcc.Graph(id="language_breakdown", figure=language_breakdown_figure(metrics))],
+        [
+            html.H3("Language breakdown"),
+            dcc.Graph(
+                id="language_breakdown", figure=language_breakdown_figure(metrics)
+            ),
+        ],
     )
     return content
 

@@ -79,7 +79,9 @@ def write_file_size_metrics(csv_writer, metrics):
 def save_file_size_metrics(metrics, metrics_file):
     """Save the file metrics to a file."""
     with open(metrics_file, "w", encoding="utf-8") as output:
-        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+        csv_writer = csv.writer(
+            output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL
+        )
 
         write_file_size_header(csv_writer)
         write_file_size_metrics(csv_writer, metrics)
@@ -98,7 +100,9 @@ def determine_profile(metrics):
 def analyze_file_size(settings):
     """Analyze the file size."""
 
-    metrics_dir = create_report_directory(os.path.join(settings["report_directory"], "metrics"))
+    metrics_dir = create_report_directory(
+        os.path.join(settings["report_directory"], "metrics")
+    )
     metrics_file = os.path.join(metrics_dir, "file_size_metrics.csv")
     analysis_filter = settings["file_size_filter"]
 
@@ -108,7 +112,9 @@ def analyze_file_size(settings):
 
     profile = determine_profile(metrics)
 
-    profiles_dir = create_report_directory(os.path.join(settings["report_directory"], "profiles"))
+    profiles_dir = create_report_directory(
+        os.path.join(settings["report_directory"], "profiles")
+    )
     profile_file = os.path.join(profiles_dir, "file_size_profile.csv")
 
     show_profile(profile)

@@ -155,9 +155,9 @@ def test_option_all_performs_all_analysis(lizard_analysis_mocks):
     lizard_analysis_mocks.create_report_directory_mock.return_value = "test_reports"
 
     calls = [
-        call.save(os.path.join("test_reports", "function_size_profile.csv")),
-        call.save(os.path.join("test_reports", "complexity_profile.csv")),
-        call.save(os.path.join("test_reports", "parameters_profile.csv")),
+        call(os.path.join("test_reports", "profiles", "function_size_profile.csv")),
+        call(os.path.join("test_reports", "profiles", "complexity_profile.csv")),
+        call(os.path.join("test_reports", "profiles", "function_parameters_profile.csv")),
     ]
 
     # act
@@ -168,7 +168,7 @@ def test_option_all_performs_all_analysis(lizard_analysis_mocks):
     lizard_analysis_mocks.measure_function_metrics_mock.assert_called_once()
     lizard_analysis_mocks.determine_profiles_mock.assert_called_once()
 
-    lizard_analysis_mocks.save_profile_mock.has_calls(calls)
+    lizard_analysis_mocks.save_profile_mock.assert_has_calls(calls, any_order=True)
     assert lizard_analysis_mocks.show_profile_mock.call_count == 3
     assert lizard_analysis_mocks.print_profile_mock.call_count == 3
 

@@ -32,7 +32,10 @@ def code_duplication():
     metrics = get_duplication_metrics(report_file)
 
     content = html.Div(
-        [html.H3("Code duplication"), dcc.Graph(id="code_duplication", figure=code_duplication_figure(metrics))],
+        [
+            html.H3("Code duplication"),
+            dcc.Graph(id="code_duplication", figure=code_duplication_figure(metrics)),
+        ],
     )
     return content
 

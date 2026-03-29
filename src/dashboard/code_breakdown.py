@@ -95,9 +95,21 @@ def code_breakdown():
     container = html.Div(
         [
             html.H3("Code type breakdown"),
-            dbc.Row(dbc.Col(dcc.Graph(id="code_type", figure=code_type_breakdown(report_directory)))),
+            dbc.Row(
+                dbc.Col(
+                    dcc.Graph(
+                        id="code_type", figure=code_type_breakdown(report_directory)
+                    )
+                )
+            ),
             html.H3("Code volume breakdown"),
-            dbc.Row(dbc.Col(dcc.Graph(id="code_volume", figure=code_volume_breakdown(report_directory)))),
+            dbc.Row(
+                dbc.Col(
+                    dcc.Graph(
+                        id="code_volume", figure=code_volume_breakdown(report_directory)
+                    )
+                )
+            ),
         ]
     )
     return container

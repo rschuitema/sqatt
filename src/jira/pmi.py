@@ -7,7 +7,6 @@ from bokeh.io import output_file, show
 
 from src.jira.jira_wrapper import login, get_open_defects
 
-
 ANALYZING_FACTORS = {
     "Severe": {"Factor": 80, "Count": 0, "Defects": []},
     "Critical": {"Factor": 40, "Count": 0, "Defects": []},
@@ -118,7 +117,9 @@ def calculate_pmi(open_defects):
 
         if issue_status in PMI_FACTORS:
             PMI_FACTORS[issue_status][issue_severity]["Count"] += 1
-            PMI_FACTORS[issue_status][issue_severity]["Defects"].append((issue.key, issue.fields.summary))
+            PMI_FACTORS[issue_status][issue_severity]["Defects"].append(
+                (issue.key, issue.fields.summary)
+            )
             pmi += PMI_FACTORS[issue_status][issue_severity]["Factor"]
 
     return pmi

@@ -31,7 +31,9 @@ def get_git_log(settings):
     ]
 
     process = Subprocess(git_log_command, verbose=1)
-    output = process.execute_pipe(settings["report_directory"], log_file, check_return_code=True)
+    output = process.execute_pipe(
+        settings["report_directory"], log_file, check_return_code=True
+    )
     return output.stdout.decode("utf-8")
 
 
@@ -41,8 +43,15 @@ def parse_arguments(args):
     parser = argparse.ArgumentParser()
 
     parser.add_argument("repository", help="git repository to analyze")
-    parser.add_argument("--output", help="directory where to place the report", default="./reports")
-    parser.add_argument("--since", help="start date of the period to analyze", default="1-1-2020", action="store")
+    parser.add_argument(
+        "--output", help="directory where to place the report", default="./reports"
+    )
+    parser.add_argument(
+        "--since",
+        help="start date of the period to analyze",
+        default="1-1-2020",
+        action="store",
+    )
 
     return parser.parse_args(args)
 
@@ -50,7 +59,11 @@ def parse_arguments(args):
 def get_settings(args):
     """Convert the command line arguments in to settings."""
 
-    settings = {"repository": args.repository, "report_directory": args.output, "since": args.since}
+    settings = {
+        "repository": args.repository,
+        "report_directory": args.output,
+        "since": args.since,
+    }
     return settings
 
 

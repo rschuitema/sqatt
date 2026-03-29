@@ -85,19 +85,41 @@ def parse_arguments(args):
     parser.add_argument("--version", action="version", version="%(prog)s 2.0")
 
     parser.add_argument("repository", help="git repository to analyze")
-    parser.add_argument("--output", help="directory where to place the report", default="./reports")
+    parser.add_argument(
+        "--output", help="directory where to place the report", default="./reports"
+    )
 
     parser.add_argument("--all", help="analyze all aspects", action="store_true")
-    parser.add_argument("--churn", help="analyze the churn of the repository", action="store_true")
     parser.add_argument(
-        "--churncomplexity", help="analyze the churn vs complexity for the repository", action="store_true"
+        "--churn", help="analyze the churn of the repository", action="store_true"
     )
-    parser.add_argument("--commits", help="analyze the commit activity of the repository", action="store_true")
-    parser.add_argument("--test-activity", help="analyze the commits in test and production code", action="store_true")
     parser.add_argument(
-        "--start-date", help="start date of the period to analyze", default=one_year_ago, action="store"
+        "--churncomplexity",
+        help="analyze the churn vs complexity for the repository",
+        action="store_true",
     )
-    parser.add_argument("--end-date", help="end date of the period to analyze", default=today, action="store")
+    parser.add_argument(
+        "--commits",
+        help="analyze the commit activity of the repository",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--test-activity",
+        help="analyze the commits in test and production code",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--start-date",
+        help="start date of the period to analyze",
+        default=one_year_ago,
+        action="store",
+    )
+    parser.add_argument(
+        "--end-date",
+        help="end date of the period to analyze",
+        default=today,
+        action="store",
+    )
     parser.add_argument(
         "--frequency",
         choices=["DAILY", "WEEKLY", "MONTHLY", "YEARLY"],

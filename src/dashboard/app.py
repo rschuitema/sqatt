@@ -14,7 +14,14 @@ from src.dashboard.language_breakdown import language_breakdown
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 app.layout = html.Div(
-    [header(), language_breakdown(), code_breakdown(), code_duplication(), function_metrics(), file_size_metrics()],
+    [
+        header(),
+        language_breakdown(),
+        code_breakdown(),
+        code_duplication(),
+        function_metrics(),
+        file_size_metrics(),
+    ],
 )
 
 if __name__ == "__main__":

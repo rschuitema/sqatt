@@ -57,7 +57,9 @@ def parse_arguments(args):
     parser.add_argument("--version", action="version", version="%(prog)s 2.0")
     parser.add_argument("input", help="The directory to analyze.")
     parser.add_argument("--output", help="The directory where to place the report(s).")
-    parser.add_argument("--config", help="The configuration file to use.", default="cloc_analysis.yml")
+    parser.add_argument(
+        "--config", help="The configuration file to use.", default="cloc_analysis.yml"
+    )
 
     parser.add_argument("--all", help="Analyze all aspects.", action="store_true")
     parser.add_argument(
@@ -65,9 +67,17 @@ def parse_arguments(args):
         help="Analyze the lined of code per type (production, test, third party, etc).",
         action="store_true",
     )
-    parser.add_argument("--code-volume", help="Analyze the code volume.", action="store_true")
-    parser.add_argument("--file-size", help="Analyze the lines of code per file.", action="store_true")
-    parser.add_argument("--language", help="Analyze the lines of code per language.", action="store_true")
+    parser.add_argument(
+        "--code-volume", help="Analyze the code volume.", action="store_true"
+    )
+    parser.add_argument(
+        "--file-size", help="Analyze the lines of code per file.", action="store_true"
+    )
+    parser.add_argument(
+        "--language",
+        help="Analyze the lines of code per language.",
+        action="store_true",
+    )
 
     parser.set_defaults(func=perform_analysis)
 

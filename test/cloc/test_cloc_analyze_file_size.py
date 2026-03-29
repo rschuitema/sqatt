@@ -153,7 +153,7 @@ def test_that_report_is_generated_in_correct_directory(
     analyze_file_size(settings)
 
     # assert
-    report_mock.has_calls(calls)
+    report_mock.assert_has_calls(calls)
     assert measure_mock.call_count == 1
     assert size_mock.call_count == 1
     save_mock.assert_called_once_with({}, os.path.join(metrics_directory, "file_size_metrics.csv"))

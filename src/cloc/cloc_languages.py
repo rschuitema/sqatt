@@ -43,7 +43,9 @@ def save_language_profile(production_code_size_file, production_code_metrics):
     """Save the code metrics to a file."""
 
     with open(production_code_size_file, "w", encoding="utf-8") as output:
-        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+        csv_writer = csv.writer(
+            output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL
+        )
 
         write_header(csv_writer)
         write_metrics(csv_writer, production_code_metrics)
@@ -67,7 +69,9 @@ def analyze_language(settings):
 
     report_dir = create_report_directory(settings["report_directory"])
     report_file = os.path.join(report_dir, "profiles", "language_profile.csv")
-    measure_lines_of_code(settings["analysis_directory"], report_file, "--exclude-dir=test,tst")
+    measure_lines_of_code(
+        settings["analysis_directory"], report_file, "--exclude-dir=test,tst"
+    )
     language_metrics = get_size_metrics(report_file)
 
     del language_metrics["SUM"]

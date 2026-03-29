@@ -21,7 +21,15 @@ def make_donut(labels, values, title, colors):
         ]
     )
 
-    fig.update_layout(legend={"orientation": "h", "yanchor": "bottom", "xanchor": "center", "x": 0.5, "y": -0.2})
+    fig.update_layout(
+        legend={
+            "orientation": "h",
+            "yanchor": "bottom",
+            "xanchor": "center",
+            "x": 0.5,
+            "y": -0.2,
+        }
+    )
 
     return fig
 

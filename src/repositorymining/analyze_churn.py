@@ -100,7 +100,13 @@ def show_churn_complexity_chart(total_frame):
     fig.update_layout(
         xaxis_title={"text": "Churn"},
         yaxis_title={"text": "CCN"},
-        title={"text": "Churn vs. Complexity", "y": 0.9, "x": 0.5, "xanchor": "center", "yanchor": "top"},
+        title={
+            "text": "Churn vs. Complexity",
+            "y": 0.9,
+            "x": 0.5,
+            "xanchor": "center",
+            "yanchor": "top",
+        },
     )
     fig.show()
 
@@ -121,7 +127,9 @@ def measure_file_churn(settings):
             continue
         file_churn_map[os.path.join(directory, file_name)] = sum(churn)
 
-    sorted_churn = sorted(file_churn_map.items(), key=lambda item: item[1], reverse=True)
+    sorted_churn = sorted(
+        file_churn_map.items(), key=lambda item: item[1], reverse=True
+    )
     return sorted_churn
 
 
@@ -162,7 +170,9 @@ def analyze_churn_complexity(settings):
     churn_frame = read_file_churn(settings)
     complexity_frame = read_file_complexity(settings)
 
-    total_frame = complexity_frame.merge(churn_frame, how="left", left_on="File", right_on="File")
+    total_frame = complexity_frame.merge(
+        churn_frame, how="left", left_on="File", right_on="File"
+    )
     return total_frame
 
 
@@ -195,7 +205,9 @@ def save_file_churn(report_dir, churn):
 
     report_file = os.path.join(report_dir, "churn.csv")
     with open(report_file, "w", encoding="utf-8") as output:
-        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+        csv_writer = csv.writer(
+            output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL
+        )
 
         write_file_churn_header(csv_writer)
         write_file_churn_metrics(csv_writer, churn)

@@ -21,7 +21,14 @@ def overview_graph():
     fig = go.Figure(
         data=go.Scatterpolar(
             r=[1, 5, 2, 2, 3],
-            theta=["Code duplication", "Complexity", "Function size", "Dependencies", "Fan-in", "Fan-out"],
+            theta=[
+                "Code duplication",
+                "Complexity",
+                "Function size",
+                "Dependencies",
+                "Fan-in",
+                "Fan-out",
+            ],
             fill="toself",
         )
     )
@@ -30,6 +37,8 @@ def overview_graph():
         polar={"radialaxis": {"visible": True}},
         showlegend=False,
     )
-    fig.update_layout(legend={"orientation": "h", "yanchor": "bottom", "xanchor": "center", "x": 0.5})
+    fig.update_layout(
+        legend={"orientation": "h", "yanchor": "bottom", "xanchor": "center", "x": 0.5}
+    )
 
     return fig

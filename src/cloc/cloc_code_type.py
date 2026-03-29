@@ -38,7 +38,9 @@ def save_code_metrics(report_file, metrics):
     """Save the code metrics to a file."""
 
     with open(report_file, "w", encoding="utf-8") as output:
-        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+        csv_writer = csv.writer(
+            output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL
+        )
 
         write_code_size_header(csv_writer)
         write_code_size_metrics(csv_writer, metrics)
@@ -49,7 +51,9 @@ def save_code_type_profile(report_dir, metrics):
 
     report_file = os.path.join(report_dir, "code_type_profile.csv")
     with open(report_file, "w", encoding="utf-8") as output:
-        csv_writer = csv.writer(output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+        csv_writer = csv.writer(
+            output, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL
+        )
 
         write_code_type_header(csv_writer, metrics)
         write_code_type_metrics(csv_writer, metrics)
@@ -90,7 +94,9 @@ def analyze_code_volume_per_code_type(settings, code_type):
     """Analyze the code volume per code type based on the settings and code type provided."""
 
     report_dir = create_report_directory(settings["report_directory"])
-    report_file = os.path.join(report_dir, "metrics", f"{code_type}_code_volume_profile.csv")
+    report_file = os.path.join(
+        report_dir, "metrics", f"{code_type}_code_volume_profile.csv"
+    )
     analysis_filter = settings[f"{code_type}_filter"]
     measure_lines_of_code(settings["analysis_directory"], report_file, analysis_filter)
     metrics = get_size_metrics(report_file)
@@ -102,7 +108,9 @@ def analyze_code_type(settings):
     """Analyze the code size for all code types."""
 
     metrics = {}
-    report_dir = create_report_directory(os.path.join(settings["report_directory"], "profiles"))
+    report_dir = create_report_directory(
+        os.path.join(settings["report_directory"], "profiles")
+    )
 
     for code_type in settings["code_type"]:
         metrics[code_type] = analyze_code_volume_per_code_type(settings, code_type)

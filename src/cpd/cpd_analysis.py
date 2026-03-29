@@ -158,7 +158,9 @@ def save_duplication_profile(report_file, metrics):
     """Save the profile to a csv file."""
 
     with open(report_file, "w", encoding="utf-8") as report:
-        csv_writer = csv.writer(report, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL)
+        csv_writer = csv.writer(
+            report, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_ALL
+        )
         csv_writer.writerow(["Duplicated Lines Of Code", "Total Lines Of Code"])
         csv_writer.writerow([metrics["duplicated_loc"], metrics["total_loc"]])
 
@@ -180,11 +182,15 @@ def parse_arguments(args):
     parser = argparse.ArgumentParser()
     parser.add_argument("--version", action="version", version="%(prog)s 2.0")
     parser.add_argument(
-        "--output", help="The directory where to place the report.", default=os.path.join(os.getcwd(), "./reports")
+        "--output",
+        help="The directory where to place the report.",
+        default=os.path.join(os.getcwd(), "./reports"),
     )
     parser.add_argument("--language", help="The language to analyze.", default="python")
     parser.add_argument(
-        "--tokens", help="The minimum token length which should be reported as a duplicate.", default=100
+        "--tokens",
+        help="The minimum token length which should be reported as a duplicate.",
+        default=100,
     )
     parser.add_argument("input", help="The directory to analyze.")
 
